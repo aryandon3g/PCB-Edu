@@ -44,7 +44,11 @@ const DnaHelix: React.FC<DnaHelixProps> = ({ language }) => {
   const strandB = generateStrand(Math.PI);
 
   // Combine and sort by z-index to fake 3D
-  const allNodes = [...strandA.map(p => ({...p, type: 'A'})), ...strandB.map(p => ({...p, type: 'B'}))];
+  // Renamed type to nucleotide to avoid collision
+  const allNodes = [
+    ...strandA.map(p => ({...p, nucleotide: 'A'})), 
+    ...strandB.map(p => ({...p, nucleotide: 'B'}))
+  ];
   
   // Create base pair connections
   const connections = strandA.map((p1, i) => {
@@ -91,7 +95,7 @@ const DnaHelix: React.FC<DnaHelixProps> = ({ language }) => {
                                <circle cx={node.x} cy={node.y} r={radius} fill={node.color} />
                                {expanded && (
                                    <text x={node.x + 10} y={node.y + 4} fill="white" fontSize="10" opacity={0.8}>
-                                      {node.type === 'A' ? (i % 2 === 0 ? 'A' : 'G') : (i % 2 === 0 ? 'T' : 'C')}
+                                      {node.nucleotide === 'A' ? (i % 2 === 0 ? 'A' : 'G') : (i % 2 === 0 ? 'T' : 'C')}
                                    </text>
                                )}
                            </g>

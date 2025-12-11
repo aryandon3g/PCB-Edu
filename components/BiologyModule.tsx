@@ -29,7 +29,13 @@ const BiologyModule: React.FC<ModuleProps> = ({ language }) => {
   return <TopicGrid language={language} topics={TOPICS} onSelect={setActiveTopic} />;
 };
 
-const WithBack = ({ children, onBack, language }: any) => (
+interface WithBackProps {
+  children: React.ReactNode;
+  onBack: () => void;
+  language: Language;
+}
+
+const WithBack: React.FC<WithBackProps> = ({ children, onBack, language }) => (
   <div className="flex flex-col h-auto lg:h-full gap-4">
     <button onClick={onBack} className="self-start flex items-center gap-2 text-slate-500 hover:text-purple-600 text-sm font-medium transition-colors">
       <ArrowLeft size={16} /> {TRANSLATIONS.backToTopics[language]}
@@ -38,7 +44,13 @@ const WithBack = ({ children, onBack, language }: any) => (
   </div>
 );
 
-const TopicGrid = ({ language, topics, onSelect }: any) => (
+interface TopicGridProps {
+  language: Language;
+  topics: Topic[];
+  onSelect: (id: string) => void;
+}
+
+const TopicGrid: React.FC<TopicGridProps> = ({ language, topics, onSelect }) => (
   <div className="h-full">
     <h2 className="text-2xl font-bold text-slate-800 mb-6">{TRANSLATIONS.selectTopic[language]}</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
