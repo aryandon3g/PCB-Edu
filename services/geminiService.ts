@@ -1,54 +1,33 @@
 import { GoogleGenAI } from "@google/genai";
 import { GeminiExplanationRequest, Language } from "../types";
 
-const getSystemInstruction = (lang: Language) => {
-  if (lang === Language.HINDI) {
-    return "आप एक सहायक विज्ञान शिक्षक हैं। छात्रों को जटिल विज्ञान अवधारणाओं को सरल हिंदी में समझाएं। उत्तर संक्षिप्त और उत्साहजनक होने चाहिए।";
-  }
-  return "You are a helpful science tutor. Explain complex science concepts to students in simple English. Keep answers concise and encouraging.";
-};
-
 export const fetchExplanation = async (request: GeminiExplanationRequest): Promise<string> => {
+  // Use process.env.API_KEY directly as per guidelines
+  if (!process.env.API_KEY) {
+    console.error("API Key not found in process.env.API_KEY");
+    return "API Key is missing. Please check your configuration.";
+  }
+
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+  const languageName = request.language === Language.HINDI ? "Hindi" : "English";
+
+  const prompt = `
+    Explain the scientific concept of "${request.context}" in the subject of ${request.subject}.
+    Language: ${languageName}.
+    Context Variables: ${JSON.stringify(request.variables)}.
+    Provide a simple, engaging explanation suitable for a student.
+  `;
+
   try {
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-      return request.language === Language.HINDI 
-        ? "API कुंजी गायब है।" 
-        : "API Key is missing.";
-    }
-
-    const ai = new GoogleGenAI({ apiKey });
-    
-    // Construct a prompt based on the simulation state
-    const variablesStr = Object.entries(request.variables)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join(', ');
-
-    const prompt = `
-      Subject: ${request.subject}
-      Topic: ${request.context}
-      Current State Variables: ${variablesStr}
-      
-      Please explain what is happening in the simulation right now based on these variables. 
-      For example, if gravity is high, explain why the pendulum moves faster. 
-      If temperature is high, explain why particles move faster.
-    `;
-
+    // Using gemini-3-pro-preview for STEM tasks (Complex Text Tasks) as per guidelines
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: 'gemini-3-pro-preview',
       contents: prompt,
-      config: {
-        systemInstruction: getSystemInstruction(request.language),
-        maxOutputTokens: 150, // Keep explanations concise
-      }
     });
-
-    return response.text || (request.language === Language.HINDI ? "कोई उत्तर नहीं मिला।" : "No response generated.");
-
+    return response.text || "No explanation generated.";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return request.language === Language.HINDI 
-      ? "स्पष्टीकरण प्राप्त करने में त्रुटि।" 
-      : "Error fetching explanation.";
+    return "Failed to generate explanation. Please try again later.";
   }
 };
