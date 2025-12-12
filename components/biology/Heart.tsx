@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Activity, Heart as HeartIcon, Play, Pause, RotateCcw, ZoomIn, ZoomOut, Droplets, Zap, ChevronRight, ChevronLeft, Info, Gauge, Layers, FileText, Box, CheckCircle, HelpCircle, XCircle } from 'lucide-react';
+import { Activity, Heart as HeartIcon, Play, Pause, RotateCcw, ZoomIn, ZoomOut, Droplets, Zap, ChevronRight, ChevronLeft, Info, Gauge, Layers, FileText, Box, CheckCircle, HelpCircle, XCircle, Stethoscope, Scale, History, BookOpen } from 'lucide-react';
 import { Language } from '../../types';
 
 interface HeartProps {
@@ -55,27 +55,65 @@ const HEART_CONTENT: Record<string, any> = {
     },
     facts: {
         title: { en: "Exam Facts", hi: "महत्वपूर्ण तथ्य" },
-        discovery: { label: {en: "Discovery", hi: "खोज (1628)"}, val: {en: "William Harvey (Circulatory System)", hi: "विलियम हार्वे (परिसंचरण तंत्र)"} },
-        weight: [
-            { label: { en: "Weight (Men)", hi: "वजन (लड़के)" }, val: { en: "280 - 340 grams", hi: "280 - 340 ग्राम" } },
-            { label: { en: "Weight (Women)", hi: "वजन (लड़कियां)" }, val: { en: "230 - 280 grams", hi: "230 - 280 ग्राम" } },
-            { label: { en: "Weight (Newborn)", hi: "वजन (बच्चे/नवजात)" }, val: { en: "20 - 25 grams", hi: "20 - 25 ग्राम" } },
-        ],
-        location: { label: { en: "Location", hi: "स्थान" }, val: { en: "Mediastinum Space / Cardiac Notch", hi: "मीडिया स्टर्नम स्पेस / कार्डियक नॉच" } },
-        layers: { 
-            title: { en: "Heart Layers", hi: "हृदय की परतें" },
-            items: [
-                { en: "Pericardium (Outer Covering)", hi: "पेरीकार्डियम (बाहरी आवरण)" },
-                { en: "Fibrous + Serous Layers", hi: "रेशेदार (Fibrous) + सिरोज (Serous) परतें" },
-                { en: "Cardiac Fluid (Protection)", hi: "कार्डियक फ्लुइड (सुरक्षा के लिए)" }
-            ]
-        }
+        groups: [
+            {
+                title: { en: "General Stats", hi: "सामान्य आँकड़े" },
+                icon: BookOpen,
+                color: "blue",
+                items: [
+                    { label: { en: "Study of Heart", hi: "हृदय का अध्ययन" }, val: { en: "Cardiology", hi: "कार्डियोलॉजी" } },
+                    { label: { en: "Shape & Size", hi: "आकार और माप" }, val: { en: "Closed Fist (approx 12cm)", hi: "बंद मुट्ठी (लगभग 12 सेमी)" } },
+                    { label: { en: "Weight (Male)", hi: "वजन (पुरुष)" }, val: { en: "280 - 340 grams", hi: "280 - 340 ग्राम" } },
+                    { label: { en: "Weight (Female)", hi: "वजन (महिला)" }, val: { en: "230 - 280 grams", hi: "230 - 280 ग्राम" } },
+                    { label: { en: "Heart Beat (Adult)", hi: "हृदय गति (वयस्क)" }, val: { en: "72 beats/min", hi: "72 बार/मिनट" } },
+                    { label: { en: "Heart Beat (Newborn)", hi: "हृदय गति (नवजात)" }, val: { en: "140+ beats/min", hi: "140+ बार/मिनट" } },
+                ]
+            },
+            {
+                title: { en: "Clinical & Physiology", hi: "चिकित्सीय और कार्यिकी" },
+                icon: Stethoscope,
+                color: "rose",
+                items: [
+                    { label: { en: "Sound", hi: "ध्वनि" }, val: { en: "LUBB - DUB (Valves closing)", hi: "लब्ब - डब्ब (वाल्व बंद होने पर)" } },
+                    { label: { en: "Instrument (Sound)", hi: "यंत्र (ध्वनि)" }, val: { en: "Stethoscope (Rene Laennec)", hi: "स्टेथोस्कोप (रेने लाएंनेक)" } },
+                    { label: { en: "Blood Pressure", hi: "रक्तचाप (BP)" }, val: { en: "120/80 mmHg", hi: "120/80 mmHg" } },
+                    { label: { en: "Instrument (BP)", hi: "यंत्र (BP)" }, val: { en: "Sphygmomanometer", hi: "स्फिग्मोमैनोमीटर" } },
+                    { label: { en: "Stroke Volume", hi: "स्ट्रोक वॉल्यूम" }, val: { en: "70 ml / beat", hi: "70 मिली / धड़कन" } },
+                    { label: { en: "Cardiac Output", hi: "कार्डियक आउटपुट" }, val: { en: "5 Liters / min", hi: "5 लीटर / मिनट" } },
+                    { label: { en: "ECG Discovery", hi: "ECG खोज" }, val: { en: "Willem Einthoven", hi: "विलेम आइनथोवेन" } },
+                ]
+            },
+            {
+                title: { en: "Historical Firsts", hi: "इतिहास और खोज" },
+                icon: History,
+                color: "amber",
+                items: [
+                    { label: { en: "Circulation Discovery", hi: "परिसंचरण की खोज" }, val: { en: "William Harvey (1628)", hi: "विलियम हार्वे (1628)" } },
+                    { label: { en: "First Transplant (World)", hi: "पहला प्रत्यारोपण (विश्व)" }, val: { en: "Dr. Christian Barnard (1967)", hi: "डॉ. क्रिस्टिश्चियन बर्नार्ड (1967)" } },
+                    { label: { en: "First Transplant (India)", hi: "पहला प्रत्यारोपण (भारत)" }, val: { en: "Dr. P. Venugopal (1994)", hi: "डॉ. पी. वेणुगोपाल (1994, एम्स)" } },
+                    { label: { en: "Artificial Heart", hi: "कृत्रिम हृदय" }, val: { en: "Jarvik-7", hi: "जार्विक-7" } },
+                ]
+            },
+            {
+                title: { en: "Layers of Heart", hi: "हृदय की परतें" },
+                icon: Layers,
+                color: "indigo",
+                items: [
+                    { label: { en: "Outer Layer", hi: "बाहरी परत" }, val: { en: "Pericardium (Protection)", hi: "पेरीकार्डियम (सुरक्षा)" } },
+                    { label: { en: "Middle Layer", hi: "मध्य परत" }, val: { en: "Myocardium (Muscular)", hi: "मायोकार्डियम (पेशीय)" } },
+                    { label: { en: "Inner Layer", hi: "आंतरिक परत" }, val: { en: "Endocardium", hi: "एंडोकार्डियम" } },
+                    { label: { en: "Fluid", hi: "द्रव" }, val: { en: "Pericardial Fluid (Shock absorber)", hi: "पेरीकार्डियल द्रव (झटकों से बचाता है)" } },
+                ]
+            }
+        ]
     },
     quiz: [
         { q: { en: "Who discovered the Blood Circulatory System?", hi: "रक्त परिसंचरण तंत्र की खोज किसने की?" }, options: ["Newton", "Einstein", "William Harvey", "Robert Hooke"], ans: "William Harvey" },
         { q: { en: "What is the weight of heart in adult men?", hi: "वयस्क पुरुषों में हृदय का वजन कितना होता है?" }, options: ["200-250g", "280-340g", "150-200g", "400-500g"], ans: "280-340g" },
         { q: { en: "Which valve is between Right Atrium and Right Ventricle?", hi: "दाएं आलिंद और दाएं निलय के बीच कौन सा वाल्व होता है?" }, options: ["Bicuspid", "Tricuspid", "Aortic", "Pulmonary"], ans: "Tricuspid" },
         { q: { en: "Which artery carries IMPURE blood?", hi: "कौन सी धमनी अशुद्ध रक्त ले जाती है?" }, options: ["Aorta", "Pulmonary Artery", "Coronary Artery", "Carotid"], ans: "Pulmonary Artery" },
+        { q: { en: "What is the normal Blood Pressure?", hi: "सामान्य रक्तचाप (BP) कितना होता है?" }, options: ["100/60", "140/90", "120/80", "150/100"], ans: "120/80" },
+        { q: { en: "Instrument used to measure Heart Beat sound?", hi: "हृदय की ध्वनि सुनने के लिए किस यंत्र का प्रयोग होता है?" }, options: ["Sphygmomanometer", "Stethoscope", "ECG", "Pacemaker"], ans: "Stethoscope" },
     ]
 };
 
@@ -393,37 +431,30 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                      </div>
                  )}
 
-                 {/* 2. FACTS TAB (RESTORED ALL NOTES) */}
+                 {/* 2. FACTS TAB (UPDATED WITH EXAM FACTS) */}
                  {activeTab === 'facts' && (
-                     <div className="space-y-4 animate-fade-in">
-                         {/* Discovery */}
-                         <div className="bg-rose-50 p-3 rounded-lg border border-rose-100">
-                             <div className="text-xs font-bold text-rose-500 uppercase">{language === Language.ENGLISH ? HEART_CONTENT.facts.discovery.label.en : HEART_CONTENT.facts.discovery.label.hi}</div>
-                             <div className="text-sm font-bold text-slate-800">{language === Language.ENGLISH ? HEART_CONTENT.facts.discovery.val.en : HEART_CONTENT.facts.discovery.val.hi}</div>
-                         </div>
-                         
-                         {/* Weights */}
-                         <div className="bg-slate-50 p-3 rounded-lg">
-                             <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Weight Stats</h4>
-                             <div className="space-y-2">
-                                 {HEART_CONTENT.facts.weight.map((w: any, idx: number) => (
-                                     <div key={idx} className="flex justify-between text-sm">
-                                         <span className="text-slate-600">{language === Language.ENGLISH ? w.label.en : w.label.hi}</span>
-                                         <span className="font-bold text-slate-800">{language === Language.ENGLISH ? w.val.en : w.val.hi}</span>
-                                     </div>
-                                 ))}
-                             </div>
-                         </div>
-
-                         {/* Layers */}
-                         <div className="bg-blue-50 p-3 rounded-lg border border-blue-100">
-                             <h4 className="text-sm font-bold text-slate-800 mb-2 border-b pb-1 flex items-center gap-2"><Layers size={14}/> {language === Language.ENGLISH ? HEART_CONTENT.facts.layers.title.en : HEART_CONTENT.facts.layers.title.hi}</h4>
-                             <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
-                                 {HEART_CONTENT.facts.layers.items.map((l: any, i: number) => (
-                                     <li key={i}>{language === Language.ENGLISH ? l.en : l.hi}</li>
-                                 ))}
-                             </ul>
-                         </div>
+                     <div className="space-y-5 animate-fade-in">
+                         {HEART_CONTENT.facts.groups.map((group: any, idx: number) => {
+                             const GroupIcon = group.icon;
+                             return (
+                                <div key={idx} className="bg-white rounded-lg border border-slate-100 shadow-sm overflow-hidden">
+                                    <div className={`px-4 py-2 bg-${group.color || 'blue'}-50 border-b border-${group.color || 'blue'}-100 flex items-center gap-2`}>
+                                        <GroupIcon size={16} className={`text-${group.color || 'blue'}-600`}/>
+                                        <h4 className={`text-sm font-bold text-${group.color || 'blue'}-800`}>
+                                            {language === Language.ENGLISH ? group.title.en : group.title.hi}
+                                        </h4>
+                                    </div>
+                                    <div className="p-3 grid gap-3">
+                                        {group.items.map((item: any, i: number) => (
+                                            <div key={i} className="flex justify-between items-center text-sm border-b border-slate-50 last:border-0 pb-1 last:pb-0">
+                                                <span className="text-slate-500 font-medium">{language === Language.ENGLISH ? item.label.en : item.label.hi}</span>
+                                                <span className="text-slate-800 font-bold text-right">{language === Language.ENGLISH ? item.val.en : item.val.hi}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                             )
+                         })}
                      </div>
                  )}
 
