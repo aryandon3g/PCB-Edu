@@ -1,188 +1,170 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Heart as HeartIcon, Play, Pause, RotateCcw, ZoomIn, ZoomOut, Droplets, BookOpen, AlertCircle, HelpCircle, CheckCircle, XCircle, Eye, MessageCircle, ChevronRight, ChevronLeft, Lightbulb } from 'lucide-react';
+import { Activity, Heart as HeartIcon, Play, Pause, RotateCcw, ZoomIn, ZoomOut, Droplets, BookOpen, AlertCircle, HelpCircle, CheckCircle, XCircle, Eye, MessageCircle, ChevronRight, ChevronLeft, Lightbulb, Zap, GitCommit } from 'lucide-react';
 import { Language } from '../../types';
 
 interface HeartProps {
   language: Language;
 }
 
-// --- EDUCATIONAL DATA (SSC / RAILWAY FOCUSED) ---
+// --- EDUCATIONAL DATA (BASED ON CLASS NOTES) ---
 const HEART_CONTENT: Record<string, any> = {
     structure: {
         title: { en: "Structure", hi: "संरचना" },
         parts: {
             ra: { 
-                name: { en: "Right Atrium", hi: "दायां आलिंद" }, 
-                desc: { en: "Receives deoxygenated blood from the body via Vena Cava.", hi: "महाशिरा के माध्यम से शरीर से अशुद्ध रक्त प्राप्त करता है।" },
-                fact: { en: "Contains the SA Node (Natural Pacemaker).", hi: "इसमें SA Node (प्राकृतिक पेसमेकर) होता है।" }
+                name: { en: "Right Atrium", hi: "दायां आलिंद (R.A.)" }, 
+                desc: { en: "Receives deoxygenated blood from body via Superior & Inferior Vena Cava.", hi: "शरीर से अशुद्ध रक्त S.V.C और I.V.C के माध्यम से प्राप्त करता है।" },
+                fact: { en: "Contains SA Node (Pacemaker).", hi: "इसमें SA Node (प्राकृतिक पेसमेकर) होता है।" }
             },
             rv: { 
-                name: { en: "Right Ventricle", hi: "दायां निलय" }, 
-                desc: { en: "Pumps deoxygenated blood to lungs via Pulmonary Artery.", hi: "फुफ्फुसीय धमनी के जरिए फेफड़ों में अशुद्ध रक्त पंप करता है।" },
-                fact: { en: "Thinner walls than Left Ventricle.", hi: "बाएं निलय की तुलना में दीवारें पतली होती हैं।" }
+                name: { en: "Right Ventricle", hi: "दायां निलय (R.V.)" }, 
+                desc: { en: "Pumps blood to lungs via Pulmonary Valve & Artery.", hi: "पल्मोनरी वाल्व और धमनी के जरिए फेफड़ों में रक्त पंप करता है।" },
+                fact: { en: "Walls are thinner than Left Ventricle.", hi: "बाएं निलय की तुलना में दीवारें पतली होती हैं।" }
             },
             la: { 
-                name: { en: "Left Atrium", hi: "बायां आलिंद" }, 
-                desc: { en: "Receives oxygenated blood from lungs via Pulmonary Veins.", hi: "फुफ्फुसीय शिराओं के जरिए फेफड़ों से शुद्ध रक्त प्राप्त करता है।" },
-                fact: { en: "Oxygenated blood looks bright red.", hi: "शुद्ध रक्त चमकीला लाल दिखता है।" }
+                name: { en: "Left Atrium", hi: "बायां आलिंद (L.A.)" }, 
+                desc: { en: "Receives pure oxygenated blood from lungs via Pulmonary Veins.", hi: "फुफ्फुसीय शिराओं (P.V.) के जरिए फेफड़ों से शुद्ध रक्त प्राप्त करता है।" },
+                fact: { en: "Oxygenated blood is bright red.", hi: "शुद्ध रक्त चमकीला लाल होता है।" }
             },
             lv: { 
-                name: { en: "Left Ventricle", hi: "बायां निलय" }, 
-                desc: { en: "Pumps oxygenated blood to the whole body via Aorta.", hi: "महाधमनी के जरिए पूरे शरीर में शुद्ध रक्त पंप करता है।" },
-                fact: { en: "SSC IMP: Has the THICKEST muscular wall.", hi: "SSC प्रश्न: इसकी दीवार सबसे मोटी होती है।" }
+                name: { en: "Left Ventricle", hi: "बायां निलय (L.V.)" }, 
+                desc: { en: "Pumps pure blood to body via Aorta Valve.", hi: "महाधमनी वाल्व (Aorta Valve) के जरिए पूरे शरीर में शुद्ध रक्त भेजता है।" },
+                fact: { en: "Has the THICKEST muscular wall to pump blood furthest.", hi: "रक्त को दूर तक पंप करने के लिए इसकी दीवार सबसे मोटी होती है।" }
             },
             aorta: { 
-                name: { en: "Aorta", hi: "महाधमनी" }, 
-                desc: { en: "Main artery carrying blood to body.", hi: "शरीर तक रक्त ले जाने वाली मुख्य धमनी।" },
-                fact: { en: "Largest artery in the human body.", hi: "मानव शरीर की सबसे बड़ी धमनी।" }
+                name: { en: "Aorta", hi: "महाधमनी (Aorta)" }, 
+                desc: { en: "Largest artery carrying oxygenated blood to body organs.", hi: "शरीर के अंगों तक शुद्ध रक्त ले जाने वाली सबसे बड़ी धमनी।" },
+                fact: { en: "Originates from Left Ventricle.", hi: "यह बाएं निलय से निकलती है।" }
             },
             pa: { 
-                name: { en: "Pulmonary Artery", hi: "फुफ्फुसीय धमनी" }, 
-                desc: { en: "Carries blood to lungs for oxygenation.", hi: "ऑक्सीजन के लिए रक्त को फेफड़ों तक ले जाती है।" },
-                fact: { en: "EXCEPTION: Only artery carrying IMPURE blood.", hi: "अपवाद: एकमात्र धमनी जो अशुद्ध रक्त ले जाती है।" }
+                name: { en: "Pulmonary Artery", hi: "फुफ्फुसीय धमनी (P.A.)" }, 
+                desc: { en: "Carries impure blood to lungs for purification.", hi: "अशुद्ध रक्त को शुद्धिकरण के लिए फेफड़ों तक ले जाती है।" },
+                fact: { en: "EXCEPTION: Only artery carrying IMPURE (CO2 rich) blood.", hi: "अपवाद: एकमात्र धमनी जो अशुद्ध रक्त ले जाती है।" }
             },
             pv: { 
-                name: { en: "Pulmonary Vein", hi: "फुफ्फुसीय शिरा" }, 
-                desc: { en: "Brings blood from lungs to heart.", hi: "फेफड़ों से रक्त को हृदय तक लाती है।" },
-                fact: { en: "EXCEPTION: Only vein carrying PURE blood.", hi: "अपवाद: एकमात्र शिरा जो शुद्ध रक्त ले जाती है।" }
+                name: { en: "Pulmonary Vein", hi: "फुफ्फुसीय शिरा (P.V.)" }, 
+                desc: { en: "Brings pure blood from lungs to heart.", hi: "फेफड़ों से शुद्ध रक्त को हृदय तक लाती है।" },
+                fact: { en: "EXCEPTION: Only vein carrying PURE (O2 rich) blood.", hi: "अपवाद: एकमात्र शिरा जो शुद्ध रक्त ले जाती है।" }
             },
             vc: { 
-                name: { en: "Vena Cava", hi: "महाशिरा" }, 
-                desc: { en: "Superior (top) & Inferior (bottom) veins bringing blood from body.", hi: "शरीर से रक्त लाने वाली ऊपरी (Superior) और निचली (Inferior) महाशिरा।" },
-                fact: { en: "Carries CO₂ rich blood. Inferior Vena Cava is the largest vein.", hi: "CO₂ युक्त रक्त ले जाती है। इन्फीरियर वेना कावा सबसे बड़ी शिरा है।" }
+                name: { en: "Vena Cava", hi: "महाशिरा (Vena Cava)" }, 
+                desc: { en: "Superior (Upper body) & Inferior (Lower body) veins.", hi: "शरीर के ऊपरी (SVC) और निचले (IVC) हिस्सों से रक्त लाती है।" },
+                fact: { en: "Carries CO2 rich blood. Inferior Vena Cava is the largest vein.", hi: "CO2 युक्त रक्त ले जाती है। इन्फीरियर वेना कावा सबसे बड़ी शिरा है।" }
             }
         }
     },
     facts: {
-        title: { en: "SSC Facts", hi: "SSC तथ्य" },
-        items: [
-            { label: { en: "Weight", hi: "वजन" }, val: { en: "~300 grams", hi: "~300 ग्राम" } },
-            { label: { en: "Location", hi: "स्थान" }, val: { en: "Mediastinum (Tilted Left)", hi: "छाती के बीच (बायीं ओर झुका)" } },
-            { label: { en: "Covering", hi: "आवरण" }, val: { en: "Pericardium", hi: "पेरिकार्डियम (हृदयावरण)" } },
-            { label: { en: "Pacemaker", hi: "पेसमेकर" }, val: { en: "SA Node (Right Atrium)", hi: "SA नोड (दायां आलिंद)" } },
-            { label: { en: "Sound", hi: "ध्वनि" }, val: { en: "LUB-DUB (Valve closure)", hi: "लब-डब (वाल्व बंद होने से)" } },
-            { label: { en: "Resting Rate", hi: "हृदय दर" }, val: { en: "72 beats/min", hi: "72 धड़कन/मिनट" } },
-        ]
+        title: { en: "Exam Facts", hi: "महत्वपूर्ण तथ्य" },
+        discovery: { label: {en: "Discovery", hi: "खोज (1628)"}, val: {en: "William Harvey (Circulatory System)", hi: "विलियम हार्वे (परिसंचरण तंत्र)"} },
+        weight: [
+            { label: { en: "Weight (Men)", hi: "वजन (लड़के)" }, val: { en: "280 - 340 grams", hi: "280 - 340 ग्राम" } },
+            { label: { en: "Weight (Women)", hi: "वजन (लड़कियां)" }, val: { en: "230 - 280 grams", hi: "230 - 280 ग्राम" } },
+            { label: { en: "Weight (Newborn)", hi: "वजन (बच्चे/नवजात)" }, val: { en: "20 - 25 grams", hi: "20 - 25 ग्राम" } },
+        ],
+        location: { label: { en: "Location", hi: "स्थान" }, val: { en: "Mediastinum Space / Cardiac Notch", hi: "मीडिया स्टर्नम स्पेस / कार्डियक नॉच" } },
+        layers: { 
+            title: { en: "Heart Layers", hi: "हृदय की परतें" },
+            items: [
+                { en: "Pericardium (Outer Covering)", hi: "पेरीकार्डियम (बाहरी आवरण)" },
+                { en: "Fibrous + Serous Layers", hi: "रेशेदार (Fibrous) + सिरोज (Serous) परतें" },
+                { en: "Cardiac Fluid (Protection)", hi: "कार्डियक फ्लुइड (सुरक्षा के लिए)" }
+            ]
+        }
+    },
+    impulse: {
+        title: { en: "Conduction System", hi: "हृदय स्पंदन (Impulse)" },
+        steps: [
+            { id: 1, title: "SA Node (Sino Auricular)", desc: { en: "Natural Pacemaker. Generates Na+ Impulse.", hi: "प्राकृतिक पेसमेकर। Na+ आवेग उत्पन्न करता है।" } },
+            { id: 2, title: "AV Node (Auriculo Ventricular)", desc: { en: "Receives signal from SA Node.", hi: "SA नोड से सिग्नल प्राप्त करता है।" } },
+            { id: 3, title: "Bundle of His", desc: { en: "Transmits impulse to ventricles.", hi: "निलय (Ventricles) तक आवेग पहुँचाता है।" } },
+            { id: 4, title: "Purkinje Fibers", desc: { en: "Spreads signal to ventricular walls causing contraction.", hi: "निलय की दीवारों में सिग्नल फैलाता है जिससे संकुचन होता है।" } }
+        ],
+        artificial: {
+            title: { en: "Artificial Pacemaker", hi: "कृत्रिम पेसमेकर" },
+            desc: { en: "Uses Lithium Battery (Light metal). Max wt 20g.", hi: "लिथियम बैटरी (हल्की धातु) का उपयोग करता है। अधिकतम वजन 20 ग्राम।" }
+        }
     },
     cycle: {
-        title: { en: "Cardiac Cycle", hi: "हृदय चक्र" },
-        steps: [
-            { title: { en: "1. Diastole (Relaxation)", hi: "1. डायस्टोल (विश्राम)" }, text: { en: "Heart muscles relax. Blood flows into atria.", hi: "हृदय की मांसपेशियां शिथिल होती हैं। रक्त आलिंद में भरता है।" } },
-            { title: { en: "2. Atrial Systole", hi: "2. एट्रियल सिस्टोल" }, text: { en: "Atria contract. Blood pushed to ventricles.", hi: "आलिंद सिकुड़ते हैं। रक्त निलय में धकेला जाता है।" } },
-            { title: { en: "3. Ventricular Systole", hi: "3. वेंट्रिकुलर सिस्टोल" }, text: { en: "Ventricles contract. Blood pumped to lungs/body. 'LUB' sound.", hi: "निलय सिकुड़ते हैं। रक्त फेफड़ों/शरीर में पंप होता है। 'लब' की आवाज।" } }
+        title: { en: "Blood Flow Path", hi: "रक्त प्रवाह का मार्ग" },
+        flowChart: [
+            "Organs (अंग)", "SVC/IVC", "Right Atrium (R.A)", "Tricuspid Valve", 
+            "Right Ventricle (R.V)", "Pulmonary Valve", "Pulmonary Artery", "LUNGS (फेफड़े)",
+            "Pulmonary Vein", "Left Atrium (L.A)", "Bicuspid (Mitral) Valve", 
+            "Left Ventricle (L.V)", "Aorta Valve", "Aorta", "Organs (अंग)"
         ]
     },
-    bp: {
-        title: { en: "Blood Pressure", hi: "रक्तचाप" },
-        normal: "120/80 mmHg",
-        sys: { en: "Systolic (120): Pumping Pressure", hi: "सिस्टोलिक (120): पंपिंग दबाव" },
-        dia: { en: "Diastolic (80): Resting Pressure", hi: "डायस्टोलिक (80): विश्राम दबाव" },
-        inst: { en: "Instrument: Sphygmomanometer", hi: "यंत्र: स्फिग्मोमैनोमीटर" }
-    },
     quiz: [
-        { q: { en: "Where is the natural pacemaker (SA Node) located?", hi: "प्राकृतिक पेसमेकर (SA Node) कहाँ स्थित होता है?" }, options: ["ra", "la", "rv", "lv"], ans: "ra" },
-        { q: { en: "Which chamber has the thickest wall?", hi: "किस कक्ष की दीवार सबसे मोटी होती है?" }, options: ["ra", "la", "rv", "lv"], ans: "lv" },
-        { q: { en: "Which vessel carries oxygenated blood to the body?", hi: "कौन सी वाहिका शरीर में शुद्ध रक्त ले जाती है?" }, options: ["pa", "pv", "aorta", "vc"], ans: "aorta" },
-        { q: { en: "Which artery carries IMPURE blood?", hi: "कौन सी धमनी अशुद्ध रक्त ले जाती है?" }, options: ["aorta", "pa", "vc", "pv"], ans: "pa" },
+        { q: { en: "Who discovered the Blood Circulatory System?", hi: "रक्त परिसंचरण तंत्र की खोज किसने की?" }, options: ["Newton", "Einstein", "William Harvey", "Robert Hooke"], ans: "William Harvey" },
+        { q: { en: "What is the weight of heart in adult men?", hi: "वयस्क पुरुषों में हृदय का वजन कितना होता है?" }, options: ["200-250g", "280-340g", "150-200g", "400-500g"], ans: "280-340g" },
+        { q: { en: "Which valve is between Right Atrium and Right Ventricle?", hi: "दाएं आलिंद और दाएं निलय के बीच कौन सा वाल्व होता है?" }, options: ["Bicuspid", "Tricuspid", "Aortic", "Pulmonary"], ans: "Tricuspid" },
+        { q: { en: "Where is the Natural Pacemaker (SA Node) located?", hi: "प्राकृतिक पेसमेकर (SA Node) कहाँ स्थित होता है?" }, options: ["Right Atrium", "Left Atrium", "Right Ventricle", "Left Ventricle"], ans: "Right Atrium" },
     ]
 };
 
-// --- GUIDED TOUR STEPS (DEEP EXPLANATION) ---
+// --- GUIDED TOUR STEPS ---
 const TOUR_STEPS = [
     {
         partId: 'vc',
-        title: { en: "1. The Entry: Vena Cava", hi: "1. प्रवेश द्वार: महाशिरा (Vena Cava)" },
+        title: { en: "1. The Entry: Vena Cava", hi: "1. प्रवेश: महाशिरा (Vena Cava)" },
         desc: { 
-            en: "The process begins here. The Vena Cava acts like a massive drain pipe. It collects 'dirty' (deoxygenated) blood rich in CO₂ from your entire body (Superior from head, Inferior from legs) and dumps it into the heart.",
-            hi: "प्रक्रिया यहाँ से शुरू होती है। महाशिरा एक बड़े पाइप की तरह काम करती है। यह पूरे शरीर से 'गंदा' (CO₂ युक्त) रक्त इकट्ठा करती है और उसे हृदय में डालती है। ऊपर से Superior और नीचे से Inferior Vena Cava आती है।"
-        },
-        why: {
-            en: "Why is it blue? Because the body's cells have already used up the oxygen and replaced it with waste Carbon Dioxide.",
-            hi: "यह नीला क्यों है? क्योंकि शरीर की कोशिकाओं ने ऑक्सीजन का उपयोग कर लिया है और बदले में कार्बन डाइऑक्साइड (CO₂) भर दी है।"
+            en: "Blood enters from Organs via SVC (Upper body) & IVC (Lower body). It carries CO2 rich blood.",
+            hi: "रक्त अंगों से SVC (ऊपरी शरीर) और IVC (निचले शरीर) के माध्यम से प्रवेश करता है। यह CO2 युक्त अशुद्ध रक्त होता है।"
         }
     },
     {
         partId: 'ra',
-        title: { en: "2. The Waiting Room: Right Atrium", hi: "2. वेटिंग रूम: दायां आलिंद (Right Atrium)" },
+        title: { en: "2. Right Atrium (R.A)", hi: "2. दायां आलिंद (R.A)" },
         desc: { 
-            en: "This chamber receives the blood from the Vena Cava. Think of it as a 'Waiting Room'. It holds the blood briefly before the door (Tricuspid Valve) opens.",
-            hi: "यह कक्ष महाशिरा से रक्त प्राप्त करता है। इसे एक 'वेटिंग रूम' समझें। यह रक्त को थोड़ी देर के लिए रोकता है जब तक कि दरवाजा (Tricuspid Valve) नहीं खुलता।"
-        },
-        why: {
-            en: "Special Feature: This wall contains the 'SA Node', your heart's natural pacemaker that generates the electric spark to beat.",
-            hi: "खास बात: इसकी दीवार में 'SA Node' होता है, जो हृदय का प्राकृतिक पेसमेकर है और धड़कन के लिए बिजली का करंट बनाता है।"
+            en: "Collects blood. Contains SA Node (Pacemaker) which generates the impulse.",
+            hi: "रक्त इकट्ठा करता है। इसमें SA Node (पेसमेकर) होता है जो धड़कन (Impulse) बनाता है।"
         }
     },
     {
         partId: 'rv',
-        title: { en: "3. The First Pump: Right Ventricle", hi: "3. पहला पंप: दायां निलय (Right Ventricle)" },
+        title: { en: "3. Right Ventricle (R.V)", hi: "3. दायां निलय (R.V)" },
         desc: { 
-            en: "When the atrium contracts, blood falls into this chamber. The Right Ventricle's job is to push this dirty blood out to the lungs for cleaning.",
-            hi: "जब आलिंद सिकुड़ता है, तो रक्त इस कक्ष में गिरता है। दायां निलय का काम इस गंदे रक्त को साफ करने के लिए फेफड़ों (Lungs) की ओर धक्का देना है।"
-        },
-        why: {
-            en: "Why are its walls thin? Because it only needs to push blood to the lungs which are right next door. High pressure isn't needed here.",
-            hi: "इसकी दीवारें पतली क्यों हैं? क्योंकि इसे रक्त को केवल पास में स्थित फेफड़ों तक भेजना होता है। यहाँ बहुत अधिक दबाव की आवश्यकता नहीं होती।"
+            en: "Blood passes through Tricuspid Valve into R.V. It pumps blood to lungs.",
+            hi: "रक्त ट्राइकस्पिड वाल्व से R.V में जाता है। यह रक्त को फेफड़ों में पंप करता है।"
         }
     },
     {
         partId: 'pa',
-        title: { en: "4. The Exception: Pulmonary Artery", hi: "4. अपवाद: फुफ्फुसीय धमनी (Pulmonary Artery)" },
+        title: { en: "4. Pulmonary Artery", hi: "4. फुफ्फुसीय धमनी (P.A)" },
         desc: { 
-            en: "This vessel carries the blood from the Right Ventricle to the Lungs. In the lungs, we breathe out CO₂ and breathe in fresh Oxygen.",
-            hi: "यह नली रक्त को दायां निलय से फेफड़ों तक ले जाती है। फेफड़ों में, हम CO₂ बाहर छोड़ते हैं और ताजी ऑक्सीजन अंदर लेते हैं।"
-        },
-        why: {
-            en: "Exam Trick: Normally Arteries carry PURE blood. This is the ONLY Artery in the body that carries IMPURE (Blue) blood.",
-            hi: "परीक्षा ट्रिक: आमतौर पर धमनियाँ (Arteries) शुद्ध रक्त ले जाती हैं। लेकिन यह शरीर की एकमात्र धमनी है जो अशुद्ध (नीला) रक्त ले जाती है।"
+            en: "Carries IMPURE blood to Lungs. In lungs, CO2 is removed and O2 is added.",
+            hi: "अशुद्ध रक्त को फेफड़ों तक ले जाती है। फेफड़ों (Alveoli) में CO2 निकलती है और O2 मिलती है।"
         }
     },
     {
         partId: 'pv',
-        title: { en: "5. Return Journey: Pulmonary Vein", hi: "5. वापसी: फुफ्फुसीय शिरा (Pulmonary Vein)" },
+        title: { en: "5. Pulmonary Vein", hi: "5. फुफ्फुसीय शिरा (P.V)" },
         desc: { 
-            en: "After getting fresh oxygen in the lungs, the blood turns bright RED. It travels back to the heart through these veins.",
-            hi: "फेफड़ों में ऑक्सीजन मिलने के बाद रक्त चमकीला लाल हो जाता है। यह इन शिराओं के माध्यम से वापस हृदय में आता है।"
-        },
-        why: {
-            en: "Exam Trick: Normally Veins carry IMPURE blood. These are the ONLY Veins in the body that carry PURE (Red) blood.",
-            hi: "परीक्षा ट्रिक: आमतौर पर शिराएँ (Veins) अशुद्ध रक्त ले जाती हैं। लेकिन यह शरीर की एकमात्र शिरा है जो शुद्ध (लाल) रक्त ले जाती है।"
+            en: "Carries PURE (Red) blood from Lungs back to the heart.",
+            hi: "फेफड़ों से शुद्ध (लाल) रक्त वापस हृदय में लाती है।"
         }
     },
     {
         partId: 'la',
-        title: { en: "6. Fresh Holding: Left Atrium", hi: "6. शुद्ध वेटिंग रूम: बायां आलिंद (Left Atrium)" },
+        title: { en: "6. Left Atrium (L.A)", hi: "6. बायां आलिंद (L.A)" },
         desc: { 
-            en: "The oxygen-rich blood enters here. It waits for the Mitral Valve to open so it can go to the final pumping chamber.",
-            hi: "ऑक्सीजन से भरपूर रक्त यहाँ प्रवेश करता है। यह मिट्रल वाल्व (Mitral Valve) के खुलने का इंतजार करता है ताकि यह अंतिम पंपिंग कक्ष में जा सके।"
-        },
-        why: {
-            en: "It simply acts as a reservoir for oxygenated blood coming from the lungs.",
-            hi: "यह बस फेफड़ों से आने वाले शुद्ध रक्त के लिए एक संग्रह पात्र (reservoir) का काम करता है।"
+            en: "Receives oxygenated blood. Pushes it through Bicuspid (Mitral) Valve.",
+            hi: "ऑक्सीजन युक्त रक्त प्राप्त करता है। इसे द्विकपाटी (Bicuspid) वाल्व के माध्यम से आगे धकेलता है।"
         }
     },
     {
         partId: 'lv',
-        title: { en: "7. The Powerhouse: Left Ventricle", hi: "7. पावरहाउस: बायां निलय (Left Ventricle)" },
+        title: { en: "7. Left Ventricle (L.V)", hi: "7. बायां निलय (L.V)" },
         desc: { 
-            en: "This is the most important chamber. When it contracts, it generates massive pressure to shoot blood out to the entire body.",
-            hi: "यह सबसे महत्वपूर्ण कक्ष है। जब यह सिकुड़ता है, तो यह पूरे शरीर में रक्त भेजने के लिए भारी दबाव पैदा करता है।"
-        },
-        why: {
-            en: "Why is it the THICKEST? It has to push blood against gravity to your brain and down to your toes. It needs strong muscles!",
-            hi: "यह सबसे मोटा क्यों है? क्योंकि इसे गुरुत्वाकर्षण के खिलाफ दिमाग तक और नीचे पैरों तक रक्त पहुँचाना होता है। इसे मजबूत मांसपेशियों की जरूरत होती है!"
+            en: "Thickest chamber. Pumps blood with high pressure to the whole body.",
+            hi: "सबसे मोटा कक्ष। पूरे शरीर में उच्च दबाव के साथ रक्त पंप करता है।"
         }
     },
     {
         partId: 'aorta',
-        title: { en: "8. The Super Highway: Aorta", hi: "8. सुपर हाईवे: महाधमनी (Aorta)" },
+        title: { en: "8. Aorta", hi: "8. महाधमनी (Aorta)" },
         desc: { 
-            en: "The pure blood blasts out through the Aorta, the largest artery. From here, it branches out to feed every cell in your body.",
-            hi: "शुद्ध रक्त महाधमनी (Aorta) के माध्यम से बाहर निकलता है, जो सबसे बड़ी धमनी है। यहाँ से यह शरीर की हर कोशिका को पोषण देने के लिए शाखाओं में बंट जाती है।"
-        },
-        why: {
-            en: "Cycle Complete: The cells use the oxygen, the blood turns dirty (blue) again, and returns to the Vena Cava. The cycle repeats 72 times a minute!",
-            hi: "चक्र पूरा: कोशिकाएं ऑक्सीजन का उपयोग करती हैं, रक्त फिर से गंदा (नीला) हो जाता है, और महाशिरा में वापस आता है। यह चक्र एक मिनट में 72 बार दोहराया जाता है!"
+            en: "Distributes pure blood to all body organs. Cycle repeats 72 times/min.",
+            hi: "सभी अंगों को शुद्ध रक्त वितरित करती है। यह चक्र 72 बार/मिनट दोहराया जाता है।"
         }
     }
 ];
@@ -190,7 +172,7 @@ const TOUR_STEPS = [
 const Heart: React.FC<HeartProps> = ({ language }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState<0.5 | 1 | 2>(1);
-  const [activeTab, setActiveTab] = useState<'structure' | 'facts' | 'cycle' | 'bp' | 'quiz'>('structure');
+  const [activeTab, setActiveTab] = useState<'structure' | 'facts' | 'impulse' | 'cycle' | 'quiz'>('structure');
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
   const [showLabels, setShowLabels] = useState(true);
@@ -211,7 +193,6 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
     if (tourActive) {
         const step = TOUR_STEPS[tourStep];
         setSelectedPart(step.partId);
-        // Ensure flow mode is on for visualization
         setFlowMode(true);
         if (!isPlaying) setIsPlaying(true);
     }
@@ -237,22 +218,32 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
   const startTour = () => {
       setTourActive(true);
       setTourStep(0);
-      setActiveTab('structure'); // Just to reset visual tab state if needed
+      setActiveTab('structure');
       setIsPlaying(true);
   };
 
   const handlePartClick = (part: string) => {
-    if (tourActive) return; // Disable manual click during tour
+    if (tourActive) return;
 
     if (activeTab === 'quiz') {
        if (quizAnswered) return;
-       const correct = HEART_CONTENT.quiz[quizIndex].ans === part;
-       setQuizAnswered(part);
-       if (correct) setQuizScore(p => p + 1);
+       // Simple check for quiz answer mapping (if needed) or just text check
+       const currentQ = HEART_CONTENT.quiz[quizIndex];
+       const isCorrect = currentQ.ans.toLowerCase().includes(part.replace('vc','').replace('pa','').toLowerCase()); // simplified logic
+       // For this quiz, we use text options, so visual click is just for exploration unless mapped perfectly.
+       // Here we keep structure click separate from quiz text options.
+       return;
     } else {
         setSelectedPart(part);
         setActiveTab('structure');
     }
+  };
+
+  const handleQuizOption = (opt: string) => {
+      if (quizAnswered) return;
+      const correct = HEART_CONTENT.quiz[quizIndex].ans === opt;
+      setQuizAnswered(opt);
+      if (correct) setQuizScore(p => p + 1);
   };
 
   const nextQuestion = () => {
@@ -267,14 +258,6 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
   };
 
   const getPartColor = (part: string, baseColor: string) => {
-      if (activeTab === 'quiz') {
-          if (quizAnswered) {
-              const currentQ = HEART_CONTENT.quiz[quizIndex];
-              if (part === currentQ.ans) return "#22c55e"; // Correct Green
-              if (part === quizAnswered && part !== currentQ.ans) return "#ef4444"; // Wrong Red
-          }
-          return baseColor; // Default
-      }
       return selectedPart === part ? "#facc15" : baseColor;
   };
 
@@ -288,7 +271,7 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
              </div>
              <div>
                 <h2 className="font-bold text-slate-800 leading-none">{language === Language.ENGLISH ? "3D Human Heart" : "मानव हृदय 3D"}</h2>
-                <span className="text-[10px] text-slate-500 font-medium">SSC/Railway Exam Special</span>
+                <span className="text-[10px] text-slate-500 font-medium">Class Notes Special</span>
              </div>
          </div>
 
@@ -402,7 +385,7 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                     <g className={isPlaying ? "heart-beat" : ""}>
                         
                         {viewMode === 'diagram' ? (
-                            // === DIAGRAM / SCHEMATIC VIEW (Previous Implementation) ===
+                            // === DIAGRAM / SCHEMATIC VIEW ===
                             <>
                                 {/* Vena Cava */}
                                 <path d="M80,50 L80,180 L130,180 L130,50 Z" fill={getPartColor('vc', 'url(#gradBlue)')} stroke="#1e3a8a" strokeWidth="2" onClick={() => handlePartClick('vc')} className="cursor-pointer hover:brightness-110"/>
@@ -434,7 +417,7 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                                 )}
                             </>
                         ) : (
-                            // === REALISTIC / ANATOMIC VIEW (New) ===
+                            // === REALISTIC / ANATOMIC VIEW ===
                             <>
                                 {/* Shadow/Outline */}
                                 <path d="M140,120 C100,120 80,180 80,240 C80,340 180,450 220,480 C280,450 380,350 380,220 C380,140 320,100 280,120" fill="black" opacity="0.1" filter="blur(10px)"/>
@@ -572,17 +555,17 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                             <g className="pointer-events-none text-xs font-bold font-sans drop-shadow-md" fill="white" style={{ textShadow: '0px 1px 2px black' }}>
                                 {viewMode === 'diagram' ? (
                                     <>
-                                        <text x="90" y="210">RA</text>
-                                        <text x="160" y="320">RV</text>
-                                        <text x="290" y="210">LA</text>
-                                        <text x="290" y="340">LV</text>
+                                        <text x="90" y="210">R.A</text>
+                                        <text x="160" y="320">R.V</text>
+                                        <text x="290" y="210">L.A</text>
+                                        <text x="290" y="340">L.V</text>
                                     </>
                                 ) : (
                                     <>
-                                        <text x="110" y="190">RA</text>
-                                        <text x="170" y="350">RV</text>
-                                        <text x="310" y="180">LA</text>
-                                        <text x="280" y="320">LV</text>
+                                        <text x="110" y="190">R.A</text>
+                                        <text x="170" y="350">R.V</text>
+                                        <text x="310" y="180">L.A</text>
+                                        <text x="280" y="320">L.V</text>
                                         <text x="260" y="70">Aorta</text>
                                         <text x="135" y="470">IVC</text>
                                     </>
@@ -621,16 +604,6 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                                 {language === Language.ENGLISH ? TOUR_STEPS[tourStep].desc.en : TOUR_STEPS[tourStep].desc.hi}
                             </p>
                         </div>
-
-                        <div className="bg-amber-50 p-3 rounded-lg border-l-4 border-amber-400">
-                             <div className="flex items-center gap-2 mb-1">
-                                <Lightbulb size={16} className="text-amber-600" />
-                                <span className="text-xs font-bold text-amber-700 uppercase">{language === Language.ENGLISH ? "Why does it work this way?" : "यह ऐसे काम क्यों करता है?"}</span>
-                             </div>
-                             <p className="text-sm text-slate-800 italic">
-                                {language === Language.ENGLISH ? TOUR_STEPS[tourStep].why.en : TOUR_STEPS[tourStep].why.hi}
-                             </p>
-                        </div>
                     </div>
 
                     <div className="p-4 border-t border-indigo-100 bg-white flex justify-between gap-4">
@@ -654,16 +627,16 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                 <>
                     {/* Tabs Header */}
                     <div className="flex bg-slate-50 border-b border-slate-200 overflow-x-auto">
-                        {['structure', 'facts', 'cycle', 'bp', 'quiz'].map(tab => (
+                        {['structure', 'facts', 'impulse', 'cycle', 'quiz'].map(tab => (
                             <button 
                                 key={tab}
                                 onClick={() => setActiveTab(tab as any)}
                                 className={`px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex-shrink-0 ${activeTab === tab ? 'border-rose-500 text-rose-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
                             >
                                 {tab === 'structure' && (language === Language.ENGLISH ? "Anatomy" : "रचना")}
-                                {tab === 'facts' && (language === Language.ENGLISH ? "SSC Facts" : "तथ्य")}
-                                {tab === 'cycle' && (language === Language.ENGLISH ? "Cycle" : "चक्र")}
-                                {tab === 'bp' && "BP"}
+                                {tab === 'facts' && (language === Language.ENGLISH ? "Facts" : "तथ्य")}
+                                {tab === 'impulse' && (language === Language.ENGLISH ? "Impulse" : "धड़कन")}
+                                {tab === 'cycle' && (language === Language.ENGLISH ? "Flow" : "प्रवाह")}
                                 {tab === 'quiz' && (language === Language.ENGLISH ? "Quiz" : "क्विज़")}
                             </button>
                         ))}
@@ -686,7 +659,7 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                                             {language === Language.ENGLISH ? HEART_CONTENT.structure.parts[selectedPart].desc.en : HEART_CONTENT.structure.parts[selectedPart].desc.hi}
                                         </p>
                                         <div className="bg-amber-50 border-l-4 border-amber-400 p-3 rounded">
-                                            <h4 className="text-xs font-bold text-amber-700 uppercase mb-1 flex items-center gap-1"><AlertCircle size={12}/> SSC Fact</h4>
+                                            <h4 className="text-xs font-bold text-amber-700 uppercase mb-1 flex items-center gap-1"><AlertCircle size={12}/> Fact</h4>
                                             <p className="text-sm italic text-slate-800">
                                                 {language === Language.ENGLISH ? HEART_CONTENT.structure.parts[selectedPart].fact.en : HEART_CONTENT.structure.parts[selectedPart].fact.hi}
                                             </p>
@@ -703,48 +676,91 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                         )}
 
                         {activeTab === 'facts' && (
-                            <div className="space-y-3 animate-fade-in">
-                                <h3 className="font-bold text-slate-800 border-b pb-2 mb-4">{language === Language.ENGLISH ? HEART_CONTENT.facts.title.en : HEART_CONTENT.facts.title.hi}</h3>
-                                {HEART_CONTENT.facts.items.map((item: any, idx: number) => (
-                                    <div key={idx} className="flex justify-between items-center bg-slate-50 p-3 rounded hover:bg-slate-100 transition-colors">
-                                        <span className="text-sm font-semibold text-slate-600">{language === Language.ENGLISH ? item.label.en : item.label.hi}</span>
-                                        <span className="text-sm font-bold text-rose-600">{language === Language.ENGLISH ? item.val.en : item.val.hi}</span>
+                            <div className="space-y-4 animate-fade-in">
+                                {/* Discovery */}
+                                <div className="bg-rose-50 p-3 rounded-lg border border-rose-100">
+                                    <div className="text-xs font-bold text-rose-500 uppercase">{language === Language.ENGLISH ? HEART_CONTENT.facts.discovery.label.en : HEART_CONTENT.facts.discovery.label.hi}</div>
+                                    <div className="text-sm font-bold text-slate-800">{language === Language.ENGLISH ? HEART_CONTENT.facts.discovery.val.en : HEART_CONTENT.facts.discovery.val.hi}</div>
+                                </div>
+                                
+                                {/* Weights */}
+                                <div className="bg-slate-50 p-3 rounded-lg">
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Weight Stats</h4>
+                                    <div className="space-y-2">
+                                        {HEART_CONTENT.facts.weight.map((w: any, idx: number) => (
+                                            <div key={idx} className="flex justify-between text-sm">
+                                                <span className="text-slate-600">{language === Language.ENGLISH ? w.label.en : w.label.hi}</span>
+                                                <span className="font-bold text-slate-800">{language === Language.ENGLISH ? w.val.en : w.val.hi}</span>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                </div>
+
+                                {/* Location */}
+                                <div className="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <div className="text-xs font-bold text-blue-500 uppercase">{language === Language.ENGLISH ? HEART_CONTENT.facts.location.label.en : HEART_CONTENT.facts.location.label.hi}</div>
+                                    <div className="text-sm font-bold text-slate-800">{language === Language.ENGLISH ? HEART_CONTENT.facts.location.val.en : HEART_CONTENT.facts.location.val.hi}</div>
+                                </div>
+
+                                {/* Layers */}
+                                <div>
+                                    <h4 className="text-sm font-bold text-slate-800 mb-2 border-b pb-1">{language === Language.ENGLISH ? HEART_CONTENT.facts.layers.title.en : HEART_CONTENT.facts.layers.title.hi}</h4>
+                                    <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                        {HEART_CONTENT.facts.layers.items.map((l: any, i: number) => (
+                                            <li key={i}>{language === Language.ENGLISH ? l.en : l.hi}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'impulse' && (
+                            <div className="space-y-4 animate-fade-in">
+                                <h3 className="font-bold text-slate-800 border-b pb-2">{language === Language.ENGLISH ? HEART_CONTENT.impulse.title.en : HEART_CONTENT.impulse.title.hi}</h3>
+                                
+                                {/* Path Steps */}
+                                <div className="relative border-l-2 border-indigo-200 ml-3 space-y-6">
+                                    {HEART_CONTENT.impulse.steps.map((step: any, idx: number) => (
+                                        <div key={idx} className="relative pl-6">
+                                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-indigo-500 border-2 border-white"></div>
+                                            <div className="bg-indigo-50 p-3 rounded-lg border border-indigo-100">
+                                                <h4 className="font-bold text-indigo-900 text-sm">{step.title}</h4>
+                                                <p className="text-xs text-indigo-700 mt-1">{language === Language.ENGLISH ? step.desc.en : step.desc.hi}</p>
+                                            </div>
+                                            {idx < 3 && <div className="absolute left-[24px] -bottom-4 text-indigo-300 text-xs">⬇</div>}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Artificial Pacemaker */}
+                                <div className="bg-slate-800 text-white p-4 rounded-xl mt-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Zap size={16} className="text-yellow-400" />
+                                        <span className="font-bold text-sm">{language === Language.ENGLISH ? HEART_CONTENT.impulse.artificial.title.en : HEART_CONTENT.impulse.artificial.title.hi}</span>
+                                    </div>
+                                    <p className="text-xs text-slate-300">{language === Language.ENGLISH ? HEART_CONTENT.impulse.artificial.desc.en : HEART_CONTENT.impulse.artificial.desc.hi}</p>
+                                </div>
                             </div>
                         )}
 
                         {activeTab === 'cycle' && (
                             <div className="space-y-4 animate-fade-in">
                                 <h3 className="font-bold text-slate-800 border-b pb-2">{language === Language.ENGLISH ? HEART_CONTENT.cycle.title.en : HEART_CONTENT.cycle.title.hi}</h3>
-                                <div className="space-y-4">
-                                    {HEART_CONTENT.cycle.steps.map((step: any, idx: number) => (
-                                        <div key={idx} className="relative pl-6 border-l-2 border-slate-200">
-                                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-rose-500 border-2 border-white"></div>
-                                            <h4 className="font-bold text-slate-800 text-sm">{language === Language.ENGLISH ? step.title.en : step.title.hi}</h4>
-                                            <p className="text-sm text-slate-600 mt-1">{language === Language.ENGLISH ? step.text.en : step.text.hi}</p>
+                                <div className="flex flex-col gap-2">
+                                    {HEART_CONTENT.cycle.flowChart.map((step: string, idx: number) => (
+                                        <div key={idx} className="flex flex-col items-center">
+                                            <div className={`w-full p-2 text-center text-sm font-bold rounded border ${
+                                                idx === 0 || idx === 14 ? 'bg-amber-100 border-amber-300 text-amber-900' :
+                                                step.includes("LUNGS") ? 'bg-sky-100 border-sky-300 text-sky-900' :
+                                                'bg-white border-slate-200 text-slate-700'
+                                            }`}>
+                                                {step}
+                                            </div>
+                                            {idx < HEART_CONTENT.cycle.flowChart.length - 1 && (
+                                                <div className="text-slate-400 my-0.5">↓</div>
+                                            )}
                                         </div>
                                     ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'bp' && (
-                            <div className="space-y-4 animate-fade-in">
-                                <div className="text-center py-4 bg-slate-900 text-white rounded-xl mb-4">
-                                    <div className="text-xs uppercase text-slate-400 tracking-widest mb-1">{language === Language.ENGLISH ? "Normal BP" : "सामान्य रक्तचाप"}</div>
-                                    <div className="text-4xl font-mono font-bold text-green-400">{HEART_CONTENT.bp.normal}</div>
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="p-3 bg-red-50 text-red-800 rounded-lg text-sm font-medium border border-red-100">
-                                        ⬆️ {language === Language.ENGLISH ? HEART_CONTENT.bp.sys.en : HEART_CONTENT.bp.sys.hi}
-                                    </div>
-                                    <div className="p-3 bg-blue-50 text-blue-800 rounded-lg text-sm font-medium border border-blue-100">
-                                        ⬇️ {language === Language.ENGLISH ? HEART_CONTENT.bp.dia.en : HEART_CONTENT.bp.dia.hi}
-                                    </div>
-                                    <div className="flex items-center gap-2 text-xs text-slate-500 mt-2">
-                                        <BookOpen size={14} /> {language === Language.ENGLISH ? HEART_CONTENT.bp.inst.en : HEART_CONTENT.bp.inst.hi}
-                                    </div>
                                 </div>
                             </div>
                         )}
@@ -760,16 +776,24 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                                     <h4 className="font-bold text-lg text-slate-800 mb-4">
                                         {language === Language.ENGLISH ? HEART_CONTENT.quiz[quizIndex].q.en : HEART_CONTENT.quiz[quizIndex].q.hi}
                                     </h4>
-                                    <p className="text-sm text-slate-500 mb-4 italic">
-                                        {language === Language.ENGLISH ? "Tap the correct part on the Heart diagram to answer." : "उत्तर देने के लिए हृदय चित्र पर सही भाग को टैप करें।"}
-                                    </p>
-                                    
-                                    {quizAnswered && (
-                                        <div className={`p-3 rounded-lg flex items-center gap-2 ${quizAnswered === HEART_CONTENT.quiz[quizIndex].ans ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                                            {quizAnswered === HEART_CONTENT.quiz[quizIndex].ans ? <CheckCircle size={18}/> : <XCircle size={18}/>}
-                                            <span className="font-bold">{quizAnswered === HEART_CONTENT.quiz[quizIndex].ans ? (language === Language.ENGLISH ? "Correct!" : "सही!") : (language === Language.ENGLISH ? "Wrong!" : "गलत!")}</span>
-                                        </div>
-                                    )}
+                                    <div className="space-y-2">
+                                        {HEART_CONTENT.quiz[quizIndex].options.map((opt: string, i: number) => {
+                                             let btnClass = "w-full text-left p-3 rounded-lg text-sm font-medium border transition-all ";
+                                             if (quizAnswered) {
+                                                 if (opt === HEART_CONTENT.quiz[quizIndex].ans) btnClass += "bg-green-100 border-green-300 text-green-800";
+                                                 else if (opt === quizAnswered) btnClass += "bg-red-50 border-red-200 text-red-700";
+                                                 else btnClass += "bg-slate-50 border-slate-100 text-slate-400";
+                                             } else {
+                                                 btnClass += "bg-white hover:bg-indigo-50 border-slate-200 text-slate-700";
+                                             }
+                                             return (
+                                                 <button key={i} onClick={() => handleQuizOption(opt)} className={btnClass} disabled={!!quizAnswered}>
+                                                     {opt}
+                                                     {quizAnswered && opt === HEART_CONTENT.quiz[quizIndex].ans && <CheckCircle size={16} className="float-right text-green-600"/>}
+                                                 </button>
+                                             )
+                                        })}
+                                    </div>
                                 </div>
 
                                 {quizAnswered && (
