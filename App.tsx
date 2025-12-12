@@ -126,6 +126,14 @@ const App: React.FC = () => {
           
           <div className="flex items-center gap-2">
             <button 
+              onClick={toggleFullScreen}
+              className="p-2 bg-slate-50 rounded-full hover:bg-slate-100 transition-colors border border-slate-200 text-slate-600"
+              aria-label="Toggle Fullscreen"
+            >
+              {isFullScreen ? <Minimize size={18} /> : <Maximize size={18} />}
+            </button>
+
+            <button 
               onClick={toggleLanguage}
               className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
             >
