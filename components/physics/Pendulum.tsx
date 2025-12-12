@@ -42,9 +42,9 @@ const Pendulum: React.FC<PendulumProps> = ({ language }) => {
   const bobY = pivotY + Math.cos(angle) * (length * scale);
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-6">
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-full">
-        <div className="w-full lg:flex-1 bg-white rounded-xl shadow-sm border border-slate-200 relative overflow-hidden flex items-center justify-center min-h-[300px]">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-6">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:h-full landscape:h-full">
+        <div className="w-full md:flex-1 bg-white rounded-xl shadow-sm border border-slate-200 relative overflow-hidden flex items-center justify-center min-h-[300px] landscape:min-h-0">
           <div className="absolute top-4 left-4 text-sm font-semibold text-slate-500">{TRANSLATIONS.pendulum[language]}</div>
           <svg viewBox="0 0 300 400" className="w-full h-full max-h-[400px] overflow-visible">
             <line x1="100" y1="20" x2="200" y2="20" stroke="#334155" strokeWidth="4" />
@@ -55,8 +55,8 @@ const Pendulum: React.FC<PendulumProps> = ({ language }) => {
             T ≈ {(2 * Math.PI * Math.sqrt(length / gravity)).toFixed(2)}s
           </div>
         </div>
-        <div className="w-full lg:w-80 flex flex-col gap-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
+        <div className="w-full md:w-72 lg:w-80 landscape:w-72 flex flex-col gap-6 flex-shrink-0">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6 h-full overflow-y-auto">
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-sm font-medium text-slate-700">{TRANSLATIONS.gravity[language]}</label>

@@ -397,9 +397,9 @@ const Brain: React.FC<BrainProps> = ({ language }) => {
   };
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-4">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-4">
       {/* HEADER CONTROL BAR */}
-      <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row flex-wrap gap-4 justify-between items-start md:items-center">
+      <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row flex-wrap gap-4 justify-between items-start md:items-center flex-shrink-0">
          <div className="flex items-center gap-2">
              <div className={`p-2 rounded-full ${tourActive ? 'bg-indigo-600 text-white animate-pulse' : 'bg-indigo-50 text-indigo-600'}`}>
                  <BrainCircuit size={20} />
@@ -461,10 +461,10 @@ const Brain: React.FC<BrainProps> = ({ language }) => {
          </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:flex-1 lg:min-h-0">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:flex-1 landscape:flex-1 min-h-0">
          
          {/* LEFT: VISUALIZATION */}
-         <div className="w-full lg:flex-1 bg-gradient-to-b from-slate-50 to-indigo-50/30 rounded-xl shadow-inner border border-slate-200 relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] lg:min-h-[400px]">
+         <div className="w-full md:flex-1 bg-gradient-to-b from-slate-50 to-indigo-50/30 rounded-xl shadow-inner border border-slate-200 relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] landscape:min-h-0 lg:min-h-[400px]">
              
              {/* Labels Overlay */}
              <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 pointer-events-none">
@@ -589,7 +589,7 @@ const Brain: React.FC<BrainProps> = ({ language }) => {
          </div>
 
          {/* RIGHT: INFO PANEL */}
-         <div className="w-full lg:w-96 flex flex-col h-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+         <div className="w-full md:w-80 landscape:w-80 flex flex-col h-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden flex-shrink-0">
              
              {/* Tab Navigation */}
              <div className="flex border-b border-slate-200 bg-slate-50">

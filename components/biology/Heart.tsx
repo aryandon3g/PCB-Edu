@@ -236,9 +236,9 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
   };
 
   return (
-    <div className="flex flex-col h-auto md:h-full gap-4">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-4">
       {/* --- TOP HEADER --- */}
-      <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-4 justify-between items-center">
+      <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-4 justify-between items-center flex-shrink-0">
          <div className="flex items-center gap-2">
              <div className={`p-2 rounded-full ${isPlaying ? 'bg-rose-100 text-rose-600 animate-pulse' : 'bg-slate-100 text-slate-500'}`}>
                  <Activity size={20} />
@@ -272,10 +272,10 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
          </button>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 h-auto md:flex-1 md:min-h-0">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:flex-1 landscape:flex-1 min-h-0">
          
          {/* --- LEFT: VISUALIZATION (SVG) --- */}
-         <div className="w-full md:flex-1 bg-gradient-to-b from-slate-50 to-rose-50 rounded-xl shadow-inner border border-slate-200 relative overflow-hidden flex flex-col items-center justify-center min-h-[400px]">
+         <div className="w-full md:flex-1 bg-gradient-to-b from-slate-50 to-rose-50 rounded-xl shadow-inner border border-slate-200 relative overflow-hidden flex flex-col items-center justify-center min-h-[400px] landscape:min-h-0">
              
              <div className="absolute bottom-4 left-4 z-20 flex gap-2">
                  <button onClick={() => setZoom(Math.max(0.6, zoom - 0.2))} className="p-2 bg-white rounded shadow text-slate-600"><ZoomOut size={16}/></button>
@@ -394,7 +394,7 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
          </div>
 
          {/* --- RIGHT: CONTROL PANEL & INFO --- */}
-         <div className="w-full md:w-80 lg:w-96 flex flex-col h-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+         <div className="w-full md:w-80 lg:w-96 landscape:w-80 flex flex-col h-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden flex-shrink-0">
              
              {/* Tab Header */}
              <div className="flex bg-slate-50 border-b border-slate-200 overflow-x-auto">

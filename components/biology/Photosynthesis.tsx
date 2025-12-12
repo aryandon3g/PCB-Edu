@@ -72,7 +72,7 @@ const Photosynthesis: React.FC<PhotosynthesisProps> = ({ language }) => {
   const currentInfo = selectedItem ? PROCESS_DATA[selectedItem] : null;
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-4">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-4">
       
       {/* SECTION 1: Chemical Equation Bar (SSC Important) */}
       <div className="bg-slate-900 text-white p-3 rounded-lg shadow-md flex items-center justify-center text-sm md:text-lg font-mono tracking-wider relative overflow-hidden flex-shrink-0">
@@ -86,10 +86,10 @@ const Photosynthesis: React.FC<PhotosynthesisProps> = ({ language }) => {
          <span className={productionRate < 30 ? "opacity-30" : "text-sky-300"}>6O₂↑</span>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-full lg:min-h-0">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:flex-1 landscape:flex-1 min-h-0">
         
         {/* SECTION 2: Visualization */}
-        <div className="w-full lg:flex-1 bg-gradient-to-b from-sky-300 to-sky-100 rounded-xl shadow-sm border border-slate-200 relative overflow-hidden flex flex-col items-center justify-end p-0 min-h-[400px]">
+        <div className="w-full md:flex-1 bg-gradient-to-b from-sky-300 to-sky-100 rounded-xl shadow-sm border border-slate-200 relative overflow-hidden flex flex-col items-center justify-end p-0 min-h-[400px] landscape:min-h-0">
            
            <div className="absolute top-4 left-4 flex items-center gap-2 text-sky-900 text-xs font-semibold bg-white/60 p-2 rounded-lg backdrop-blur z-40">
               <Hand size={14} />
@@ -164,7 +164,7 @@ const Photosynthesis: React.FC<PhotosynthesisProps> = ({ language }) => {
         </div>
 
         {/* SECTION 3: Controls & Information */}
-        <div className="w-full lg:w-96 flex flex-col gap-4">
+        <div className="w-full md:w-80 landscape:w-72 flex flex-col gap-4 flex-shrink-0">
           
           {/* Info Card (SSC Focused) */}
           {selectedItem && currentInfo && (
@@ -202,7 +202,7 @@ const Photosynthesis: React.FC<PhotosynthesisProps> = ({ language }) => {
               </div>
           )}
 
-          <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-5">
+          <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-5 h-full overflow-y-auto">
              {/* Production Rate Meter */}
              <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
                 <div className="flex justify-between items-end mb-2">

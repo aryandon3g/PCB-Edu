@@ -36,11 +36,11 @@ const PhScale: React.FC<PhScaleProps> = ({ language }) => {
   const displayOh = Math.min(ohIcons, 50);
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-6">
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-full">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-6">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:h-full landscape:h-full">
         
         {/* Visual */}
-        <div className="w-full lg:flex-1 bg-white rounded-xl shadow-sm border border-slate-200 relative flex flex-col items-center justify-center p-4 md:p-8 min-h-[400px]">
+        <div className="w-full md:flex-1 bg-white rounded-xl shadow-sm border border-slate-200 relative flex flex-col items-center justify-center p-4 md:p-8 min-h-[400px] landscape:min-h-0">
            <div className="text-xl font-bold mb-4" style={{ color: getPhColor(ph) }}>pH {ph}</div>
            
            <div className="w-48 h-64 md:w-64 md:h-80 border-4 border-slate-300 rounded-b-2xl bg-slate-50 relative overflow-hidden transition-colors duration-500"
@@ -71,8 +71,8 @@ const PhScale: React.FC<PhScaleProps> = ({ language }) => {
         </div>
 
         {/* Controls */}
-        <div className="w-full lg:w-80 flex flex-col gap-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
+        <div className="w-full md:w-72 lg:w-80 landscape:w-72 flex flex-col gap-6 flex-shrink-0">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6 h-full overflow-y-auto">
              <div>
                 <div className="flex justify-between mb-2">
                    <label className="text-sm font-medium text-slate-700">{TRANSLATIONS.phLevel[language]}</label>

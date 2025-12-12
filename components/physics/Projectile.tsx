@@ -54,10 +54,10 @@ const Projectile: React.FC<ProjectileProps> = ({ language }) => {
   const scale = 2; 
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-6">
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-full">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-6">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:h-full landscape:h-full">
         {/* Visualization */}
-        <div className="w-full lg:flex-1 bg-slate-900 rounded-xl shadow-sm relative overflow-hidden flex items-end justify-start min-h-[300px] p-4">
+        <div className="w-full md:flex-1 bg-slate-900 rounded-xl shadow-sm relative overflow-hidden flex items-end justify-start min-h-[300px] landscape:min-h-0 p-4">
           <div className="absolute top-4 left-4 text-sm font-semibold text-slate-300">
             {TRANSLATIONS.projectile[language]}
           </div>
@@ -100,8 +100,8 @@ const Projectile: React.FC<ProjectileProps> = ({ language }) => {
         </div>
 
         {/* Controls */}
-        <div className="w-full lg:w-80 flex flex-col gap-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
+        <div className="w-full md:w-72 lg:w-80 landscape:w-72 flex flex-col gap-6 flex-shrink-0">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6 h-full overflow-y-auto">
              {/* Velocity */}
              <div>
                <div className="flex justify-between mb-2">

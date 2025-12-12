@@ -99,9 +99,9 @@ const PlantCell: React.FC<PlantCellProps> = ({ language }) => {
   const currentInfo = selectedPart ? CELL_DATA[selectedPart] : null;
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-4 md:gap-6">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-4 md:gap-6">
       {/* Top Controls */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-2 flex-shrink-0">
         <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             {view === 'cell' ? TRANSLATIONS.plantCell[language] : (language === Language.ENGLISH ? "Inside the Nucleus" : "केंद्रक के अंदर")}
             {view === 'nucleus' && <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">Deep Zoom</span>}
@@ -117,10 +117,10 @@ const PlantCell: React.FC<PlantCellProps> = ({ language }) => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:flex-1 lg:min-h-0">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:flex-1 landscape:flex-1 min-h-0">
         
         {/* Visualization Window */}
-        <div className="w-full lg:flex-1 bg-emerald-50 rounded-xl shadow-inner border border-emerald-100 relative overflow-hidden flex items-center justify-center min-h-[350px] lg:h-auto">
+        <div className="w-full md:flex-1 bg-emerald-50 rounded-xl shadow-inner border border-emerald-100 relative overflow-hidden flex items-center justify-center min-h-[350px] landscape:min-h-0 md:h-auto">
            
            <div className="absolute top-4 left-4 flex items-center gap-2 text-emerald-800 text-xs sm:text-sm font-semibold bg-white/80 p-2 rounded-lg backdrop-blur z-20 shadow-sm pointer-events-none">
               <Hand size={16} />
@@ -260,9 +260,9 @@ const PlantCell: React.FC<PlantCellProps> = ({ language }) => {
         </div>
 
         {/* Info Panel */}
-        <div className="w-full lg:w-80 flex flex-col gap-4">
+        <div className="w-full md:w-72 lg:w-80 landscape:w-72 flex flex-col gap-4 flex-shrink-0">
             {selectedPart && currentInfo ? (
-                <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden animate-fade-in">
+                <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden animate-fade-in h-full overflow-y-auto">
                     <div className="bg-emerald-600 p-3 text-white flex justify-between items-center">
                     <h3 className="font-bold">{language === Language.ENGLISH ? currentInfo.name.en : currentInfo.name.hi}</h3>
                     </div>
@@ -290,7 +290,7 @@ const PlantCell: React.FC<PlantCellProps> = ({ language }) => {
                     </div>
                 </div>
             ) : (
-                <div className="bg-white p-6 rounded-xl border border-slate-200 text-center text-slate-500 italic hidden lg:block">
+                <div className="bg-white p-6 rounded-xl border border-slate-200 text-center text-slate-500 italic hidden md:block">
                     <Hand className="mx-auto mb-2 opacity-50" size={32} />
                     {language === Language.ENGLISH ? "Tap a cell part to reveal its secrets!" : "इसके रहस्यों को जानने के लिए किसी भाग पर टैप करें!"}
                 </div>

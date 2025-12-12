@@ -87,9 +87,9 @@ const AnimalCell: React.FC<AnimalCellProps> = ({ language }) => {
   const currentInfo = selectedPart ? ANIMAL_CELL_DATA[selectedPart] : null;
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-4 md:gap-6">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-4 md:gap-6">
       {/* Top Controls Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+      <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3 flex-shrink-0">
         <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Microscope className="text-rose-600" />
             {view === 'cell' ? (language === Language.ENGLISH ? "Animal Cell" : "जंतु कोशिका") : (language === Language.ENGLISH ? "Inside Nucleus" : "केंद्रक के अंदर")}
@@ -113,10 +113,10 @@ const AnimalCell: React.FC<AnimalCellProps> = ({ language }) => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:flex-1 lg:min-h-0">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:flex-1 landscape:flex-1 min-h-0">
         
         {/* VISUALIZATION AREA */}
-        <div className="w-full lg:flex-1 bg-gradient-to-br from-rose-50 to-orange-50 rounded-xl shadow-inner border border-rose-100 relative overflow-hidden flex items-center justify-center min-h-[400px]">
+        <div className="w-full md:flex-1 bg-gradient-to-br from-rose-50 to-orange-50 rounded-xl shadow-inner border border-rose-100 relative overflow-hidden flex items-center justify-center min-h-[400px] landscape:min-h-0">
            
            <div className="absolute top-4 left-4 flex items-center gap-2 text-rose-800 text-xs sm:text-sm font-semibold bg-white/80 p-2 rounded-lg backdrop-blur z-20 shadow-sm pointer-events-none">
               <Hand size={16} />
@@ -242,9 +242,9 @@ const AnimalCell: React.FC<AnimalCellProps> = ({ language }) => {
         </div>
 
         {/* INFO PANEL (RIGHT SIDE) */}
-        <div className="w-full lg:w-96 flex flex-col gap-4">
+        <div className="w-full md:w-80 landscape:w-72 flex flex-col gap-4 flex-shrink-0">
             {selectedPart && currentInfo ? (
-                <div className="bg-white rounded-xl shadow-lg border-2 border-rose-100 overflow-hidden animate-fade-in order-first">
+                <div className="bg-white rounded-xl shadow-lg border-2 border-rose-100 overflow-hidden animate-fade-in order-first h-full overflow-y-auto">
                     <div className="bg-gradient-to-r from-rose-600 to-pink-600 p-3 text-white flex justify-between items-center">
                         <h3 className="font-bold text-lg">{language === Language.ENGLISH ? currentInfo.name.en : currentInfo.name.hi}</h3>
                         <button onClick={() => setSelectedPart(null)} className="text-pink-200 hover:text-white">&times;</button>
@@ -286,7 +286,7 @@ const AnimalCell: React.FC<AnimalCellProps> = ({ language }) => {
                     </div>
                 </div>
             ) : (
-                <div className="bg-white p-8 rounded-xl border border-dashed border-slate-300 text-center text-slate-400 hidden lg:flex flex-col items-center justify-center h-40">
+                <div className="bg-white p-8 rounded-xl border border-dashed border-slate-300 text-center text-slate-400 hidden md:flex flex-col items-center justify-center h-40">
                     <Hand className="mb-2 opacity-50" size={32} />
                     <p>{language === Language.ENGLISH ? "Tap on any cell organelle to learn" : "सीखने के लिए किसी भी कोशिकांग पर टैप करें"}</p>
                 </div>

@@ -63,11 +63,11 @@ const DnaHelix: React.FC<DnaHelixProps> = ({ language }) => {
   ].sort((a, b) => a.z - b.z); // Paint back to front
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-6">
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-full">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-6">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:h-full landscape:h-full">
         
         {/* Visualization */}
-        <div className="w-full lg:flex-1 bg-slate-900 rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center p-8 relative min-h-[400px]">
+        <div className="w-full md:flex-1 bg-slate-900 rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center p-8 relative min-h-[400px] landscape:min-h-0">
            <div className="absolute top-4 left-4 bg-slate-800/80 p-3 rounded-lg backdrop-blur border border-slate-700 max-w-xs z-10">
                 <div className="flex gap-2 items-center mb-2">
                     <User size={14} className="text-blue-400" />
@@ -109,8 +109,8 @@ const DnaHelix: React.FC<DnaHelixProps> = ({ language }) => {
         </div>
 
         {/* Controls */}
-        <div className="w-full lg:w-80 flex flex-col gap-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
+        <div className="w-full md:w-72 lg:w-80 landscape:w-72 flex flex-col gap-6 flex-shrink-0">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6 h-full overflow-y-auto">
               <div>
                   <label className="text-sm font-medium text-slate-700 mb-2 block">Rotation</label>
                   <input type="range" min="0" max="360" value={rotation} onChange={e => setRotation(Number(e.target.value))} className="w-full h-2 bg-slate-200 rounded-lg cursor-pointer" />

@@ -68,12 +68,12 @@ const App: React.FC = () => {
   return (
     <div className="flex h-[100dvh] w-full bg-slate-50 overflow-hidden">
       
-      {/* Desktop/Tablet Sidebar (Hidden on Mobile Portrait) */}
-      <aside className="hidden md:flex w-20 lg:w-64 bg-white border-r border-slate-200 flex-col py-6 flex-shrink-0 z-20 transition-all duration-300">
+      {/* Sidebar: Visible on Desktop, Tablet AND Landscape Mobile */}
+      <aside className="hidden md:flex landscape:flex w-20 lg:w-64 bg-white border-r border-slate-200 flex-col py-4 md:py-6 flex-shrink-0 z-20 transition-all duration-300 overflow-y-auto">
         
         {/* Logo Area */}
-        <div className="mb-10 px-4 lg:px-6 flex items-center justify-center lg:justify-start gap-3">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-200 flex-shrink-0">
+        <div className="mb-6 md:mb-10 px-2 lg:px-6 flex items-center justify-center lg:justify-start gap-3">
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-lg shadow-indigo-200 flex-shrink-0">
             V
           </div>
           <span className="font-bold text-xl text-slate-800 tracking-tight hidden lg:block">
@@ -82,14 +82,23 @@ const App: React.FC = () => {
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 w-full space-y-2 px-2 lg:px-4">
+        <nav className="flex-1 w-full space-y-2 px-1 md:px-2 lg:px-4">
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />
         </nav>
 
         {/* Bottom Actions */}
-        <div className="px-2 lg:px-4 mt-auto">
+        <div className="px-1 md:px-2 lg:px-4 mt-auto space-y-2">
+           <button 
+            onClick={toggleFullScreen}
+            className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-2 lg:gap-3 p-2 rounded-xl border border-transparent hover:bg-slate-50 transition-colors text-slate-500"
+            title="Toggle Fullscreen"
+          >
+            {isFullScreen ? <Minimize size={20} /> : <Maximize size={20} />}
+            <span className="hidden lg:inline text-sm font-medium">{isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
+          </button>
+
           <button 
             onClick={toggleLanguage}
             className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-2 lg:gap-3 p-2 lg:p-3 rounded-xl border border-transparent lg:border-slate-200 hover:bg-slate-50 transition-colors"
@@ -106,8 +115,8 @@ const App: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-h-0 relative w-full">
         
-        {/* Mobile Header (Visible only on small screens) */}
-        <header className="md:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 flex-shrink-0 z-10 shadow-sm">
+        {/* Mobile Header (Hidden in Landscape to save space) */}
+        <header className="md:hidden landscape:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 flex-shrink-0 z-10 shadow-sm">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-md">
               V
@@ -116,15 +125,6 @@ const App: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            {/* Full Screen Toggle */}
-            <button 
-              onClick={toggleFullScreen}
-              className="p-2 bg-slate-50 rounded-full hover:bg-slate-100 transition-colors border border-slate-200 text-slate-600"
-              aria-label="Toggle Fullscreen"
-            >
-              {isFullScreen ? <Minimize size={18} /> : <Maximize size={18} />}
-            </button>
-            
             <button 
               onClick={toggleLanguage}
               className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
@@ -135,14 +135,15 @@ const App: React.FC = () => {
         </header>
 
         {/* Module Render Container */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 md:p-6 lg:p-8 pb-24 md:pb-8 scroll-smooth -webkit-overflow-scrolling-touch">
-           <div className="max-w-7xl mx-auto h-auto md:h-full">
+        {/* Adjusted padding for landscape */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 md:p-6 lg:p-8 landscape:p-4 pb-24 md:pb-8 landscape:pb-4 scroll-smooth -webkit-overflow-scrolling-touch">
+           <div className="max-w-[1600px] mx-auto h-auto md:h-full landscape:h-full">
               {renderModule()}
            </div>
         </div>
 
-        {/* Mobile Bottom Navigation */}
-        <div className="md:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe">
+        {/* Mobile Bottom Navigation (Hidden in Landscape) */}
+        <div className="md:hidden landscape:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe">
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />

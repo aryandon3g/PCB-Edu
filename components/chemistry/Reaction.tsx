@@ -39,9 +39,9 @@ const Reaction: React.FC<ReactionProps> = ({ language }) => {
   const particleSpeed = (temperature / 100) * 2 + 0.5;
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-6">
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-full">
-        <div className="w-full lg:flex-1 bg-white rounded-xl shadow-sm border border-slate-200 relative flex items-center justify-center p-4 md:p-8 min-h-[350px]">
+    <div className="flex flex-col h-auto md:h-full landscape:h-full gap-6">
+      <div className="flex flex-col md:flex-row landscape:flex-row gap-6 h-auto md:h-full landscape:h-full">
+        <div className="w-full md:flex-1 bg-white rounded-xl shadow-sm border border-slate-200 relative flex items-center justify-center p-4 md:p-8 min-h-[350px] landscape:min-h-0">
           <div className="relative w-48 h-64 border-b-4 border-l-4 border-r-4 border-slate-300 rounded-b-xl overflow-hidden bg-slate-50">
              <div className="absolute bottom-0 left-0 right-0 transition-colors duration-500 ease-linear" style={{ height: '80%', backgroundColor: getSolutionColor(reactionProgress) }}>
                 {Array.from({ length: Math.floor(concentration / 5) }).map((_, i) => (
@@ -53,8 +53,8 @@ const Reaction: React.FC<ReactionProps> = ({ language }) => {
           <div className="absolute top-4 right-4 bg-white/90 p-2 rounded shadow-sm text-sm font-mono border border-slate-100">{TRANSLATIONS.reactionRate[language]}: {Math.round(reactionProgress)}%</div>
         </div>
 
-        <div className="w-full lg:w-80 flex flex-col gap-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
+        <div className="w-full md:w-72 lg:w-80 landscape:w-72 flex flex-col gap-6 flex-shrink-0">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6 h-full overflow-y-auto">
              <div>
               <div className="flex justify-between mb-2">
                 <label className="text-sm font-medium text-slate-700">{TRANSLATIONS.temperature[language]}</label>
