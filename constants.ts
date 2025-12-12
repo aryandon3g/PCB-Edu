@@ -49,6 +49,14 @@ export const TRANSLATIONS: TranslationDictionary = {
   clickToExplore: { en: "Tap parts to explore", hi: "जानने के लिए अंगों पर क्लिक करें" },
   exploreInside: { en: "Zoom Inside", hi: "अंदर देखें" },
   goBack: { en: "Zoom Out", hi: "बाहर जाएं" },
+  speed: { en: "Speed", hi: "गति" },
+  slow: { en: "Slow", hi: "धीमी" },
+  normal: { en: "Normal", hi: "सामान्य" },
+  fast: { en: "Fast", hi: "तेज़" },
+  quizMode: { en: "Quiz Mode", hi: "क्विज़ मोड" },
+  submit: { en: "Submit", hi: "जमा करें" },
+  next: { en: "Next", hi: "अगला" },
+  score: { en: "Score", hi: "अंक" },
 
   // Topic Specific
   pendulum: { en: "Pendulum Motion", hi: "लोलक की गति" },
@@ -59,6 +67,8 @@ export const TRANSLATIONS: TranslationDictionary = {
   plantCell: { en: "Plant Cell Model", hi: "पादप कोशिका मॉडल" },
   animalCell: { en: "Animal Cell Model", hi: "जंतु कोशिका मॉडल" },
   photosynthesis: { en: "Photosynthesis Lab", hi: "प्रकाश संश्लेषण लैब" },
+  heart: { en: "Human Heart", hi: "मानव हृदय" },
+  brain: { en: "Human Brain", hi: "मानव मस्तिष्क" },
   
   // Biology specific
   nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },
@@ -77,6 +87,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   co2Level: { en: "CO2 Level", hi: "CO2 स्तर" },
   waterLevel: { en: "Water Level", hi: "जल स्तर" },
   productionRate: { en: "Sugar Production", hi: "शर्करा उत्पादन" },
+  infiniteZoom: { en: "Infinite Zoom", hi: "अनंत ज़ूम" },
 };
 
 export const SUBJECT_ICONS = {

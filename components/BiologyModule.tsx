@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Dna, Leaf, Sun, Cat } from 'lucide-react';
+import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit } from 'lucide-react';
 import { Language, Topic } from '../types';
 import { TRANSLATIONS } from '../constants';
 import DnaHelix from './biology/DnaHelix';
 import PlantCell from './biology/PlantCell';
 import AnimalCell from './biology/AnimalCell';
 import Photosynthesis from './biology/Photosynthesis';
+import Heart from './biology/Heart';
+import Brain from './biology/Brain';
 
 interface ModuleProps {
   language: Language;
 }
 
 const TOPICS: Topic[] = [
+  { id: 'heart', title: { en: 'Human Heart', hi: 'मानव हृदय' }, description: { en: 'Circulation & Anatomy', hi: 'परिसंचरण और शरीर रचना' }, icon: HeartPulse },
+  { id: 'brain', title: { en: 'Human Brain', hi: 'मानव मस्तिष्क' }, description: { en: 'Nervous System Control', hi: 'तंत्रिका तंत्र नियंत्रण' }, icon: BrainCircuit },
   { id: 'cell', title: { en: 'Plant Cell', hi: 'पादप कोशिका' }, description: { en: 'Interactive Anatomy', hi: 'इंटरैक्टिव शरीर रचना' }, icon: Leaf },
   { id: 'animal', title: { en: 'Animal Cell', hi: 'जंतु कोशिका' }, description: { en: 'Interactive Anatomy', hi: 'जंतु कोशिका रचना' }, icon: Cat },
   { id: 'dna', title: { en: 'DNA Structure', hi: 'डीएनए संरचना' }, description: { en: 'Double Helix & Base Pairs', hi: 'डबल हेलिक्स और बेस पेअर' }, icon: Dna },
@@ -25,6 +29,8 @@ const BiologyModule: React.FC<ModuleProps> = ({ language }) => {
   if (activeTopic === 'cell') return <WithBack onBack={() => setActiveTopic(null)} language={language}><PlantCell language={language} /></WithBack>;
   if (activeTopic === 'animal') return <WithBack onBack={() => setActiveTopic(null)} language={language}><AnimalCell language={language} /></WithBack>;
   if (activeTopic === 'photosynthesis') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Photosynthesis language={language} /></WithBack>;
+  if (activeTopic === 'heart') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Heart language={language} /></WithBack>;
+  if (activeTopic === 'brain') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Brain language={language} /></WithBack>;
 
   return <TopicGrid language={language} topics={TOPICS} onSelect={setActiveTopic} />;
 };

@@ -35,7 +35,7 @@ const App: React.FC = () => {
       }`}
     >
       <Icon size={24} className={`mb-1 lg:mb-0 ${activeSubject === subject ? "stroke-[2.5px]" : ""}`} />
-      <span className="text-[10px] lg:text-base font-medium">{label}</span>
+      <span className="text-[10px] lg:text-base font-medium text-center lg:text-left leading-tight">{label}</span>
     </button>
   );
 
@@ -77,10 +77,10 @@ const App: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-h-0 relative">
+      <main className="flex-1 flex flex-col min-h-0 relative w-full">
         
         {/* Mobile Header */}
-        <header className="lg:hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 flex-shrink-0 z-10 shadow-sm">
+        <header className="lg:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 flex-shrink-0 z-10 shadow-sm">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-md">
               V
@@ -91,25 +91,28 @@ const App: React.FC = () => {
             onClick={toggleLanguage}
             className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
           >
-            <Languages size={20} className="text-slate-600" />
+            <Languages size={18} className="text-slate-600" />
           </button>
         </header>
 
         {/* Module Render Container */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-8 pb-40 lg:pb-8 scroll-smooth -webkit-overflow-scrolling-touch">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 lg:p-8 pb-24 lg:pb-8 scroll-smooth -webkit-overflow-scrolling-touch">
            <div className="max-w-7xl mx-auto h-auto lg:h-full">
               {renderModule()}
            </div>
         </div>
 
         {/* Mobile Bottom Navigation */}
-        <div className="lg:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <div className="lg:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe">
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />
         </div>
 
       </main>
+      <style>{`
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 1rem); }
+      `}</style>
     </div>
   );
 };
