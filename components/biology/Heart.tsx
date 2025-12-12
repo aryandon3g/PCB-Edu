@@ -118,22 +118,27 @@ const HEART_CONTENT: Record<string, any> = {
 };
 
 // --- 2. SIMULATION DATA (COORDINATES) ---
+// UPDATED: Included Renal Artery & Kidney Flow Loop
 const FLOW_COORDS = [
-    { x: 130, y: 480, label: "Organs (Body)", color: "#3b82f6" }, 
+    { x: 130, y: 450, label: "Body", color: "#3b82f6" }, 
     { x: 130, y: 350, label: "Vena Cava", color: "#3b82f6" },     
     { x: 120, y: 200, label: "Right Atrium", color: "#3b82f6" },  
     { x: 140, y: 250, label: "Tricuspid Valve", color: "#3b82f6" },
     { x: 160, y: 320, label: "Right Ventricle", color: "#3b82f6" },
     { x: 180, y: 180, label: "Pulmonary Valve", color: "#3b82f6" },
     { x: 100, y: 100, label: "Pulmonary Artery", color: "#3b82f6" },
-    { x: 50, y: 50, label: "LUNGS (Oxygenation)", color: "#ef4444" }, 
+    { x: 50, y: 50, label: "LUNGS", color: "#ef4444" }, 
     { x: 350, y: 100, label: "Pulmonary Vein", color: "#ef4444" }, 
     { x: 300, y: 180, label: "Left Atrium", color: "#ef4444" },    
     { x: 280, y: 250, label: "Bicuspid Valve", color: "#ef4444" }, 
     { x: 260, y: 350, label: "Left Ventricle", color: "#ef4444" }, 
     { x: 250, y: 200, label: "Aortic Valve", color: "#ef4444" },   
-    { x: 260, y: 80, label: "Aorta", color: "#ef4444" },           
-    { x: 220, y: 480, label: "Body Organs", color: "#ef4444" }     
+    { x: 260, y: 80, label: "Aorta", color: "#ef4444" },
+    // Renal Artery Steps
+    { x: 280, y: 350, label: "Renal Artery", color: "#ef4444" },
+    { x: 280, y: 420, label: "Kidney (Filter)", color: "#ef4444" },
+    { x: 180, y: 420, label: "Renal Vein", color: "#3b82f6" },
+    { x: 130, y: 350, label: "Back to Vena Cava", color: "#3b82f6" }
 ];
 
 const FLOW_STEPS_INFO = [
@@ -150,8 +155,12 @@ const FLOW_STEPS_INFO = [
     { title: { en: "Bicuspid (Mitral)", hi: "द्विकपाटी वाल्व" }, desc: { en: "Valve between LA and LV.", hi: "LA और LV के बीच का वाल्व।" } },
     { title: { en: "Left Ventricle (LV)", hi: "बायां निलय (LV)" }, desc: { en: "Thickest wall. Strongest Pump.", hi: "सबसे मोटी दीवार। सबसे मजबूत पंप।" } },
     { title: { en: "Aortic Valve", hi: "महाधमनी कपाट" }, desc: { en: "Entry to Aorta.", hi: "महाधमनी का प्रवेश द्वार।" } },
-    { title: { en: "Aorta", hi: "महाधमनी" }, desc: { en: "Largest Artery. Distributes blood.", hi: "सबसे बड़ी धमनी। रक्त वितरित करती है।" } },
-    { title: { en: "To Organs", hi: "अंगों की ओर" }, desc: { en: "Cycle repeats.", hi: "चक्र दोहराया जाता है।" } },
+    { title: { en: "Aorta", hi: "महाधमनी" }, desc: { en: "Largest Artery. Distributes blood to body.", hi: "सबसे बड़ी धमनी। शरीर को रक्त वितरित करती है।" } },
+    // Renal Artery Info
+    { title: { en: "Renal Artery", hi: "वृक्क धमनी (Renal Artery)" }, desc: { en: "Branches from Aorta. Carries oxygenated blood + Nitrogenous Waste to Kidneys.", hi: "एओर्टा से निकलती है। ऑक्सीजन युक्त रक्त + नाइट्रोजन कचरा (यूरिया) गुर्दे (Kidney) तक ले जाती है।" } },
+    { title: { en: "Kidney", hi: "गुर्दा (Kidney)" }, desc: { en: "FILTRATION STATION: Removes Urea. Blood is still oxygenated initially but used up.", hi: "फिल्ट्रेशन स्टेशन: यूरिया को हटाता है। रक्त को छानता है।" } },
+    { title: { en: "Renal Vein", hi: "वृक्क शिरा (Renal Vein)" }, desc: { en: "Carries Filtered but Deoxygenated blood back to heart.", hi: "फिल्टर किया हुआ (शुद्ध) लेकिन ऑक्सीजन रहित रक्त वापस ले जाती है।" } },
+    { title: { en: "To Vena Cava", hi: "वेना कावा की ओर" }, desc: { en: "Cycle completes.", hi: "चक्र पूरा होता है।" } }
 ];
 
 const IMPULSE_STEPS = [
@@ -227,7 +236,7 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
   };
 
   return (
-    <div className="flex flex-col h-auto lg:h-full gap-4">
+    <div className="flex flex-col h-auto md:h-full gap-4">
       {/* --- TOP HEADER --- */}
       <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-4 justify-between items-center">
          <div className="flex items-center gap-2">
@@ -263,10 +272,10 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
          </button>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:flex-1 lg:min-h-0">
+      <div className="flex flex-col md:flex-row gap-6 h-auto md:flex-1 md:min-h-0">
          
          {/* --- LEFT: VISUALIZATION (SVG) --- */}
-         <div className="w-full lg:flex-1 bg-gradient-to-b from-slate-50 to-rose-50 rounded-xl shadow-inner border border-slate-200 relative overflow-hidden flex flex-col items-center justify-center min-h-[400px]">
+         <div className="w-full md:flex-1 bg-gradient-to-b from-slate-50 to-rose-50 rounded-xl shadow-inner border border-slate-200 relative overflow-hidden flex flex-col items-center justify-center min-h-[400px]">
              
              <div className="absolute bottom-4 left-4 z-20 flex gap-2">
                  <button onClick={() => setZoom(Math.max(0.6, zoom - 0.2))} className="p-2 bg-white rounded shadow text-slate-600"><ZoomOut size={16}/></button>
@@ -364,7 +373,13 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                     {/* --- BLOOD FLOW SIMULATION LAYER --- */}
                     {activeTab === 'flow' && (
                         <g>
-                            <path d="M130,480 L130,350 L120,200 L160,320 L100,100 M350,100 L300,180 L260,350 L260,80" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5 5" opacity="0.3" />
+                             {/* UPDATED Path to include Renal Loop */}
+                            <path d="M130,450 L130,350 L120,200 L140,250 L160,320 L180,180 L100,100 M350,100 L300,180 L280,250 L260,350 L250,200 L260,80 L280,350 L280,420 L180,420 L130,350" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5 5" opacity="0.3" />
+                            
+                            {/* Kidney Graphic */}
+                            <path d="M265,400 C250,400 250,440 265,440 C285,450 295,430 295,420 C295,400 280,400 265,400" fill="#fca5a5" stroke="#ef4444" strokeWidth="2" opacity="0.6" />
+                            <text x="305" y="425" fontSize="10" fill="#ef4444" fontWeight="bold">Kidney</text>
+
                             <g style={{ transform: `translate(${FLOW_COORDS[flowIndex].x}px, ${FLOW_COORDS[flowIndex].y}px)`, transition: 'transform 1s cubic-bezier(0.25, 1, 0.5, 1)' }}>
                                 <circle r="12" fill={FLOW_COORDS[flowIndex].color} stroke="white" strokeWidth="2" filter="url(#glow)">
                                     <animate attributeName="r" values="10;12;10" dur="1s" repeatCount="indefinite" />
@@ -379,7 +394,7 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
          </div>
 
          {/* --- RIGHT: CONTROL PANEL & INFO --- */}
-         <div className="w-full lg:w-96 flex flex-col h-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+         <div className="w-full md:w-80 lg:w-96 flex flex-col h-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
              
              {/* Tab Header */}
              <div className="flex bg-slate-50 border-b border-slate-200 overflow-x-auto">
@@ -495,7 +510,9 @@ const Heart: React.FC<HeartProps> = ({ language }) => {
                              <p className="text-sm text-slate-600 mb-6">{language === Language.ENGLISH ? FLOW_STEPS_INFO[flowIndex].desc.en : FLOW_STEPS_INFO[flowIndex].desc.hi}</p>
                              <div className="flex gap-4 w-full">
                                  <button onClick={handlePrevFlow} className="flex-1 py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold"><ChevronLeft className="mx-auto"/></button>
-                                 <button onClick={handleNextFlow} className="flex-[2] py-2 bg-indigo-600 text-white rounded-lg font-bold shadow-md">Next Step</button>
+                                 <button onClick={handleNextFlow} className="flex-[2] py-2 bg-indigo-600 text-white rounded-lg font-bold shadow-md hover:bg-indigo-700 transition-colors">
+                                     {language === Language.ENGLISH ? "Next Step" : "अगला चरण"}
+                                 </button>
                              </div>
                          </div>
                      </div>

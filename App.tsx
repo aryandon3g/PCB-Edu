@@ -28,49 +28,50 @@ const App: React.FC = () => {
   const NavItem = ({ subject, icon: Icon, label }: { subject: Subject, icon: any, label: string }) => (
     <button
       onClick={() => setActiveSubject(subject)}
-      className={`flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-1 lg:gap-3 p-2 lg:p-3 rounded-xl transition-all duration-200 group w-full ${
+      className={`flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 p-2 md:p-3 rounded-xl transition-all duration-200 group w-full ${
         activeSubject === subject 
-          ? 'text-indigo-600 lg:bg-indigo-50 lg:text-indigo-700' 
-          : 'text-slate-500 hover:text-slate-800 lg:hover:bg-slate-50'
+          ? 'text-indigo-600 md:bg-indigo-50 md:text-indigo-700' 
+          : 'text-slate-500 hover:text-slate-800 md:hover:bg-slate-50'
       }`}
     >
-      <Icon size={24} className={`mb-1 lg:mb-0 ${activeSubject === subject ? "stroke-[2.5px]" : ""}`} />
-      <span className="text-[10px] lg:text-base font-medium text-center lg:text-left leading-tight">{label}</span>
+      <Icon size={24} className={`mb-1 md:mb-0 ${activeSubject === subject ? "stroke-[2.5px]" : ""}`} />
+      <span className="text-[10px] md:text-base font-medium text-center md:text-left leading-tight">{label}</span>
     </button>
   );
 
   return (
     <div className="flex h-[100dvh] w-full bg-slate-50 overflow-hidden">
       
-      {/* Desktop/Tablet Sidebar (Hidden on Mobile) */}
-      <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200 flex-col py-6 flex-shrink-0 z-20">
+      {/* Desktop/Tablet Sidebar (Hidden on Mobile Portrait) */}
+      <aside className="hidden md:flex w-20 lg:w-64 bg-white border-r border-slate-200 flex-col py-6 flex-shrink-0 z-20 transition-all duration-300">
         
         {/* Logo Area */}
-        <div className="mb-10 px-6 flex items-center gap-3">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-200">
+        <div className="mb-10 px-4 lg:px-6 flex items-center justify-center lg:justify-start gap-3">
+          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-200 flex-shrink-0">
             V
           </div>
-          <span className="font-bold text-xl text-slate-800 tracking-tight">
+          <span className="font-bold text-xl text-slate-800 tracking-tight hidden lg:block">
             {TRANSLATIONS.appTitle[language]}
           </span>
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 w-full space-y-2 px-4">
+        <nav className="flex-1 w-full space-y-2 px-2 lg:px-4">
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />
         </nav>
 
         {/* Bottom Actions */}
-        <div className="px-4 mt-auto">
+        <div className="px-2 lg:px-4 mt-auto">
           <button 
             onClick={toggleLanguage}
-            className="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors"
+            className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-2 lg:gap-3 p-2 lg:p-3 rounded-xl border border-transparent lg:border-slate-200 hover:bg-slate-50 transition-colors"
           >
             <Languages size={20} className="text-slate-600" />
-            <span className="font-medium text-slate-700">
-              {language === Language.ENGLISH ? 'Switch to Hindi' : 'अंग्रेजी में बदलें'}
+            <span className="font-medium text-slate-700 text-[10px] lg:text-sm text-center lg:text-left">
+              {language === Language.ENGLISH ? <span className="hidden lg:inline">Switch to Hindi</span> : <span className="hidden lg:inline">अंग्रेजी में बदलें</span>}
+              <span className="lg:hidden">{language === Language.ENGLISH ? 'HI' : 'EN'}</span>
             </span>
           </button>
         </div>
@@ -79,8 +80,8 @@ const App: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-h-0 relative w-full">
         
-        {/* Mobile Header */}
-        <header className="lg:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 flex-shrink-0 z-10 shadow-sm">
+        {/* Mobile Header (Visible only on small screens) */}
+        <header className="md:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 flex-shrink-0 z-10 shadow-sm">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-md">
               V
@@ -96,14 +97,14 @@ const App: React.FC = () => {
         </header>
 
         {/* Module Render Container */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 lg:p-8 pb-24 lg:pb-8 scroll-smooth -webkit-overflow-scrolling-touch">
-           <div className="max-w-7xl mx-auto h-auto lg:h-full">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 md:p-6 lg:p-8 pb-24 md:pb-8 scroll-smooth -webkit-overflow-scrolling-touch">
+           <div className="max-w-7xl mx-auto h-auto md:h-full">
               {renderModule()}
            </div>
         </div>
 
         {/* Mobile Bottom Navigation */}
-        <div className="lg:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe">
+        <div className="md:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe">
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />
