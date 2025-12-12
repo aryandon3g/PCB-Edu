@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { LayoutDashboard, Atom, FlaskConical, Dna, Languages } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { LayoutDashboard, Atom, FlaskConical, Dna, Languages, Maximize, Minimize } from 'lucide-react';
 import { Language, Subject } from './types';
 import { TRANSLATIONS, SUBJECT_ICONS } from './constants';
 
@@ -11,10 +11,36 @@ import BiologyModule from './components/BiologyModule';
 const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
   const [activeSubject, setActiveSubject] = useState<Subject>(Subject.PHYSICS);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === Language.ENGLISH ? Language.HINDI : Language.ENGLISH);
   };
+
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        setIsFullScreen(true);
+      }).catch(err => {
+        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().then(() => {
+          setIsFullScreen(false);
+        });
+      }
+    }
+  };
+
+  // Listen for fullscreen change events (e.g. if user presses ESC)
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullScreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFsChange);
+    return () => document.removeEventListener("fullscreenchange", handleFsChange);
+  }, []);
 
   const renderModule = () => {
     switch(activeSubject) {
@@ -88,12 +114,24 @@ const App: React.FC = () => {
             </div>
             <span className="font-bold text-lg text-slate-800">{TRANSLATIONS.appTitle[language]}</span>
           </div>
-          <button 
-            onClick={toggleLanguage}
-            className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
-          >
-            <Languages size={18} className="text-slate-600" />
-          </button>
+          
+          <div className="flex items-center gap-2">
+            {/* Full Screen Toggle */}
+            <button 
+              onClick={toggleFullScreen}
+              className="p-2 bg-slate-50 rounded-full hover:bg-slate-100 transition-colors border border-slate-200 text-slate-600"
+              aria-label="Toggle Fullscreen"
+            >
+              {isFullScreen ? <Minimize size={18} /> : <Maximize size={18} />}
+            </button>
+            
+            <button 
+              onClick={toggleLanguage}
+              className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
+            >
+              <Languages size={18} className="text-slate-600" />
+            </button>
+          </div>
         </header>
 
         {/* Module Render Container */}
