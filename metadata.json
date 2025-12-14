@@ -1,5 +1,7 @@
 {
   "name": "VigyanScope - Interactive Science Sandbox",
   "description": "A bilingual (English/Hindi) interactive science simulation platform featuring infinite zoom, physics experiments, and chemistry labs.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "microphone"
+  ]
 }

@@ -8,6 +8,7 @@ import PhysicsModule from './components/PhysicsModule';
 import ChemistryModule from './components/ChemistryModule';
 import BiologyModule from './components/BiologyModule';
 import LadoModule from './components/LadoModule';
+import VoiceAssistant from './components/VoiceAssistant';
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
@@ -173,16 +174,8 @@ const App: React.FC = () => {
            </div>
         </div>
 
-        {/* RESTORE BUTTON (Floating) - Only visible when Sidebar is HIDDEN to allow bringing it back */}
-        {!isNavVisible && (
-            <button 
-            onClick={() => setIsNavVisible(true)}
-            className="absolute bottom-4 right-4 z-40 bg-indigo-600 text-white p-3 rounded-full shadow-xl hover:bg-indigo-700 transition-all active:scale-95 animate-bounce-in"
-            title="Show Navigation"
-            >
-            <Eye size={24} />
-            </button>
-        )}
+        {/* VOICE ASSISTANT - Replaces the 'Restore Navigation' button */}
+        <VoiceAssistant />
 
         {/* Mobile Bottom Navigation (Hidden in Landscape) */}
         <div className={`md:hidden landscape:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : 'translate-y-full'}`}>
