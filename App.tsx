@@ -94,6 +94,16 @@ const App: React.FC = () => {
 
         {/* Bottom Actions */}
         <div className="px-1 md:px-2 lg:px-4 mt-auto space-y-2">
+           {/* Focus Mode (Sidebar) */}
+           <button 
+            onClick={() => setIsNavVisible(false)}
+            className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-2 lg:gap-3 p-2 rounded-xl border border-transparent hover:bg-slate-50 transition-colors text-slate-500"
+            title="Focus Mode"
+          >
+            <EyeOff size={20} />
+            <span className="hidden lg:inline text-sm font-medium">Focus Mode</span>
+          </button>
+
            <button 
             onClick={toggleFullScreen}
             className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-2 lg:gap-3 p-2 rounded-xl border border-transparent hover:bg-slate-50 transition-colors text-slate-500"
@@ -129,6 +139,15 @@ const App: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-2">
+            {/* Focus Mode (Mobile Header) */}
+            <button 
+              onClick={() => setIsNavVisible(!isNavVisible)}
+              className={`p-2 rounded-full transition-colors border border-slate-200 ${!isNavVisible ? 'bg-indigo-100 text-indigo-600 border-indigo-200' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
+              title="Toggle Navigation"
+            >
+              {isNavVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+
             <button 
               onClick={toggleFullScreen}
               className="p-2 bg-slate-50 rounded-full hover:bg-slate-100 transition-colors border border-slate-200 text-slate-600"
@@ -154,14 +173,16 @@ const App: React.FC = () => {
            </div>
         </div>
 
-        {/* NAVIGATION TOGGLE BUTTON (Floating) */}
-        <button 
-           onClick={() => setIsNavVisible(!isNavVisible)}
-           className="absolute bottom-4 right-4 z-40 bg-slate-900 text-white p-3 rounded-full shadow-xl hover:bg-slate-800 transition-all active:scale-95"
-           title="Toggle Navigation"
-        >
-           {isNavVisible ? <EyeOff size={24} /> : <Eye size={24} />}
-        </button>
+        {/* RESTORE BUTTON (Floating) - Only visible when Sidebar is HIDDEN to allow bringing it back */}
+        {!isNavVisible && (
+            <button 
+            onClick={() => setIsNavVisible(true)}
+            className="absolute bottom-4 right-4 z-40 bg-indigo-600 text-white p-3 rounded-full shadow-xl hover:bg-indigo-700 transition-all active:scale-95 animate-bounce-in"
+            title="Show Navigation"
+            >
+            <Eye size={24} />
+            </button>
+        )}
 
         {/* Mobile Bottom Navigation (Hidden in Landscape) */}
         <div className={`md:hidden landscape:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : 'translate-y-full'}`}>
@@ -174,6 +195,8 @@ const App: React.FC = () => {
       </main>
       <style>{`
         .pb-safe { padding-bottom: env(safe-area-inset-bottom, 1rem); }
+        .animate-bounce-in { animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes bounceIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
       `}</style>
     </div>
   );
