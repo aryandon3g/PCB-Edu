@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Atom, FlaskConical, Dna, Languages, Maximize, Minimize, Dumbbell } from 'lucide-react';
+import { LayoutDashboard, Atom, FlaskConical, Dna, Languages, Maximize, Minimize, Dumbbell, Eye, EyeOff } from 'lucide-react';
 import { Language, Subject } from './types';
 import { TRANSLATIONS, SUBJECT_ICONS } from './constants';
 
@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
   const [activeSubject, setActiveSubject] = useState<Subject>(Subject.PHYSICS);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === Language.ENGLISH ? Language.HINDI : Language.ENGLISH);
@@ -48,7 +49,7 @@ const App: React.FC = () => {
       case Subject.PHYSICS: return <PhysicsModule language={language} />;
       case Subject.CHEMISTRY: return <ChemistryModule language={language} />;
       case Subject.BIOLOGY: return <BiologyModule language={language} />;
-      case Subject.LADO: return <LadoModule language={language} />;
+      case Subject.LADO: return <LadoModule language={language} isNavVisible={isNavVisible} />;
       default: return <PhysicsModule language={language} />;
     }
   };
@@ -68,10 +69,10 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="flex h-[100dvh] w-full bg-slate-50 overflow-hidden">
+    <div className="flex h-[100dvh] w-full bg-slate-50 overflow-hidden relative">
       
-      {/* Sidebar: Visible on Desktop, Tablet AND Landscape Mobile */}
-      <aside className="hidden md:flex landscape:flex w-20 lg:w-64 bg-white border-r border-slate-200 flex-col py-4 md:py-6 flex-shrink-0 z-20 transition-all duration-300 overflow-y-auto">
+      {/* Sidebar: Visible on Desktop, Tablet AND Landscape Mobile (Togglable) */}
+      <aside className={`${isNavVisible ? 'md:flex' : 'md:hidden'} hidden landscape:flex w-20 lg:w-64 bg-white border-r border-slate-200 flex-col py-4 md:py-6 flex-shrink-0 z-20 transition-all duration-300 overflow-y-auto`}>
         
         {/* Logo Area */}
         <div className="mb-6 md:mb-10 px-2 lg:px-6 flex items-center justify-center lg:justify-start gap-3">
@@ -147,14 +148,23 @@ const App: React.FC = () => {
 
         {/* Module Render Container */}
         {/* Adjusted padding for landscape */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 md:p-6 lg:p-8 landscape:p-4 pb-24 md:pb-8 landscape:pb-4 scroll-smooth -webkit-overflow-scrolling-touch">
+        <div className={`flex-1 overflow-y-auto overflow-x-hidden p-3 md:p-6 lg:p-8 landscape:p-4 transition-all duration-300 ${isNavVisible ? 'pb-24 md:pb-8' : 'pb-4'} scroll-smooth -webkit-overflow-scrolling-touch`}>
            <div className="max-w-[1600px] mx-auto h-auto md:h-full landscape:h-full">
               {renderModule()}
            </div>
         </div>
 
+        {/* NAVIGATION TOGGLE BUTTON (Floating) */}
+        <button 
+           onClick={() => setIsNavVisible(!isNavVisible)}
+           className="absolute bottom-4 right-4 z-40 bg-slate-900 text-white p-3 rounded-full shadow-xl hover:bg-slate-800 transition-all active:scale-95"
+           title="Toggle Navigation"
+        >
+           {isNavVisible ? <EyeOff size={24} /> : <Eye size={24} />}
+        </button>
+
         {/* Mobile Bottom Navigation (Hidden in Landscape) */}
-        <div className="md:hidden landscape:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe">
+        <div className={`md:hidden landscape:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : 'translate-y-full'}`}>
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />

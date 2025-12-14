@@ -6,6 +6,7 @@ import PhysicalEducation from './lado/PhysicalEducation';
 
 interface ModuleProps {
   language: Language;
+  isNavVisible?: boolean;
 }
 
 const TOPICS: Topic[] = [
@@ -17,10 +18,10 @@ const TOPICS: Topic[] = [
   },
 ];
 
-const LadoModule: React.FC<ModuleProps> = ({ language }) => {
+const LadoModule: React.FC<ModuleProps> = ({ language, isNavVisible }) => {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
 
-  if (activeTopic === 'pe_yoga') return <WithBack onBack={() => setActiveTopic(null)} language={language}><PhysicalEducation language={language} /></WithBack>;
+  if (activeTopic === 'pe_yoga') return <WithBack onBack={() => setActiveTopic(null)} language={language}><PhysicalEducation language={language} isNavVisible={isNavVisible} /></WithBack>;
 
   return <TopicGrid language={language} topics={TOPICS} onSelect={setActiveTopic} />;
 };

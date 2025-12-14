@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Book, ChevronDown, ChevronRight, Check, X, Trophy, List, Play, CheckCircle, Lock, Star, Volume2, ArrowLeft, RotateCcw } from 'lucide-react';
+import { Book, ChevronDown, ChevronRight, Check, X, Trophy, List, Play, CheckCircle, Lock, Star, Volume2, ArrowLeft, RotateCcw, SkipForward, ArrowRight } from 'lucide-react';
 import { Language } from '../../types';
 
 interface PEProps {
   language: Language;
+  isNavVisible?: boolean;
 }
 
 // --- SYLLABUS DATA ---
@@ -73,9 +74,7 @@ const SYLLABUS = [
   }
 ];
 
-// --- MASSIVE QUESTION BANK (Abbreviated for performance, logic handles splitting) ---
-// Note: In a real app, this would be fetched from an API. 
-// Using the existing massive array structure.
+// --- QUESTION BANK ---
 const ALL_QUESTIONS = [
   // UNIT 1
   {u:1, q:"शारीरिक शिक्षा का अर्थ है?", a:"शरीर का व्यवस्थित प्रशिक्षण"},
@@ -231,7 +230,7 @@ const ALL_QUESTIONS = [
   {u:2, q:"अत्यधिक वजन को क्या कहते हैं?", a:"ओबेसिटी"},
   {u:2, q:"वजन प्रबंधन में सबसे महत्वपूर्ण है —", a:"नियमित व्यायाम"},
   {u:2, q:"जीवन शैली का अर्थ है —", a:"व्यक्ति के दैनिक व्यवहार और आदतों का तरीका"},
-  {u:2, q:"स्वस्थ जीवन शैली में क्या शामिल है?", a:"संतुलित आहार, व्यायाम, पर्याप्त नींद"},
+  {u:2, q:"स्वच्छ जीवन शैली में क्या शामिल है?", a:"संतुलित आहार, व्यायाम, पर्याप्त नींद"},
   {u:2, q:"अस्वस्थ जीवन शैली से क्या होता है?", a:"रोग और थकान"},
   {u:2, q:"शारीरिक फिटनेस के लिए आवश्यक है —", a:"नियमित व्यायाम"},
   {u:2, q:"पर्याप्त नींद का समय वयस्कों के लिए लगभग कितना है?", a:"7–8 घंटे प्रतिदिन"},
@@ -494,7 +493,7 @@ interface QuizSet {
   score: number | null;
 }
 
-const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
+const PhysicalEducation: React.FC<PEProps> = ({ language, isNavVisible }) => {
   const [activeTab, setActiveTab] = useState<'notes' | 'quiz'>('notes');
   const [expandedUnit, setExpandedUnit] = useState<string | null>('unit1');
   
@@ -505,9 +504,8 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
   // Quiz Mode State
   const [activeQuizSet, setActiveQuizSet] = useState<QuizSet | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
-  const [quizScore, setQuizScore] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({}); 
+  const [historyOptions, setHistoryOptions] = useState<Record<number, string[]>>({}); // Store options so they don't change on nav
   const [showResult, setShowResult] = useState(false);
   const [currentOptions, setCurrentOptions] = useState<string[]>([]);
 
@@ -579,64 +577,75 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
   const startQuiz = (set: QuizSet, unitId: number) => {
     setActiveQuizSet(set);
     setCurrentQuestionIndex(0);
-    setQuizScore(0);
+    setUserAnswers({});
+    setHistoryOptions({}); // Clear history
     setShowResult(false);
-    setSelectedOption(null);
-    setIsAnswerCorrect(null);
+    
     // Gen options for first Q
-    setCurrentOptions(generateOptions(set.questions[0], unitId));
+    const opts = generateOptions(set.questions[0], unitId);
+    setHistoryOptions({ 0: opts });
+    setCurrentOptions(opts);
   };
 
   // 5. Handle Answer Selection
   const handleAnswer = (option: string) => {
-    if (selectedOption || !activeQuizSet) return; // Prevent double click
-
-    setSelectedOption(option);
-    const correct = activeQuizSet.questions[currentQuestionIndex].a === option;
-    setIsAnswerCorrect(correct);
+    if (!activeQuizSet) return;
     
-    if (correct) {
-      setQuizScore(prev => prev + 1);
-      playSound('correct');
-    } else {
-      playSound('wrong');
-    }
+    // Just record answer, don't auto move
+    setUserAnswers(prev => ({...prev, [currentQuestionIndex]: option}));
+    const isCorrect = activeQuizSet.questions[currentQuestionIndex].a === option;
+    if (isCorrect) playSound('correct'); else playSound('wrong');
+  };
 
-    // Auto next after delay
-    setTimeout(() => {
-       if (currentQuestionIndex < activeQuizSet.questions.length - 1) {
-         const nextIdx = currentQuestionIndex + 1;
-         setCurrentQuestionIndex(nextIdx);
-         setSelectedOption(null);
-         setIsAnswerCorrect(null);
-         // Find unit ID from set ID string 'unitX-setY'
-         const unitId = parseInt(activeQuizSet.id.split('-')[0].replace('unit',''));
-         setCurrentOptions(generateOptions(activeQuizSet.questions[nextIdx], unitId));
+  // 6. Navigation Handlers
+  const handleNext = () => {
+    if (!activeQuizSet) return;
+
+    if (currentQuestionIndex < activeQuizSet.questions.length - 1) {
+       const nextIdx = currentQuestionIndex + 1;
+       setCurrentQuestionIndex(nextIdx);
+       
+       // Check if we have options generated already
+       if (!historyOptions[nextIdx]) {
+           const unitId = parseInt(activeQuizSet.id.split('-')[0].replace('unit',''));
+           const opts = generateOptions(activeQuizSet.questions[nextIdx], unitId);
+           setHistoryOptions(prev => ({...prev, [nextIdx]: opts}));
+           setCurrentOptions(opts);
        } else {
-         finishQuiz();
+           setCurrentOptions(historyOptions[nextIdx]);
        }
-    }, 1500);
+    } else {
+       finishQuiz();
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentQuestionIndex > 0) {
+        const prevIdx = currentQuestionIndex - 1;
+        setCurrentQuestionIndex(prevIdx);
+        setCurrentOptions(historyOptions[prevIdx]);
+    }
+  };
+
+  const handleSkip = () => {
+    handleNext(); // Move to next without answering
   };
 
   const finishQuiz = () => {
     if(!activeQuizSet) return;
+    
+    // Calculate score based on userAnswers
+    let correctCount = 0;
+    activeQuizSet.questions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.a) {
+            correctCount++;
+        }
+    });
+
     setShowResult(true);
     playSound('complete');
     
-    // Save progress
-    const finalScore = Math.round(((quizScore + (isAnswerCorrect ? 1 : 0)) / activeQuizSet.questions.length) * 100); // Hacky fix for state update lag
-    // Actually simpler: just re-calculate based on state
-    // Note: react state updates are batched. For simplicity in this demo:
-    // We will recalculate score exactly in the render or just use a ref in a real app.
-    // Here, let's rely on the displayed score logic below.
-    
-    // Actually, let's just save the current score state. 
-    // Wait, the last answer increment hasn't flushed if we call this immediately? 
-    // Correct. The `handleAnswer` timeout calls `finishQuiz`. 
-    // If the last answer was correct, `setQuizScore` was called. 
-    // Re-render happens. Then timeout fires. `quizScore` should be updated.
-    
-    const percentage = Math.round((quizScore / activeQuizSet.questions.length) * 100);
+    const percentage = Math.round((correctCount / activeQuizSet.questions.length) * 100);
     
     setProgress(prev => ({
       ...prev,
@@ -656,33 +665,38 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
     return Math.round((completedCount / sets.length) * 100);
   };
 
+  // Helper to get current answer
+  const selectedOption = userAnswers[currentQuestionIndex];
+
   return (
     <div className="flex flex-col h-full bg-slate-50 relative font-sans">
       
-      {/* Header Tabs */}
-      <header className="bg-green-700 text-white shadow-md flex-shrink-0 rounded-t-xl overflow-hidden">
-        <div className="px-4 py-3 flex justify-between items-center">
-            <h1 className="text-lg font-bold flex items-center gap-2">
-                 PE & Yoga <span className="text-xs bg-green-800 px-2 py-1 rounded">Z040401</span>
-            </h1>
-        </div>
-        <div className="flex overflow-x-auto bg-green-800 text-green-100">
-            <button 
-                onClick={() => setActiveTab('notes')}
-                className={`flex-1 py-3 px-4 hover:bg-green-600 transition flex flex-col items-center gap-1 ${activeTab === 'notes' ? 'bg-green-600 border-b-4 border-white' : 'border-b-4 border-transparent'}`}
-            >
-                <Book size={18} />
-                <span className="text-sm font-medium">पाठ्यक्रम (Syllabus)</span>
-            </button>
-            <button 
-                onClick={() => setActiveTab('quiz')}
-                className={`flex-1 py-3 px-4 hover:bg-green-600 transition flex flex-col items-center gap-1 ${activeTab === 'quiz' ? 'bg-green-600 border-b-4 border-white' : 'border-b-4 border-transparent'}`}
-            >
-                <List size={18} />
-                <span className="text-sm font-medium">अभ्यास (Practice)</span>
-            </button>
-        </div>
-      </header>
+      {/* Header Tabs - Hide if isNavVisible is false (Eye icon clicked) */}
+      {(isNavVisible ?? true) && (
+        <header className="bg-green-700 text-white shadow-md flex-shrink-0 rounded-t-xl overflow-hidden animate-fade-in">
+            <div className="px-4 py-3 flex justify-between items-center">
+                <h1 className="text-lg font-bold flex items-center gap-2">
+                    PE & Yoga <span className="text-xs bg-green-800 px-2 py-1 rounded">Z040401</span>
+                </h1>
+            </div>
+            <div className="flex overflow-x-auto bg-green-800 text-green-100">
+                <button 
+                    onClick={() => setActiveTab('notes')}
+                    className={`flex-1 py-3 px-4 hover:bg-green-600 transition flex flex-col items-center gap-1 ${activeTab === 'notes' ? 'bg-green-600 border-b-4 border-white' : 'border-b-4 border-transparent'}`}
+                >
+                    <Book size={18} />
+                    <span className="text-sm font-medium">पाठ्यक्रम (Syllabus)</span>
+                </button>
+                <button 
+                    onClick={() => setActiveTab('quiz')}
+                    className={`flex-1 py-3 px-4 hover:bg-green-600 transition flex flex-col items-center gap-1 ${activeTab === 'quiz' ? 'bg-green-600 border-b-4 border-white' : 'border-b-4 border-transparent'}`}
+                >
+                    <List size={18} />
+                    <span className="text-sm font-medium">अभ्यास (Practice)</span>
+                </button>
+            </div>
+        </header>
+      )}
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-4 pb-20 bg-gray-50 relative custom-scrollbar">
@@ -808,19 +822,19 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
                             ></div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-1 text-green-600 font-bold bg-green-50 px-2 py-1 rounded">
-                        <CheckCircle size={16} /> {quizScore}
-                    </div>
                 </div>
 
                 {!showResult ? (
-                    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 flex-1 flex flex-col">
-                        <div className="flex-1 flex flex-col justify-center">
-                             <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-8 leading-snug">
-                                 {activeQuizSet.questions[currentQuestionIndex].q}
-                             </h2>
+                    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 flex-1 flex flex-col overflow-y-auto">
+                        <div className="flex-1 flex flex-col justify-start min-h-0">
+                             {/* Question Box */}
+                             <div className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 mb-8">
+                                <h2 className="text-xl md:text-2xl font-bold text-indigo-900 leading-snug">
+                                     {activeQuizSet.questions[currentQuestionIndex].q}
+                                </h2>
+                             </div>
                              
-                             <div className="space-y-3">
+                             <div className="space-y-3 mb-6">
                                  {currentOptions.map((opt, idx) => {
                                      let btnClass = "w-full text-left p-4 rounded-xl border-2 font-medium transition-all duration-200 relative ";
                                      
@@ -854,17 +868,62 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
                                      )
                                  })}
                              </div>
+                             
+                             {/* Navigation Controls */}
+                             <div className="grid grid-cols-3 gap-3 mt-auto">
+                                 <button 
+                                     onClick={handlePrev} 
+                                     disabled={currentQuestionIndex === 0}
+                                     className="py-3 px-4 rounded-xl font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                 >
+                                     <ArrowLeft size={18}/> Prev
+                                 </button>
+                                 
+                                 <button 
+                                     onClick={handleSkip}
+                                     disabled={!!selectedOption}
+                                     className="py-3 px-4 rounded-xl font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                 >
+                                     Skip <SkipForward size={18}/>
+                                 </button>
+
+                                 <button 
+                                     onClick={handleNext}
+                                     className="py-3 px-4 rounded-xl font-bold bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center gap-2 shadow-md"
+                                 >
+                                     {currentQuestionIndex < activeQuizSet.questions.length - 1 ? (
+                                         <>Next <ArrowRight size={18}/></>
+                                     ) : (
+                                         <>Finish <Trophy size={18}/></>
+                                     )}
+                                 </button>
+                             </div>
+
                         </div>
                     </div>
                 ) : (
                     <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center flex-1 flex flex-col items-center justify-center animate-scale-up">
-                        <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mb-6 text-yellow-500 shadow-inner">
-                            <Trophy size={48} />
-                        </div>
-                        <h2 className="text-3xl font-bold text-slate-800 mb-2">Set Completed!</h2>
-                        <div className="text-5xl font-black text-indigo-600 mb-2">{Math.round((quizScore / activeQuizSet.questions.length) * 100)}%</div>
-                        <p className="text-slate-500 mb-8">You got {quizScore} out of {activeQuizSet.questions.length} correct.</p>
                         
+                        {/* Calculate final score for display */}
+                        {(() => {
+                           let correctCount = 0;
+                           activeQuizSet.questions.forEach((q, idx) => {
+                               if (userAnswers[idx] === q.a) correctCount++;
+                           });
+                           const percentage = Math.round((correctCount / activeQuizSet.questions.length) * 100);
+                           
+                           return (
+                               <>
+                                   <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mb-6 text-yellow-500 shadow-inner">
+                                       <Trophy size={48} />
+                                   </div>
+                                   <h2 className="text-3xl font-bold text-slate-800 mb-2">Set Completed!</h2>
+                                   <div className="text-5xl font-black text-indigo-600 mb-2">{percentage}%</div>
+                                   <p className="text-slate-500 mb-8">You got {correctCount} out of {activeQuizSet.questions.length} correct.</p>
+                               </>
+                           )
+                        })()}
+
                         <div className="flex gap-4 w-full">
                             <button onClick={() => startQuiz(activeQuizSet, parseInt(activeQuizSet.id.split('-')[0].replace('unit','')))} className="flex-1 py-3 border-2 border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50 flex items-center justify-center gap-2">
                                 <RotateCcw size={18}/> Retry
@@ -882,8 +941,10 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
       <style>{`
         .animate-fade-in { animation: fadeIn 0.4s ease-out; }
         .animate-scale-up { animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .animate-bounce-in { animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes bounceIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
       `}</style>
     </div>
   );
