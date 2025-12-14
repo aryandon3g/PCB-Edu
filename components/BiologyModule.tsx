@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit } from 'lucide-react';
+import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet } from 'lucide-react';
 import { Language, Topic } from '../types';
 import { TRANSLATIONS } from '../constants';
 import DnaHelix from './biology/DnaHelix';
@@ -8,12 +8,14 @@ import AnimalCell from './biology/AnimalCell';
 import Photosynthesis from './biology/Photosynthesis';
 import Heart from './biology/Heart';
 import Brain from './biology/Brain';
+import Blood from './biology/Blood';
 
 interface ModuleProps {
   language: Language;
 }
 
 const TOPICS: Topic[] = [
+  { id: 'blood', title: { en: 'Blood System', hi: 'रक्त और परिसंचरण' }, description: { en: 'Cells, Groups & Transport', hi: 'कोशिकाएं, समूह और परिवहन' }, icon: Droplet },
   { id: 'heart', title: { en: 'Human Heart', hi: 'मानव हृदय' }, description: { en: 'Circulation & Anatomy', hi: 'परिसंचरण और शरीर रचना' }, icon: HeartPulse },
   { id: 'brain', title: { en: 'Human Brain', hi: 'मानव मस्तिष्क' }, description: { en: 'Nervous System Control', hi: 'तंत्रिका तंत्र नियंत्रण' }, icon: BrainCircuit },
   { id: 'cell', title: { en: 'Plant Cell', hi: 'पादप कोशिका' }, description: { en: 'Interactive Anatomy', hi: 'इंटरैक्टिव शरीर रचना' }, icon: Leaf },
@@ -31,6 +33,7 @@ const BiologyModule: React.FC<ModuleProps> = ({ language }) => {
   if (activeTopic === 'photosynthesis') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Photosynthesis language={language} /></WithBack>;
   if (activeTopic === 'heart') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Heart language={language} /></WithBack>;
   if (activeTopic === 'brain') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Brain language={language} /></WithBack>;
+  if (activeTopic === 'blood') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Blood language={language} /></WithBack>;
 
   return <TopicGrid language={language} topics={TOPICS} onSelect={setActiveTopic} />;
 };
@@ -43,7 +46,7 @@ interface WithBackProps {
 
 const WithBack: React.FC<WithBackProps> = ({ children, onBack, language }) => (
   <div className="flex flex-col h-auto md:h-full gap-4">
-    <button onClick={onBack} className="self-start flex items-center gap-2 text-slate-500 hover:text-purple-600 text-sm font-medium transition-colors">
+    <button onClick={onBack} className="self-start flex items-center gap-2 text-slate-500 hover:text-red-600 text-sm font-medium transition-colors">
       <ArrowLeft size={16} /> {TRANSLATIONS.backToTopics[language]}
     </button>
     <div className="flex-1 h-auto md:h-full">{children}</div>
@@ -63,8 +66,8 @@ const TopicGrid: React.FC<TopicGridProps> = ({ language, topics, onSelect }) => 
       {topics.map((t: Topic) => {
         const Icon = t.icon;
         return (
-          <button key={t.id} onClick={() => onSelect(t.id)} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all text-left group">
-            <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+          <button key={t.id} onClick={() => onSelect(t.id)} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-red-300 transition-all text-left group">
+            <div className="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors">
               <Icon size={24} />
             </div>
             <h3 className="text-lg font-bold text-slate-800 mb-2">{language === Language.ENGLISH ? t.title.en : t.title.hi}</h3>

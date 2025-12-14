@@ -74,6 +74,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   heart: { en: "Human Heart", hi: "मानव हृदय" },
   brain: { en: "Human Brain", hi: "मानव मस्तिष्क" },
   peYoga: { en: "PE & Yoga", hi: "शारीरिक शिक्षा और योग" },
+  blood: { en: "Blood & Circulation", hi: "रक्त और परिसंचरण" },
   
   // Biology specific
   nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },
