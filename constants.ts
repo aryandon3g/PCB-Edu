@@ -1,3 +1,4 @@
+
 import { Language, Subject, TranslationDictionary } from './types';
 
 export const TRANSLATIONS: TranslationDictionary = {
@@ -75,6 +76,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   brain: { en: "Human Brain", hi: "मानव मस्तिष्क" },
   peYoga: { en: "PE & Yoga", hi: "शारीरिक शिक्षा और योग" },
   blood: { en: "Blood & Circulation", hi: "रक्त और परिसंचरण" },
+  respiratory: { en: "Respiratory System", hi: "श्वसन तंत्र" },
   
   // Biology specific
   nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },
