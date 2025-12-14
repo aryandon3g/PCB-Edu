@@ -8,7 +8,6 @@ import PhysicsModule from './components/PhysicsModule';
 import ChemistryModule from './components/ChemistryModule';
 import BiologyModule from './components/BiologyModule';
 import LadoModule from './components/LadoModule';
-import VoiceAssistant from './components/VoiceAssistant';
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
@@ -174,8 +173,16 @@ const App: React.FC = () => {
            </div>
         </div>
 
-        {/* VOICE ASSISTANT - Replaces the 'Restore Navigation' button */}
-        <VoiceAssistant />
+        {/* Floating Navigation Toggle (Restored) */}
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+          <button
+            onClick={() => setIsNavVisible(!isNavVisible)}
+            className="w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+            title={isNavVisible ? "Focus Mode" : "Show Navigation"}
+          >
+            {isNavVisible ? <EyeOff size={24} /> : <Eye size={24} />}
+          </button>
+        </div>
 
         {/* Mobile Bottom Navigation (Hidden in Landscape) */}
         <div className={`md:hidden landscape:hidden absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around items-center py-2 px-1 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : 'translate-y-full'}`}>

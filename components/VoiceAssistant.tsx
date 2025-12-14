@@ -10,13 +10,8 @@ const createBlob = (data: Float32Array): GenAIBlob => {
     int16[i] = data[i] * 32768;
   }
   
-  // Create the blob with the raw PCM data
-  // Important: The API expects raw PCM 16-bit, 16kHz, mono.
-  
-  // Convert the Int16Array to a Uint8Array of bytes
   const bytes = new Uint8Array(int16.buffer);
   
-  // Custom base64 encoder for the raw bytes
   let binary = '';
   const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
@@ -120,7 +115,7 @@ const VoiceAssistant: React.FC = () => {
     });
     sourcesRef.current.clear();
     
-    // Close session if exists (the library usually handles close via signal, but we clear ref)
+    // Close session if exists
     sessionRef.current = null;
   };
 
@@ -136,25 +131,44 @@ const VoiceAssistant: React.FC = () => {
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
-      // Setup Audio Contexts without forcing sampleRate to avoid NotSupportedError
-      inputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      
-      const outputNode = outputAudioContextRef.current.createGain();
-      outputNode.connect(outputAudioContextRef.current.destination); // Connect to speakers
-
-      nextStartTimeRef.current = 0;
-
-      // Get Mic Stream
+      // 1. Get Mic Stream FIRST to know the sample rate
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaStreamRef.current = stream;
+
+      // 2. Try to determine stream sample rate
+      let streamSampleRate = 0;
+      const track = stream.getAudioTracks()[0];
+      if (track) {
+          const settings = track.getSettings();
+          if (settings.sampleRate) {
+              streamSampleRate = settings.sampleRate;
+          }
+      }
+
+      // 3. Setup Input Audio Context
+      // If we know the rate, try to use it to avoid NotSupportedError
+      const inputOptions: AudioContextOptions = streamSampleRate ? { sampleRate: streamSampleRate } : {};
+      
+      try {
+          inputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)(inputOptions);
+      } catch (e) {
+          console.warn("Failed to create AudioContext with specific rate, falling back to default", e);
+          inputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+
+      // 4. Setup Output Audio Context (Default rate is fine for playback)
+      outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const outputNode = outputAudioContextRef.current.createGain();
+      outputNode.connect(outputAudioContextRef.current.destination);
+
+      nextStartTimeRef.current = 0;
 
       const sessionPromise = ai.live.connect({
         model: 'gemini-2.5-flash-native-audio-preview-09-2025',
         config: {
           responseModalities: [Modality.AUDIO],
           speechConfig: {
-            voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } }, // Kore is female-sounding
+            voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } },
           },
           systemInstruction: `
             You are a strict, aggressive, and short-tempered female science teacher named "Madam Khoj".
@@ -170,13 +184,12 @@ const VoiceAssistant: React.FC = () => {
             setIsConnecting(false);
             setIsActive(true);
             
-            // Start processing Mic input
             if (!inputAudioContextRef.current) return;
             
+            // Important: Create source AFTER context is ready and stream is active
             const source = inputAudioContextRef.current.createMediaStreamSource(stream);
             sourceNodeRef.current = source;
             
-            // Buffer size 4096, 1 input channel, 1 output channel
             const processor = inputAudioContextRef.current.createScriptProcessor(4096, 1, 1);
             scriptProcessorRef.current = processor;
 
@@ -188,7 +201,6 @@ const VoiceAssistant: React.FC = () => {
               
               const pcmBlob = createBlob(downsampledData);
               
-              // Send data
               sessionPromise.then(session => {
                 session.sendRealtimeInput({ media: pcmBlob });
               });
@@ -198,13 +210,11 @@ const VoiceAssistant: React.FC = () => {
             processor.connect(inputAudioContextRef.current.destination);
           },
           onmessage: async (message: LiveServerMessage) => {
-            // Handle Audio Output
             const base64Audio = message.serverContent?.modelTurn?.parts[0]?.inlineData?.data;
             if (base64Audio && outputAudioContextRef.current) {
               setIsSpeaking(true);
               const ctx = outputAudioContextRef.current;
               
-              // Sync timing
               nextStartTimeRef.current = Math.max(nextStartTimeRef.current, ctx.currentTime);
               
               try {
@@ -226,7 +236,6 @@ const VoiceAssistant: React.FC = () => {
               }
             }
             
-            // Handle Interruption (User speaks while model is speaking)
             if (message.serverContent?.interrupted) {
               sourcesRef.current.forEach(s => s.stop());
               sourcesRef.current.clear();
@@ -247,7 +256,6 @@ const VoiceAssistant: React.FC = () => {
         }
       });
 
-      // Store session to close later if needed (though we rely on cleanupAudio mostly)
       sessionPromise.then(sess => {
         sessionRef.current = sess;
       });
@@ -286,7 +294,6 @@ const VoiceAssistant: React.FC = () => {
                 </div>
              ) : (
                 <>
-                  {/* Visualizer Effect */}
                   <div className="flex items-center gap-1 h-full">
                      {[1,2,3,4,5].map(i => (
                         <div key={i} className={`w-2 bg-pink-500 rounded-full transition-all duration-100 ease-in-out ${isSpeaking ? 'animate-pulse h-12' : 'h-2'}`} style={{ animationDelay: `${i * 0.1}s`, height: isSpeaking ? `${Math.random() * 40 + 20}px` : '4px' }}></div>
