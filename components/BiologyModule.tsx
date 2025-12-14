@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind } from 'lucide-react';
+import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind, Utensils } from 'lucide-react';
 import { Language, Topic } from '../types';
 import { TRANSLATIONS } from '../constants';
 import DnaHelix from './biology/DnaHelix';
@@ -11,12 +11,14 @@ import Heart from './biology/Heart';
 import Brain from './biology/Brain';
 import Blood from './biology/Blood';
 import RespiratorySystem from './biology/RespiratorySystem';
+import DigestiveSystem from './biology/DigestiveSystem';
 
 interface ModuleProps {
   language: Language;
 }
 
 const TOPICS: Topic[] = [
+  { id: 'digestive', title: { en: 'Digestive System', hi: 'पाचन तंत्र' }, description: { en: 'Food Journey & Enzymes', hi: 'भोजन की यात्रा और एंजाइम' }, icon: Utensils },
   { id: 'respiratory', title: { en: 'Respiratory System', hi: 'श्वसन तंत्र' }, description: { en: 'Lungs, Breathing & Energy', hi: 'फेफड़े, श्वास और ऊर्जा' }, icon: Wind },
   { id: 'blood', title: { en: 'Blood System', hi: 'रक्त और परिसंचरण' }, description: { en: 'Cells, Groups & Transport', hi: 'कोशिकाएं, समूह और परिवहन' }, icon: Droplet },
   { id: 'heart', title: { en: 'Human Heart', hi: 'मानव हृदय' }, description: { en: 'Circulation & Anatomy', hi: 'परिसंचरण और शरीर रचना' }, icon: HeartPulse },
@@ -38,6 +40,7 @@ const BiologyModule: React.FC<ModuleProps> = ({ language }) => {
   if (activeTopic === 'brain') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Brain language={language} /></WithBack>;
   if (activeTopic === 'blood') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Blood language={language} /></WithBack>;
   if (activeTopic === 'respiratory') return <WithBack onBack={() => setActiveTopic(null)} language={language}><RespiratorySystem language={language} /></WithBack>;
+  if (activeTopic === 'digestive') return <WithBack onBack={() => setActiveTopic(null)} language={language}><DigestiveSystem language={language} /></WithBack>;
 
   return <TopicGrid language={language} topics={TOPICS} onSelect={setActiveTopic} />;
 };
