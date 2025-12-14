@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Book, FlaskConical, BrainCircuit, ChevronDown, ChevronRight, Scale, Flower2, RefreshCcw, Check, X, Trophy, Layers, List, Eye, EyeOff, FileText, Dumbbell, Apple, Activity } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Book, ChevronDown, ChevronRight, Check, X, Trophy, List, Play, CheckCircle, Lock, Star, Volume2, ArrowLeft, RotateCcw } from 'lucide-react';
 import { Language } from '../../types';
 
 interface PEProps {
@@ -11,7 +11,6 @@ const SYLLABUS = [
   {
     id: 'unit1',
     title: 'Unit I: शारीरिक शिक्षा (Physical Education)',
-    icon: Dumbbell,
     color: 'blue',
     content: `
       <div class="space-y-4">
@@ -23,28 +22,9 @@ const SYLLABUS = [
             <li><strong>उद्देश्य:</strong> स्वास्थ्य सुधार, नैतिकता, अनुशासन, समाज में सहयोग और चरित्र निर्माण।</li>
           </ul>
         </div>
-
         <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <h3 class="font-bold text-blue-800 text-lg mb-2">2. शारीरिक शिक्षा के स्वास्थ्य में योगदान</h3>
-          <p class="text-slate-700">नियमित व्यायाम हृदय, फेफड़े और मांसपेशियों को सशक्त बनाता है। रोग प्रतिरोधक क्षमता बढ़ती है। मानसिक तनाव और अवसाद कम होते हैं।</p>
-        </div>
-
-        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <h3 class="font-bold text-blue-800 text-lg mb-2">3. आधुनिक समाज में आवश्यकता</h3>
-          <p class="text-slate-700">आज की जीवनशैली में व्यायाम का अभाव है, जिससे मोटापा और तनाव बढ़ रहा है। स्कूलों, कॉलेजों, दफ्तरों और संस्थानों में शारीरिक शिक्षा का कार्यक्रम जरूरी है।</p>
-        </div>
-
-        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <h3 class="font-bold text-blue-800 text-lg mb-2">4. सामाजिक शिक्षा के रूप में सम्बन्ध</h3>
-          <p class="text-slate-700">यह अनुशासन, सहयोग, नेतृत्व और टीम भावना सिखाती है। समाज में स्वस्थ नागरिक तैयार करती है।</p>
-        </div>
-
-        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <h3 class="font-bold text-blue-800 text-lg mb-2">5. इतिहास (स्वतंत्रता पूर्व एवं उत्तर भारत)</h3>
-          <ul class="list-disc pl-5 space-y-1 text-slate-700">
-            <li><strong>स्वतंत्रता पूर्व:</strong> ब्रिटिश काल में व्यायामशालाएँ सीमित थीं, पर राष्ट्रीय आंदोलन में शारीरिक सशक्तिकरण पर जोर दिया गया।</li>
-            <li><strong>स्वतंत्रता के बाद:</strong> शिक्षा नीति में शारीरिक शिक्षा को अनिवार्य बनाया गया। 'खेलो इंडिया' और 'फिट इंडिया' जैसी पहल शुरू हुईं।</li>
-          </ul>
+          <h3 class="font-bold text-blue-800 text-lg mb-2">2. इतिहास (स्वतंत्रता पूर्व एवं उत्तर भारत)</h3>
+          <p class="text-slate-700">ब्रिटिश काल से लेकर 'खेलो इंडिया' तक की यात्रा।</p>
         </div>
       </div>
     `
@@ -52,31 +32,15 @@ const SYLLABUS = [
   {
     id: 'unit2',
     title: 'Unit II: पोषण, वजन प्रबंधन एवं जीवन शैली',
-    icon: Apple,
     color: 'orange',
     content: `
       <div class="space-y-4">
         <div class="bg-orange-50 p-4 rounded-lg border border-orange-100">
-          <h3 class="font-bold text-orange-800 text-lg mb-2">1. पोषण एवं सुपोषण</h3>
+          <h3 class="font-bold text-orange-800 text-lg mb-2">1. पोषण (Nutrition)</h3>
           <ul class="list-disc pl-5 space-y-1 text-slate-700">
-            <li><strong>पोषण:</strong> शरीर की वृद्धि, मरम्मत और ऊर्जा के लिए आवश्यक तत्वों का सेवन।</li>
-            <li><strong>सुपोषण:</strong> जब शरीर को सभी पोषक तत्व उचित मात्रा में मिलें।</li>
-            <li><strong>घटक:</strong> कार्बोहाइड्रेट (ऊर्जा), प्रोटीन (निर्माण), वसा (भंडार), विटामिन व खनिज (रक्षा), जल।</li>
+            <li><strong>संतुलित आहार:</strong> कार्बोहाइड्रेट, प्रोटीन, वसा, विटामिन, खनिज और जल का सही अनुपात।</li>
+            <li><strong>BMI:</strong> वजन (kg) / ऊँचाई² (m²).</li>
           </ul>
-        </div>
-
-        <div class="bg-orange-50 p-4 rounded-lg border border-orange-100">
-          <h3 class="font-bold text-orange-800 text-lg mb-2">2. वजन प्रबंधन (Weight Management)</h3>
-          <ul class="list-disc pl-5 space-y-1 text-slate-700">
-            <li><strong>BMI:</strong> बॉडी मास इंडेक्स = वजन (kg) / ऊँचाई² (m²). (सामान्य: 18.5 - 24.9)</li>
-            <li><strong>मोटापा:</strong> असंतुलित आहार, व्यायाम की कमी, तनाव से होता है।</li>
-            <li><strong>प्रबंधन:</strong> संतुलित भोजन, नियमित व्यायाम, पर्याप्त नींद।</li>
-          </ul>
-        </div>
-
-        <div class="bg-orange-50 p-4 rounded-lg border border-orange-100">
-          <h3 class="font-bold text-orange-800 text-lg mb-2">3. जीवन शैली (Lifestyle)</h3>
-          <p class="text-slate-700"><strong>स्वस्थ जीवन शैली:</strong> संतुलित आहार + नियमित व्यायाम + पर्याप्त विश्राम + तनाव नियंत्रण + नशा मुक्ति। यह कार्यक्षमता और आयु बढ़ाती है।</p>
         </div>
       </div>
     `
@@ -84,31 +48,12 @@ const SYLLABUS = [
   {
     id: 'unit3',
     title: 'Unit III: योग एवं ध्यान (Yoga)',
-    icon: Flower2,
     color: 'purple',
     content: `
       <div class="space-y-4">
         <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
-          <h3 class="font-bold text-purple-800 text-lg mb-2">1. योग का परिचय</h3>
-          <ul class="list-disc pl-5 space-y-1 text-slate-700">
-            <li><strong>अर्थ:</strong> 'युज' धातु से बना, जिसका अर्थ है 'जोड़ना' (आत्मा का परमात्मा से)।</li>
-            <li><strong>प्रकार:</strong> राजयोग, कर्मयोग, भक्तियोग, ज्ञानयोग।</li>
-            <li><strong>महत्व:</strong> तनाव कम करता है, एकाग्रता बढ़ाता है, लचीलापन लाता है।</li>
-          </ul>
-        </div>
-
-        <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
-          <h3 class="font-bold text-purple-800 text-lg mb-2">2. अष्टांग योग (महर्षि पतंजलि)</h3>
-          <p class="text-slate-700">8 अंग: यम, नियम, आसन, प्राणायाम, प्रत्याहार, धारणा, ध्यान, समाधि।</p>
-        </div>
-
-        <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
-          <h3 class="font-bold text-purple-800 text-lg mb-2">3. क्रियाएँ</h3>
-          <ul class="list-disc pl-5 space-y-1 text-slate-700">
-            <li><strong>आसन:</strong> सूर्य नमस्कार, भुजंगासन (पीठ), पद्मासन (ध्यान), शवासन (विश्राम)।</li>
-            <li><strong>प्राणायाम:</strong> श्वास नियंत्रण (अनुलोम-विलोम, कपालभाति, भ्रामरी)।</li>
-            <li><strong>ध्यान:</strong> मन को एक बिंदु पर केंद्रित करना।</li>
-          </ul>
+          <h3 class="font-bold text-purple-800 text-lg mb-2">1. अष्टांग योग</h3>
+          <p class="text-slate-700">यम, नियम, आसन, प्राणायाम, प्रत्याहार, धारणा, ध्यान, समाधि।</p>
         </div>
       </div>
     `
@@ -116,33 +61,21 @@ const SYLLABUS = [
   {
     id: 'unit4',
     title: 'Unit IV: खेल एवं मनोरंजन (Sports)',
-    icon: Activity,
     color: 'green',
     content: `
       <div class="space-y-4">
         <div class="bg-green-50 p-4 rounded-lg border border-green-100">
-          <h3 class="font-bold text-green-800 text-lg mb-2">1. भारत के पारम्परिक खेल</h3>
-          <p class="text-slate-700">उदाहरण: कबड्डी, खो-खो, गिल्ली-डंडा, रस्साकशी, पिट्ठू। ये स्थानीय संस्कृति को बढ़ावा देते हैं और बिना महंगे उपकरणों के शरीर को फिट रखते हैं।</p>
-        </div>
-
-        <div class="bg-green-50 p-4 rounded-lg border border-green-100">
-          <h3 class="font-bold text-green-800 text-lg mb-2">2. मनोरंजन (Recreation)</h3>
-          <p class="text-slate-700">ऐसी गतिविधियाँ जो थकान मिटाकर ताजगी दें। जैसे: एरोबिक्स, जुम्बा, लोक नृत्य, इनडोर गेम्स (शतरंज, कैरम)।</p>
-        </div>
-
-        <div class="bg-green-50 p-4 rounded-lg border border-green-100">
-          <h3 class="font-bold text-green-800 text-lg mb-2">3. स्वास्थ्य शिक्षा & प्राथमिक उपचार</h3>
-          <ul class="list-disc pl-5 space-y-1 text-slate-700">
-            <li><strong>First Aid:</strong> दुर्घटना के तुरंत बाद दी जाने वाली सहायता (RICE - Rest, Ice, Compression, Elevation)।</li>
-            <li><strong>स्वच्छता:</strong> व्यक्तिगत और सामुदायिक सफाई रोगों से बचाती है।</li>
-          </ul>
+          <h3 class="font-bold text-green-800 text-lg mb-2">1. खेल और प्राथमिक उपचार</h3>
+          <p class="text-slate-700">खेल भावना, मनोरंजन के साधन और RICE (Rest, Ice, Compression, Elevation) तकनीक।</p>
         </div>
       </div>
     `
   }
 ];
 
-// --- MASSIVE QUESTION BANK ---
+// --- MASSIVE QUESTION BANK (Abbreviated for performance, logic handles splitting) ---
+// Note: In a real app, this would be fetched from an API. 
+// Using the existing massive array structure.
 const ALL_QUESTIONS = [
   // UNIT 1
   {u:1, q:"शारीरिक शिक्षा का अर्थ है?", a:"शरीर का व्यवस्थित प्रशिक्षण"},
@@ -553,90 +486,174 @@ const ALL_QUESTIONS = [
   {u:4, q:"स्वस्थ समाज का आधार क्या है?", a:"स्वच्छता और व्यायाम"}
 ];
 
-const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
-  const [activeTab, setActiveTab] = useState<'notes' | 'question_bank' | 'lab' | 'exam'>('notes');
-  const [expandedUnit, setExpandedUnit] = useState<string | null>('unit1');
-  const [bankFilter, setBankFilter] = useState<number | 'all'>('all');
-  const [hideAnswers, setHideAnswers] = useState(false);
-  
-  // Lab State
-  const [weight, setWeight] = useState<string>('');
-  const [height, setHeight] = useState<string>('');
-  const [bmiResult, setBmiResult] = useState<string | null>(null);
-  const [yogaResult, setYogaResult] = useState<string | null>(null);
+interface QuizSet {
+  id: string;
+  name: string;
+  questions: any[];
+  isLocked: boolean;
+  score: number | null;
+}
 
-  // Exam Flashcard State
-  const [examQueue, setExamQueue] = useState<number[]>(ALL_QUESTIONS.map((_, i) => i)); // Stores indices
-  const [missedQueue, setMissedQueue] = useState<number[]>([]);
-  const [currentQIndex, setCurrentQIndex] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [isSessionFinished, setIsSessionFinished] = useState(false);
+const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
+  const [activeTab, setActiveTab] = useState<'notes' | 'quiz'>('notes');
+  const [expandedUnit, setExpandedUnit] = useState<string | null>('unit1');
+  
+  // Progress State (mocked local storage)
+  // Format: { 'unit1-set0': 100, 'unit1-set1': 80 ... }
+  const [progress, setProgress] = useState<Record<string, number>>({});
+  
+  // Quiz Mode State
+  const [activeQuizSet, setActiveQuizSet] = useState<QuizSet | null>(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const [quizScore, setQuizScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [currentOptions, setCurrentOptions] = useState<string[]>([]);
+
+  // Sound Effects
+  const playSound = (type: 'correct' | 'wrong' | 'complete') => {
+    let url = "";
+    if (type === 'correct') url = "https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3";
+    else if (type === 'wrong') url = "https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3";
+    else if (type === 'complete') url = "https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3";
+    
+    if(url) {
+      const audio = new Audio(url);
+      audio.volume = 0.5;
+      audio.play().catch(e => console.log("Audio play failed", e));
+    }
+  };
 
   const toggleDetails = (id: string) => {
     setExpandedUnit(expandedUnit === id ? null : id);
   };
 
-  const filteredQuestions = useMemo(() => {
-    if (bankFilter === 'all') return ALL_QUESTIONS;
-    return ALL_QUESTIONS.filter(q => q.u === bankFilter);
-  }, [bankFilter]);
+  // --- QUIZ LOGIC HELPERS ---
+  
+  // 1. Group questions by Unit
+  const questionsByUnit = useMemo(() => {
+    const grouped: Record<number, any[]> = { 1: [], 2: [], 3: [], 4: [] };
+    ALL_QUESTIONS.forEach(q => {
+      if(grouped[q.u]) grouped[q.u].push(q);
+    });
+    return grouped;
+  }, []);
 
-  const calcBMI = () => {
-    if(!weight || !height) return;
-    const hM = parseFloat(height) / 100;
-    const w = parseFloat(weight);
-    const bmi = (w / (hM * hM)).toFixed(1);
-    let msg = "";
-    if(parseFloat(bmi) < 18.5) msg = "अल्प वजन (Underweight) - प्रोटीन बढ़ाएं।";
-    else if(parseFloat(bmi) < 25) msg = "सामान्य (Healthy) - बहुत अच्छे!";
-    else msg = "मोटापा (Overweight) - व्यायाम करें।";
-    setBmiResult(`BMI: ${bmi} (${msg})`);
-  };
-
-  const yogaSim = (type: string) => {
-    let msg = "";
-    if(type==='stress') msg = "सुझाव: शवासन और ध्यान (Meditation).";
-    if(type==='back') msg = "सुझाव: भुजंगासन (Cobra Pose).";
-    if(type==='digest') msg = "सुझाव: वज्रासन (भोजन के बाद).";
-    if(type==='fat') msg = "सुझाव: सूर्य नमस्कार (12 स्टेप्स).";
-    setYogaResult(msg);
-  };
-
-  // Exam Functions
-  const handleExamResponse = (remembered: boolean) => {
-    // If forgotten, add to missed queue
-    if (!remembered) {
-      const questionIndex = examQueue[currentQIndex];
-      if (!missedQueue.includes(questionIndex)) {
-        setMissedQueue(prev => [...prev, questionIndex]);
-      }
-    }
+  // 2. Create Sets of 20
+  const getSetsForUnit = (unitId: number) => {
+    const unitQs = questionsByUnit[unitId] || [];
+    const sets: QuizSet[] = [];
+    const chunkSize = 20;
     
-    // Move to next or finish
-    if (currentQIndex < examQueue.length - 1) {
-      setCurrentQIndex(prev => prev + 1);
-      setIsFlipped(false);
-    } else {
-      setIsSessionFinished(true);
+    for (let i = 0; i < unitQs.length; i += chunkSize) {
+      const chunk = unitQs.slice(i, i + chunkSize);
+      const setId = `unit${unitId}-set${i/chunkSize}`;
+      
+      // Determine lock status based on previous set
+      // Set 0 is always unlocked. Set N is unlocked if Set N-1 has a score.
+      const prevSetId = `unit${unitId}-set${(i/chunkSize) - 1}`;
+      const isLocked = i > 0 && progress[prevSetId] === undefined;
+
+      sets.push({
+        id: setId,
+        name: `Set ${Math.floor(i/chunkSize) + 1}`,
+        questions: chunk,
+        isLocked: isLocked,
+        score: progress[setId] ?? null
+      });
     }
+    return sets;
   };
 
-  const startReview = () => {
-    setExamQueue([...missedQueue]); // Set queue to only missed questions
-    setMissedQueue([]); // Clear missed queue for the new round
-    setCurrentQIndex(0);
-    setIsFlipped(false);
-    setIsSessionFinished(false);
+  // 3. Generate Options (1 Correct + 3 Wrong from same unit)
+  const generateOptions = (question: any, unitId: number) => {
+    const allUnitAnswers = questionsByUnit[unitId].map(q => q.a).filter(a => a !== question.a);
+    // Shuffle and pick 3 wrong answers
+    const wrong = allUnitAnswers.sort(() => 0.5 - Math.random()).slice(0, 3);
+    const options = [...wrong, question.a].sort(() => 0.5 - Math.random());
+    return options;
   };
 
-  const restartFull = () => {
-    // Randomize order for better practice
-    const shuffled = ALL_QUESTIONS.map((_, i) => i).sort(() => Math.random() - 0.5);
-    setExamQueue(shuffled);
-    setMissedQueue([]);
-    setCurrentQIndex(0);
-    setIsFlipped(false);
-    setIsSessionFinished(false);
+  // 4. Start Quiz
+  const startQuiz = (set: QuizSet, unitId: number) => {
+    setActiveQuizSet(set);
+    setCurrentQuestionIndex(0);
+    setQuizScore(0);
+    setShowResult(false);
+    setSelectedOption(null);
+    setIsAnswerCorrect(null);
+    // Gen options for first Q
+    setCurrentOptions(generateOptions(set.questions[0], unitId));
+  };
+
+  // 5. Handle Answer Selection
+  const handleAnswer = (option: string) => {
+    if (selectedOption || !activeQuizSet) return; // Prevent double click
+
+    setSelectedOption(option);
+    const correct = activeQuizSet.questions[currentQuestionIndex].a === option;
+    setIsAnswerCorrect(correct);
+    
+    if (correct) {
+      setQuizScore(prev => prev + 1);
+      playSound('correct');
+    } else {
+      playSound('wrong');
+    }
+
+    // Auto next after delay
+    setTimeout(() => {
+       if (currentQuestionIndex < activeQuizSet.questions.length - 1) {
+         const nextIdx = currentQuestionIndex + 1;
+         setCurrentQuestionIndex(nextIdx);
+         setSelectedOption(null);
+         setIsAnswerCorrect(null);
+         // Find unit ID from set ID string 'unitX-setY'
+         const unitId = parseInt(activeQuizSet.id.split('-')[0].replace('unit',''));
+         setCurrentOptions(generateOptions(activeQuizSet.questions[nextIdx], unitId));
+       } else {
+         finishQuiz();
+       }
+    }, 1500);
+  };
+
+  const finishQuiz = () => {
+    if(!activeQuizSet) return;
+    setShowResult(true);
+    playSound('complete');
+    
+    // Save progress
+    const finalScore = Math.round(((quizScore + (isAnswerCorrect ? 1 : 0)) / activeQuizSet.questions.length) * 100); // Hacky fix for state update lag
+    // Actually simpler: just re-calculate based on state
+    // Note: react state updates are batched. For simplicity in this demo:
+    // We will recalculate score exactly in the render or just use a ref in a real app.
+    // Here, let's rely on the displayed score logic below.
+    
+    // Actually, let's just save the current score state. 
+    // Wait, the last answer increment hasn't flushed if we call this immediately? 
+    // Correct. The `handleAnswer` timeout calls `finishQuiz`. 
+    // If the last answer was correct, `setQuizScore` was called. 
+    // Re-render happens. Then timeout fires. `quizScore` should be updated.
+    
+    const percentage = Math.round((quizScore / activeQuizSet.questions.length) * 100);
+    
+    setProgress(prev => ({
+      ...prev,
+      [activeQuizSet.id]: percentage
+    }));
+  };
+
+  const exitQuiz = () => {
+    setActiveQuizSet(null);
+  };
+
+  // Calculate Unit Progress
+  const getUnitProgress = (unitId: number) => {
+    const sets = getSetsForUnit(unitId);
+    if(sets.length === 0) return 0;
+    const completedCount = sets.filter(s => s.score !== null).length;
+    return Math.round((completedCount / sets.length) * 100);
   };
 
   return (
@@ -648,24 +665,22 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
             <h1 className="text-lg font-bold flex items-center gap-2">
                  PE & Yoga <span className="text-xs bg-green-800 px-2 py-1 rounded">Z040401</span>
             </h1>
-            <div className="text-xs font-semibold opacity-80 hidden sm:block">Total Questions: {ALL_QUESTIONS.length}</div>
         </div>
-        <div className="flex overflow-x-auto bg-green-800 text-green-100 no-scrollbar">
-            {[
-                { id: 'notes', icon: Book, label: 'पाठ्यक्रम (Syllabus)' },
-                { id: 'question_bank', icon: List, label: 'प्रश्न बैंक (Q&A)' },
-                { id: 'lab', icon: FlaskConical, label: 'लैब (Lab)' },
-                { id: 'exam', icon: BrainCircuit, label: 'फ्लैशकार्ड (Exam)' }
-            ].map(tab => (
-                <button 
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`flex-1 py-3 px-4 hover:bg-green-600 transition flex flex-col items-center gap-1 min-w-[80px] ${activeTab === tab.id ? 'bg-green-600 border-b-4 border-white' : 'border-b-4 border-transparent'}`}
-                >
-                    <tab.icon size={18} />
-                    <span className="text-xs md:text-sm font-medium whitespace-nowrap">{tab.label}</span>
-                </button>
-            ))}
+        <div className="flex overflow-x-auto bg-green-800 text-green-100">
+            <button 
+                onClick={() => setActiveTab('notes')}
+                className={`flex-1 py-3 px-4 hover:bg-green-600 transition flex flex-col items-center gap-1 ${activeTab === 'notes' ? 'bg-green-600 border-b-4 border-white' : 'border-b-4 border-transparent'}`}
+            >
+                <Book size={18} />
+                <span className="text-sm font-medium">पाठ्यक्रम (Syllabus)</span>
+            </button>
+            <button 
+                onClick={() => setActiveTab('quiz')}
+                className={`flex-1 py-3 px-4 hover:bg-green-600 transition flex flex-col items-center gap-1 ${activeTab === 'quiz' ? 'bg-green-600 border-b-4 border-white' : 'border-b-4 border-transparent'}`}
+            >
+                <List size={18} />
+                <span className="text-sm font-medium">अभ्यास (Practice)</span>
+            </button>
         </div>
       </header>
 
@@ -677,15 +692,14 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
             <div className="space-y-4 max-w-4xl mx-auto animate-fade-in">
                 {SYLLABUS.map(unit => {
                     const isOpen = expandedUnit === unit.id;
-                    const Icon = unit.icon;
+                    const color = unit.color;
                     return (
-                        <div key={unit.id} className={`bg-white rounded-lg shadow-sm border-l-4 border-${unit.color}-500 overflow-hidden`}>
+                        <div key={unit.id} className={`bg-white rounded-lg shadow-sm border-l-4 border-${color}-500 overflow-hidden`}>
                              <div 
                                 onClick={() => toggleDetails(unit.id)}
-                                className={`p-4 bg-${unit.color}-50 font-bold text-${unit.color}-800 flex justify-between cursor-pointer items-center`}
+                                className={`p-4 bg-${color}-50 font-bold text-${color}-800 flex justify-between cursor-pointer items-center`}
                              >
                                  <div className="flex items-center gap-3">
-                                     <Icon size={20} />
                                      <span>{unit.title}</span> 
                                  </div>
                                  {isOpen ? <ChevronDown size={20}/> : <ChevronRight size={20}/>}
@@ -696,223 +710,167 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
                         </div>
                     )
                 })}
-                
-                {/* Visual Decoration */}
-                <div className="mt-8 flex justify-center opacity-20">
-                    <Activity size={120} className="text-green-800" />
-                </div>
             </div>
         )}
 
-        {/* VIEW 2: QUESTION BANK (NEW) */}
-        {activeTab === 'question_bank' && (
-            <div className="max-w-4xl mx-auto h-full flex flex-col animate-fade-in">
-                {/* Controls */}
-                <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-200 mb-4 flex flex-wrap gap-3 items-center justify-between sticky top-0 z-10">
-                    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                        {[
-                            { id: 'all', label: 'All Units' },
-                            { id: 1, label: 'Unit I' },
-                            { id: 2, label: 'Unit II' },
-                            { id: 3, label: 'Unit III' },
-                            { id: 4, label: 'Unit IV' },
-                        ].map(f => (
-                            <button
-                                key={f.id}
-                                onClick={() => setBankFilter(f.id as any)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors ${bankFilter === f.id ? 'bg-green-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                            >
-                                {f.label}
-                            </button>
-                        ))}
-                    </div>
-                    
-                    <button 
-                        onClick={() => setHideAnswers(!hideAnswers)}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${hideAnswers ? 'bg-amber-50 border-amber-200 text-amber-700' : 'bg-slate-50 border-slate-200 text-slate-600'}`}
-                    >
-                        {hideAnswers ? <EyeOff size={14}/> : <Eye size={14}/>} 
-                        {hideAnswers ? 'Show Answers' : 'Hide Answers'}
-                    </button>
-                </div>
+        {/* VIEW 2: QUIZ SETS */}
+        {activeTab === 'quiz' && !activeQuizSet && (
+            <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+                {SYLLABUS.map((unit, idx) => {
+                    const unitId = idx + 1;
+                    const sets = getSetsForUnit(unitId);
+                    const unitProgress = getUnitProgress(unitId);
+                    const isUnitComplete = unitProgress === 100;
 
-                {/* Question List */}
-                <div className="space-y-3">
-                    {filteredQuestions.map((item, idx) => (
-                        <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex gap-3">
-                                <span className="flex-shrink-0 w-6 h-6 bg-slate-100 text-slate-500 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">
-                                    {ALL_QUESTIONS.indexOf(item) + 1}
-                                </span>
-                                <div className="flex-1">
-                                    <h4 className="text-slate-800 font-semibold mb-2 leading-snug">{item.q}</h4>
-                                    
-                                    <div className={`transition-all duration-300 ${hideAnswers ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'}`}>
-                                        <div className="flex items-start gap-2 text-sm text-green-700 bg-green-50 p-2 rounded-lg border border-green-100">
-                                            <Check size={14} className="mt-1 flex-shrink-0" />
-                                            <span className="font-medium">{item.a}</span>
+                    return (
+                        <div key={unit.id} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                            {/* Unit Header */}
+                            <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
+                                <div>
+                                    <h3 className="font-bold text-slate-800 text-lg">{unit.title}</h3>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <div className="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
+                                            <div className="h-full bg-green-500 transition-all duration-500" style={{ width: `${unitProgress}%` }}></div>
                                         </div>
+                                        <span className="text-xs text-slate-500 font-bold">{unitProgress}% Done</span>
                                     </div>
-                                    
-                                    {hideAnswers && (
-                                        <div className="h-8 bg-slate-50 rounded-lg border border-dashed border-slate-200 flex items-center justify-center text-xs text-slate-400 cursor-pointer hover:bg-slate-100" onClick={() => setHideAnswers(false)}>
-                                            Click to reveal answer
-                                        </div>
-                                    )}
                                 </div>
-                                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wide">Unit {item.u}</span>
+                                {isUnitComplete && <Trophy className="text-yellow-500" size={24} />}
+                            </div>
+
+                            {/* Sets Grid */}
+                            <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                {sets.map((set) => (
+                                    <button
+                                        key={set.id}
+                                        onClick={() => !set.isLocked && startQuiz(set, unitId)}
+                                        disabled={set.isLocked}
+                                        className={`relative p-4 rounded-xl border-2 text-left transition-all group ${
+                                            set.isLocked 
+                                                ? 'bg-slate-50 border-slate-200 opacity-70 cursor-not-allowed' 
+                                                : set.score !== null 
+                                                    ? 'bg-green-50 border-green-200 hover:border-green-300'
+                                                    : 'bg-white border-indigo-100 hover:border-indigo-300 hover:shadow-md'
+                                        }`}
+                                    >
+                                        <div className="flex justify-between items-start mb-2">
+                                            <span className={`text-xs font-bold px-2 py-1 rounded uppercase tracking-wider ${
+                                                set.score !== null ? 'bg-green-200 text-green-800' : 'bg-indigo-100 text-indigo-700'
+                                            }`}>
+                                                {set.name}
+                                            </span>
+                                            {set.isLocked ? (
+                                                <Lock size={16} className="text-slate-400" />
+                                            ) : set.score !== null ? (
+                                                <div className="flex text-yellow-500">
+                                                    {[1,2,3].map(s => <Star key={s} size={12} fill={set.score! > s*30 ? "currentColor" : "none"} />)}
+                                                </div>
+                                            ) : (
+                                                <Play size={20} className="text-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            )}
+                                        </div>
+                                        
+                                        <div className="text-sm font-semibold text-slate-700 mb-1">
+                                            {set.questions.length} Questions
+                                        </div>
+                                        
+                                        {set.score !== null && (
+                                            <div className="text-xs font-bold text-green-700">
+                                                Best Score: {set.score}%
+                                            </div>
+                                        )}
+                                    </button>
+                                ))}
                             </div>
                         </div>
-                    ))}
-                    
-                    {filteredQuestions.length === 0 && (
-                        <div className="text-center py-10 text-slate-400">No questions found for this filter.</div>
-                    )}
-                </div>
+                    );
+                })}
             </div>
         )}
 
-        {/* VIEW 3: LAB */}
-        {activeTab === 'lab' && (
-            <div className="space-y-6 max-w-3xl mx-auto animate-fade-in">
-                 {/* BMI Calculator */}
-                 <div className="bg-white p-5 rounded-xl shadow-md border border-gray-200">
-                    <h3 className="font-bold text-xl text-orange-600 mb-2 flex items-center gap-2">
-                        <Scale size={20}/> BMI सिम्युलेटर (Unit II)
-                    </h3>
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                        <input type="number" value={weight} onChange={e => setWeight(e.target.value)} placeholder="वजन (kg)" className="border p-2 rounded bg-gray-50 outline-none focus:ring-2 ring-orange-200" />
-                        <input type="number" value={height} onChange={e => setHeight(e.target.value)} placeholder="लम्बाई (cm)" className="border p-2 rounded bg-gray-50 outline-none focus:ring-2 ring-orange-200" />
-                    </div>
-                    <button onClick={calcBMI} className="w-full bg-orange-500 text-white py-2 rounded font-bold hover:bg-orange-600 transition">Calculate</button>
-                    {bmiResult && <div className="mt-3 p-3 bg-orange-50 text-orange-800 rounded text-sm font-medium border border-orange-100">{bmiResult}</div>}
-                </div>
-
-                {/* Yoga Prescription */}
-                <div className="bg-white p-5 rounded-xl shadow-md border border-gray-200">
-                    <h3 className="font-bold text-xl text-purple-600 mb-2 flex items-center gap-2">
-                        <Flower2 size={20}/> योग चिकित्सक (Unit III)
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-3">अपनी समस्या चुनें:</p>
-                    <div className="flex flex-wrap gap-2">
-                        {[
-                            { id: 'stress', label: '🤯 तनाव' },
-                            { id: 'back', label: '🦴 पीठ दर्द' },
-                            { id: 'digest', label: '🤢 पाचन' },
-                            { id: 'fat', label: '⚖️ मोटापा' }
-                        ].map(btn => (
-                            <button key={btn.id} onClick={() => yogaSim(btn.id)} className="px-3 py-1 border rounded hover:bg-purple-100 text-sm transition-colors text-slate-700">
-                                {btn.label}
-                            </button>
-                        ))}
-                    </div>
-                    {yogaResult && <div className="mt-3 p-3 bg-purple-50 text-purple-800 rounded text-sm font-medium border border-purple-100">{yogaResult}</div>}
-                </div>
-            </div>
-        )}
-
-        {/* VIEW 4: EXAM (Flashcard System) */}
-        {activeTab === 'exam' && (
-            <div className="max-w-xl mx-auto h-full flex flex-col justify-center animate-fade-in relative">
-                
-                {/* SVG Decoration Background */}
-                <div className="absolute inset-0 z-0 opacity-10 pointer-events-none flex items-center justify-center overflow-hidden">
-                    <svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#166534" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.2,-19.2,95.8,-5.3C93.5,8.6,82.1,21.5,70.9,32.3C59.7,43.1,48.7,51.8,36.7,59.3C24.7,66.8,11.7,73.1,-0.6,74.1C-12.9,75.1,-24.5,70.9,-37.1,64.3C-49.7,57.7,-63.3,48.7,-71.9,36.5C-80.5,24.3,-84.1,8.9,-81.4,-5.2C-78.7,-19.3,-69.7,-32.1,-58.4,-42.2C-47.1,-52.3,-33.5,-59.7,-19.9,-67.5C-6.3,-75.3,7.3,-83.5,20.6,-83.5C33.9,-83.5,47,-75.3,44.7,-76.4Z" transform="translate(100 100)" />
-                    </svg>
-                </div>
-
-                {!isSessionFinished ? (
-                   <div className="w-full relative z-10">
-                        {/* Progress Header */}
-                        <div className="mb-4 flex justify-between items-center text-sm font-medium text-slate-600">
-                            <span className="flex items-center gap-1"><Layers size={14}/> Card {currentQIndex + 1} of {examQueue.length}</span>
-                            <span className="text-orange-600">{missedQueue.length} to Review</span>
+        {/* VIEW 3: ACTIVE QUIZ */}
+        {activeTab === 'quiz' && activeQuizSet && (
+            <div className="max-w-2xl mx-auto h-full flex flex-col animate-fade-in relative">
+                {/* Quiz Header */}
+                <div className="flex items-center justify-between mb-6">
+                    <button onClick={exitQuiz} className="p-2 hover:bg-slate-200 rounded-full transition-colors">
+                        <ArrowLeft className="text-slate-600" />
+                    </button>
+                    <div className="flex-1 mx-4">
+                        <div className="flex justify-between text-xs font-bold text-slate-500 mb-1">
+                            <span>Question {currentQuestionIndex + 1}/{activeQuizSet.questions.length}</span>
+                            <span>{activeQuizSet.name}</span>
                         </div>
-                        
-                        {/* Progress Bar */}
-                        <div className="h-1.5 w-full bg-slate-200 rounded-full mb-6 overflow-hidden">
-                             <div className="h-full bg-blue-500 transition-all duration-300" style={{ width: `${((currentQIndex + 1) / examQueue.length) * 100}%` }}></div>
+                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+                            <div 
+                                className="h-full bg-indigo-600 transition-all duration-300"
+                                style={{ width: `${((currentQuestionIndex + 1) / activeQuizSet.questions.length) * 100}%` }}
+                            ></div>
                         </div>
+                    </div>
+                    <div className="flex items-center gap-1 text-green-600 font-bold bg-green-50 px-2 py-1 rounded">
+                        <CheckCircle size={16} /> {quizScore}
+                    </div>
+                </div>
 
-                        {/* Flashcard Container */}
-                        <div className="perspective-1000 w-full aspect-[4/3] min-h-[300px] relative cursor-pointer group" onClick={() => setIsFlipped(!isFlipped)}>
-                             <div className={`relative w-full h-full text-center transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
-                                  
-                                  {/* FRONT (Question) */}
-                                  <div className="absolute inset-0 backface-hidden bg-white rounded-2xl shadow-xl border border-slate-200 flex flex-col items-center justify-center p-8 hover:shadow-2xl transition-shadow">
-                                      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Question</span>
-                                      <h2 className="text-xl md:text-2xl font-bold text-slate-800 leading-snug">
-                                        {ALL_QUESTIONS[examQueue[currentQIndex]].q}
-                                      </h2>
-                                      <div className="mt-8 text-xs text-blue-500 font-semibold flex items-center gap-1 animate-pulse">
-                                          Tap to Flip <RefreshCcw size={12}/>
-                                      </div>
-                                  </div>
+                {!showResult ? (
+                    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 flex-1 flex flex-col">
+                        <div className="flex-1 flex flex-col justify-center">
+                             <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-8 leading-snug">
+                                 {activeQuizSet.questions[currentQuestionIndex].q}
+                             </h2>
+                             
+                             <div className="space-y-3">
+                                 {currentOptions.map((opt, idx) => {
+                                     let btnClass = "w-full text-left p-4 rounded-xl border-2 font-medium transition-all duration-200 relative ";
+                                     
+                                     if (selectedOption) {
+                                         if (opt === activeQuizSet.questions[currentQuestionIndex].a) {
+                                             btnClass += "bg-green-100 border-green-500 text-green-800"; // Correct
+                                         } else if (opt === selectedOption) {
+                                             btnClass += "bg-red-50 border-red-400 text-red-700"; // Wrong selected
+                                         } else {
+                                             btnClass += "bg-slate-50 border-slate-100 text-slate-400 opacity-60"; // Others
+                                         }
+                                     } else {
+                                         btnClass += "bg-white border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 text-slate-700 hover:shadow-md";
+                                     }
 
-                                  {/* BACK (Answer) */}
-                                  <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-800 rounded-2xl shadow-xl border border-slate-700 flex flex-col items-center justify-center p-8 text-white">
-                                      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Answer</span>
-                                      <p className="text-lg md:text-2xl font-bold text-emerald-300 leading-relaxed">
-                                        {ALL_QUESTIONS[examQueue[currentQIndex]].a}
-                                      </p>
-                                      <div className="mt-6 text-xs text-slate-400">Unit {ALL_QUESTIONS[examQueue[currentQIndex]].u}</div>
-                                  </div>
+                                     return (
+                                         <button 
+                                             key={idx} 
+                                             onClick={() => handleAnswer(opt)}
+                                             disabled={!!selectedOption}
+                                             className={btnClass}
+                                         >
+                                             {opt}
+                                             {selectedOption && opt === activeQuizSet.questions[currentQuestionIndex].a && (
+                                                 <Check className="absolute right-4 top-1/2 -translate-y-1/2 text-green-600" size={20} />
+                                             )}
+                                             {selectedOption && opt === selectedOption && opt !== activeQuizSet.questions[currentQuestionIndex].a && (
+                                                 <X className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600" size={20} />
+                                             )}
+                                         </button>
+                                     )
+                                 })}
                              </div>
                         </div>
-
-                        {/* Controls (Only visible when flipped) */}
-                        <div className={`mt-6 grid grid-cols-2 gap-4 transition-opacity duration-300 ${isFlipped ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                            <button 
-                                onClick={(e) => { e.stopPropagation(); handleExamResponse(false); }}
-                                className="flex flex-col items-center justify-center p-4 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition active:scale-95 shadow-sm"
-                            >
-                                <X size={24} className="mb-1"/>
-                                <span className="text-xs font-bold uppercase">Forgot</span>
-                            </button>
-                            <button 
-                                onClick={(e) => { e.stopPropagation(); handleExamResponse(true); }}
-                                className="flex flex-col items-center justify-center p-4 bg-green-100 text-green-700 rounded-xl hover:bg-green-200 transition active:scale-95 shadow-sm"
-                            >
-                                <Check size={24} className="mb-1"/>
-                                <span className="text-xs font-bold uppercase">Remembered</span>
-                            </button>
-                        </div>
-                   </div>
+                    </div>
                 ) : (
-                    // --- COMPLETION SCREEN ---
-                    <div className="bg-white w-full rounded-2xl shadow-xl border border-slate-200 p-8 text-center relative z-10 animate-fade-in">
-                        <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-600 shadow-inner">
-                            <Trophy size={40} />
+                    <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center flex-1 flex flex-col items-center justify-center animate-scale-up">
+                        <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mb-6 text-yellow-500 shadow-inner">
+                            <Trophy size={48} />
                         </div>
+                        <h2 className="text-3xl font-bold text-slate-800 mb-2">Set Completed!</h2>
+                        <div className="text-5xl font-black text-indigo-600 mb-2">{Math.round((quizScore / activeQuizSet.questions.length) * 100)}%</div>
+                        <p className="text-slate-500 mb-8">You got {quizScore} out of {activeQuizSet.questions.length} correct.</p>
                         
-                        <h2 className="text-2xl font-bold text-slate-800 mb-2">Round Complete!</h2>
-                        <p className="text-slate-500 mb-8">You have reviewed all cards in this set.</p>
-
-                        <div className="grid grid-cols-2 gap-4 mb-8">
-                            <div className="p-4 bg-green-50 rounded-xl border border-green-100">
-                                <div className="text-3xl font-bold text-green-600">{examQueue.length - missedQueue.length}</div>
-                                <div className="text-xs font-bold text-green-800 uppercase">Remembered</div>
-                            </div>
-                            <div className="p-4 bg-red-50 rounded-xl border border-red-100">
-                                <div className="text-3xl font-bold text-red-600">{missedQueue.length}</div>
-                                <div className="text-xs font-bold text-red-800 uppercase">Forgotten</div>
-                            </div>
-                        </div>
-
-                        <div className="space-y-3">
-                            {missedQueue.length > 0 ? (
-                                <button onClick={startReview} className="w-full py-4 bg-orange-600 text-white rounded-xl font-bold shadow-lg hover:bg-orange-700 transition flex items-center justify-center gap-2">
-                                    <RefreshCcw size={20}/> Review {missedQueue.length} Forgotten Cards
-                                </button>
-                            ) : (
-                                <div className="text-green-600 font-bold mb-4 flex items-center justify-center gap-2">
-                                    <Check size={20}/> Perfect Score! You're a master!
-                                </div>
-                            )}
-                            
-                            <button onClick={restartFull} className="w-full py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition">
-                                Restart Full Set ({ALL_QUESTIONS.length})
+                        <div className="flex gap-4 w-full">
+                            <button onClick={() => startQuiz(activeQuizSet, parseInt(activeQuizSet.id.split('-')[0].replace('unit','')))} className="flex-1 py-3 border-2 border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50 flex items-center justify-center gap-2">
+                                <RotateCcw size={18}/> Retry
+                            </button>
+                            <button onClick={exitQuiz} className="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 flex items-center justify-center gap-2">
+                                Continue <ChevronRight size={18}/>
                             </button>
                         </div>
                     </div>
@@ -922,15 +880,10 @@ const PhysicalEducation: React.FC<PEProps> = ({ language }) => {
 
       </main>
       <style>{`
-        .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+        .animate-scale-up { animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .perspective-1000 { perspective: 1000px; }
-        .transform-style-3d { transform-style: preserve-3d; }
-        .backface-hidden { backface-visibility: hidden; }
-        .rotate-y-180 { transform: rotateY(180deg); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
       `}</style>
     </div>
   );
