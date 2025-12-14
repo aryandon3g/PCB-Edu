@@ -6,7 +6,8 @@ export enum Language {
 export enum Subject {
   PHYSICS = 'physics',
   CHEMISTRY = 'chemistry',
-  BIOLOGY = 'biology'
+  BIOLOGY = 'biology',
+  LADO = 'lado'
 }
 
 export interface SimulationState {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Atom, FlaskConical, Dna, Languages, Maximize, Minimize } from 'lucide-react';
+import { LayoutDashboard, Atom, FlaskConical, Dna, Languages, Maximize, Minimize, Dumbbell } from 'lucide-react';
 import { Language, Subject } from './types';
 import { TRANSLATIONS, SUBJECT_ICONS } from './constants';
 
@@ -7,6 +7,7 @@ import { TRANSLATIONS, SUBJECT_ICONS } from './constants';
 import PhysicsModule from './components/PhysicsModule';
 import ChemistryModule from './components/ChemistryModule';
 import BiologyModule from './components/BiologyModule';
+import LadoModule from './components/LadoModule';
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
@@ -47,6 +48,7 @@ const App: React.FC = () => {
       case Subject.PHYSICS: return <PhysicsModule language={language} />;
       case Subject.CHEMISTRY: return <ChemistryModule language={language} />;
       case Subject.BIOLOGY: return <BiologyModule language={language} />;
+      case Subject.LADO: return <LadoModule language={language} />;
       default: return <PhysicsModule language={language} />;
     }
   };
@@ -86,6 +88,7 @@ const App: React.FC = () => {
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />
+          <NavItem subject={Subject.LADO} icon={Dumbbell} label={TRANSLATIONS.lado[language]} />
         </nav>
 
         {/* Bottom Actions */}
@@ -155,6 +158,7 @@ const App: React.FC = () => {
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} />
+          <NavItem subject={Subject.LADO} icon={Dumbbell} label={TRANSLATIONS.lado[language]} />
         </div>
 
       </main>

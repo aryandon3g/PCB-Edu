@@ -17,6 +17,10 @@ export const TRANSLATIONS: TranslationDictionary = {
     en: "Biology",
     hi: "जीव विज्ञान"
   },
+  lado: {
+    en: "Lado",
+    hi: "लाडो"
+  },
   dashboard: {
     en: "Experiments Dashboard",
     hi: "प्रयोगशाला डैशबोर्ड"
@@ -69,6 +73,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   photosynthesis: { en: "Photosynthesis Lab", hi: "प्रकाश संश्लेषण लैब" },
   heart: { en: "Human Heart", hi: "मानव हृदय" },
   brain: { en: "Human Brain", hi: "मानव मस्तिष्क" },
+  peYoga: { en: "PE & Yoga", hi: "शारीरिक शिक्षा और योग" },
   
   // Biology specific
   nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },
@@ -93,5 +98,6 @@ export const TRANSLATIONS: TranslationDictionary = {
 export const SUBJECT_ICONS = {
   [Subject.PHYSICS]: "🚀",
   [Subject.CHEMISTRY]: "🧪",
-  [Subject.BIOLOGY]: "🧬"
+  [Subject.BIOLOGY]: "🧬",
+  [Subject.LADO]: "🧘"
 };
