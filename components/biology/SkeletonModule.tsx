@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import * as THREE from 'https://esm.sh/three@0.174.0';
+import * as THREE from 'three';
 import { BookOpen, FlaskConical, ArrowRight, ArrowLeft, Accessibility, Microscope, CheckCircle, RotateCcw, Info, User, HelpCircle, Zap, ShieldCheck, AlertCircle, Trophy } from 'lucide-react';
 import { Language } from '../../types';
 import { TRANSLATIONS } from '../../constants';
@@ -25,7 +26,7 @@ const SKELETON_STORY = [
   },
   {
     id: 2,
-    title: { en: "The Pillars of the Body", hi: "शरीर के मुख्य स्तंभ" },
+    title: { en: "The Pillars of the Body", hi: "शरीै के मुख्य स्तंभ" },
     text: {
         en: "Mam explained on the board, 'The skeleton isn't just bones. It's an engineering marvel made of Bones and Connective Tissues. Bones are the main pillars, but we need specialized tissues to connect and protect them.'",
         hi: "मैम ने बोर्ड पर समझाया, 'कंकाल सिर्फ हड्डियों से नहीं बना है। यह हड्डियों और संयोजी ऊतकों (Connective Tissues) से बना एक इंजीनियरिंग चमत्कार है। हड्डियाँ मुख्य स्तंभ हैं, लेकिन उन्हें जोड़ने और बचाने के लिए विशेष ऊतकों की आवश्यकता होती है।'"
@@ -422,6 +423,7 @@ const Skeleton3DLab = ({ language }: Props) => {
             // 2. Ligament (Bone to Bone)
             const ligGeo = new THREE.BoxGeometry(0.2, 2, 0.1);
             const ligMat = new THREE.MeshStandardMaterial({ color: 0xfb923c });
+            // Fix: Changed 'mat' to 'ligMat' to fix 'Cannot find name mat' error.
             const ligament = new THREE.Mesh(ligGeo, ligMat);
             ligament.position.set(0.6, 0.5, 0);
             ligament.visible = labState.ligament;
