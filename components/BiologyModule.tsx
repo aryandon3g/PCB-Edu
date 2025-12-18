@@ -1,7 +1,5 @@
-
 import React, { useState } from 'react';
-/* Added ArrowRight to the imports from lucide-react */
-import { ArrowLeft, ArrowRight, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind, Utensils, Apple, Pill, Bug, Baby, Search, Factory } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind, Utensils, Apple, Pill, Bug, Baby, Search, Factory, Accessibility } from 'lucide-react';
 import { Language, Topic } from '../types';
 import { TRANSLATIONS } from '../constants';
 
@@ -20,12 +18,14 @@ import Vitamins from './biology/Vitamins';
 import HumanDiseases from './biology/HumanDiseases';
 import ReproductionModule from './biology/ReproductionModule';
 import GlandsModule from './biology/GlandsModule';
+import SkeletonModule from './biology/SkeletonModule';
 
 interface ModuleProps {
   language: Language;
 }
 
 const TOPICS: Topic[] = [
+  { id: 'skeleton', title: { en: 'Skeletal System', hi: 'कंकाल प्रणाली' }, description: { en: 'The Body Framework & Tissues', hi: 'शरीर का ढाँचा और ऊतक' }, icon: Accessibility },
   { id: 'glands', title: { en: 'Glands & Hormones', hi: 'ग्रंथियां और हार्मोन' }, description: { en: 'Shareerpur: Pipeline vs Wireless', hi: 'शरीरपुर: पाइपलाइन बनाम वायरलेस' }, icon: Factory },
   { id: 'reproduction', title: { en: 'Human Reproduction', hi: 'मानव प्रजनन' }, description: { en: 'Systems, Fusion & Life Cycle', hi: 'तंत्र, संलयन और जीवन चक्र' }, icon: Baby },
   { id: 'diseases', title: { en: 'Human Diseases', hi: 'मानव रोग' }, description: { en: 'Infectious, Genetic & Zoonotic', hi: 'संक्रामक, आनुवंशिक और ज़ूनोटिक' }, icon: Bug },
@@ -53,6 +53,7 @@ const BiologyModule: React.FC<ModuleProps> = ({ language }) => {
 
   const renderContent = () => {
     switch(activeTopic) {
+        case 'skeleton': return <SkeletonModule language={language} />;
         case 'glands': return <GlandsModule language={language} />;
         case 'reproduction': return <ReproductionModule language={language} />;
         case 'dna': return <DnaHelix language={language} />;

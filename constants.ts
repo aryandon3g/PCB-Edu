@@ -1,4 +1,3 @@
-
 import { Language, Subject, TranslationDictionary } from './types';
 
 export const TRANSLATIONS: TranslationDictionary = {
@@ -81,7 +80,15 @@ export const TRANSLATIONS: TranslationDictionary = {
   humanDiseases: { en: "Human Diseases", hi: "मानव रोग" },
   reproduction: { en: "Reproduction System", hi: "प्रजनन तंत्र" },
   glands: { en: "Glands & Hormones", hi: "ग्रंथियां और हार्मोन" },
+  skeleton: { en: "Skeletal System", hi: "कंकाल प्रणाली" },
   
+  // Skeleton Specific
+  bones: { en: "Bones", hi: "हड्डियाँ" },
+  cartilage: { en: "Cartilage", hi: "उपास्थि" },
+  tendons: { en: "Tendons", hi: "टेंडन" },
+  ligaments: { en: "Ligaments", hi: "स्नायुबंधन" },
+  framework: { en: "Central Framework", hi: "केंद्रीय ढाँचा" },
+
   // Glands Specific
   exocrine: { en: "Exocrine (Pipeline)", hi: "बहिःस्रावी (पाइपलाइन)" },
   endocrine: { en: "Endocrine (Wireless)", hi: "अंतःस्रावी (वायरलेस)" },
