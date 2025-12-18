@@ -1,3 +1,4 @@
+
 export enum Language {
   ENGLISH = 'en',
   HINDI = 'hi'
@@ -7,6 +8,7 @@ export enum Subject {
   PHYSICS = 'physics',
   CHEMISTRY = 'chemistry',
   BIOLOGY = 'biology',
+  BOTANY = 'botany',
   LADO = 'lado'
 }
 

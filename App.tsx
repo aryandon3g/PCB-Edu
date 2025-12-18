@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
-import { Atom, FlaskConical, Dna, Languages, Maximize, Minimize, Dumbbell, Eye, EyeOff, LayoutGrid, ChevronRight, AlertCircle, RefreshCcw } from 'lucide-react';
+import { Atom, FlaskConical, Dna, Languages, Maximize, Minimize, Dumbbell, Eye, EyeOff, LayoutGrid, ChevronRight, AlertCircle, RefreshCcw, Leaf } from 'lucide-react';
 import { Language, Subject } from './types';
 import { TRANSLATIONS } from './constants';
 
@@ -8,10 +8,10 @@ import { TRANSLATIONS } from './constants';
 import PhysicsModule from './components/PhysicsModule';
 import ChemistryModule from './components/ChemistryModule';
 import BiologyModule from './components/BiologyModule';
+import BotanyModule from './components/BotanyModule';
 import LadoModule from './components/LadoModule';
 
 // Simple Error Boundary for UI Safety
-// Added explicit interfaces for Props and State to fix TS errors
 interface UIErrorBoundaryProps {
   children?: ReactNode;
 }
@@ -35,7 +35,6 @@ class UIErrorBoundary extends Component<UIErrorBoundaryProps, UIErrorBoundarySta
   }
   
   render() {
-    // Fixed: Accessed state correctly with proper typing from Component generics
     if (this.state.hasError) {
       return (
         <div className="h-full w-full flex flex-col items-center justify-center p-6 text-center bg-slate-50">
@@ -48,7 +47,6 @@ class UIErrorBoundary extends Component<UIErrorBoundaryProps, UIErrorBoundarySta
         </div>
       );
     }
-    // Fixed: Accessed props correctly with proper typing
     return this.props.children;
   }
 }
@@ -59,7 +57,6 @@ const App: React.FC = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
 
-  // Auto-hide nav on small landscape devices for better focus
   useEffect(() => {
     const handleResize = () => {
       if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
@@ -93,6 +90,7 @@ const App: React.FC = () => {
       case Subject.PHYSICS: return <PhysicsModule language={language} />;
       case Subject.CHEMISTRY: return <ChemistryModule language={language} />;
       case Subject.BIOLOGY: return <BiologyModule language={language} />;
+      case Subject.BOTANY: return <BotanyModule language={language} />;
       case Subject.LADO: return <LadoModule language={language} isNavVisible={isNavVisible} />;
       default: return <PhysicsModule language={language} />;
     }
@@ -133,10 +131,11 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <nav className="flex-1 w-full space-y-3 px-4">
+        <nav className="flex-1 w-full space-y-3 px-4 overflow-y-auto no-scrollbar">
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} color="indigo" />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} color="emerald" />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} color="rose" />
+          <NavItem subject={Subject.BOTANY} icon={Leaf} label={TRANSLATIONS.botany[language]} color="green" />
           <NavItem subject={Subject.LADO} icon={Dumbbell} label={TRANSLATIONS.lado[language]} color="green" />
         </nav>
 
@@ -202,7 +201,7 @@ const App: React.FC = () => {
           <NavItem subject={Subject.PHYSICS} icon={Atom} label={TRANSLATIONS.physics[language]} color="indigo" />
           <NavItem subject={Subject.CHEMISTRY} icon={FlaskConical} label={TRANSLATIONS.chemistry[language]} color="emerald" />
           <NavItem subject={Subject.BIOLOGY} icon={Dna} label={TRANSLATIONS.biology[language]} color="rose" />
-          <NavItem subject={Subject.LADO} icon={Dumbbell} label={TRANSLATIONS.lado[language]} color="green" />
+          <NavItem subject={Subject.BOTANY} icon={Leaf} label={TRANSLATIONS.botany[language]} color="green" />
         </nav>
 
       </main>

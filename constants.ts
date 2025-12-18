@@ -1,3 +1,4 @@
+
 import { Language, Subject, TranslationDictionary } from './types';
 
 export const TRANSLATIONS: TranslationDictionary = {
@@ -16,6 +17,10 @@ export const TRANSLATIONS: TranslationDictionary = {
   biology: {
     en: "Biology",
     hi: "जीव विज्ञान"
+  },
+  botany: {
+    en: "Botany",
+    hi: "वनस्पति विज्ञान"
   },
   lado: {
     en: "Lado",
@@ -63,6 +68,9 @@ export const TRANSLATIONS: TranslationDictionary = {
   score: { en: "Score", hi: "अंक" },
 
   // Topic Specific
+  kingdoms: { en: "Kingdom Classification", hi: "जगत वर्गीकरण" },
+  plantKingdom: { en: "Plant Kingdom", hi: "पादप जगत" },
+  animalKingdom: { en: "Animal Kingdom", hi: "जंतु जगत" },
   pendulum: { en: "Pendulum Motion", hi: "लोलक की गति" },
   reactionRate: { en: "Reaction Rate", hi: "प्रतिक्रिया दर" },
   projectile: { en: "Projectile Motion", hi: "प्रक्षेप्य गति" },
@@ -128,5 +136,6 @@ export const SUBJECT_ICONS = {
   [Subject.PHYSICS]: "🚀",
   [Subject.CHEMISTRY]: "🧪",
   [Subject.BIOLOGY]: "🧬",
+  [Subject.BOTANY]: "🌿",
   [Subject.LADO]: "🧘"
 };
