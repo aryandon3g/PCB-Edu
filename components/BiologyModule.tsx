@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind, Utensils, Apple, Pill, Bug } from 'lucide-react';
+import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind, Utensils, Apple, Pill, Bug, Baby } from 'lucide-react';
 import { Language, Topic } from '../types';
 import { TRANSLATIONS } from '../constants';
 import DnaHelix from './biology/DnaHelix';
@@ -14,12 +14,14 @@ import DigestiveSystem from './biology/DigestiveSystem';
 import HumanNutrition from './biology/HumanNutrition';
 import Vitamins from './biology/Vitamins';
 import HumanDiseases from './biology/HumanDiseases';
+import ReproductionModule from './biology/ReproductionModule';
 
 interface ModuleProps {
   language: Language;
 }
 
 const TOPICS: Topic[] = [
+  { id: 'reproduction', title: { en: 'Human Reproduction', hi: 'मानव प्रजनन' }, description: { en: 'Systems, Fusion & Life Cycle', hi: 'तंत्र, संलयन और जीवन चक्र' }, icon: Baby },
   { id: 'diseases', title: { en: 'Human Diseases', hi: 'मानव रोग' }, description: { en: 'Infectious, Genetic & Zoonotic', hi: 'संक्रामक, आनुवंशिक और ज़ूनोटिक' }, icon: Bug },
   { id: 'vitamins', title: { en: 'Vitamins Lab', hi: 'विटामिन लैब' }, description: { en: 'Micro-nutrients & Functions', hi: 'सूक्ष्म पोषक तत्व और कार्य' }, icon: Pill },
   { id: 'nutrition', title: { en: 'Human Nutrition', hi: 'मानव पोषण' }, description: { en: 'Carbohydrates & Energy Journey', hi: 'कार्बोहाइड्रेट और ऊर्जा की यात्रा' }, icon: Apple },
@@ -37,6 +39,7 @@ const TOPICS: Topic[] = [
 const BiologyModule: React.FC<ModuleProps> = ({ language }) => {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
 
+  if (activeTopic === 'reproduction') return <WithBack onBack={() => setActiveTopic(null)} language={language}><ReproductionModule language={language} /></WithBack>;
   if (activeTopic === 'dna') return <WithBack onBack={() => setActiveTopic(null)} language={language}><DnaHelix language={language} /></WithBack>;
   if (activeTopic === 'cell') return <WithBack onBack={() => setActiveTopic(null)} language={language}><PlantCell language={language} /></WithBack>;
   if (activeTopic === 'animal') return <WithBack onBack={() => setActiveTopic(null)} language={language}><AnimalCell language={language} /></WithBack>;

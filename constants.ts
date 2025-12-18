@@ -78,6 +78,14 @@ export const TRANSLATIONS: TranslationDictionary = {
   respiratory: { en: "Respiratory System", hi: "श्वसन तंत्र" },
   vitamins: { en: "Vitamins: Life Controllers", hi: "विटामिन: जीवन के नियंत्रक" },
   humanDiseases: { en: "Human Diseases", hi: "मानव रोग" },
+  reproduction: { en: "Reproduction System", hi: "प्रजनन तंत्र" },
+  
+  // Reproduction Specific
+  reproStory: { en: "Life's Copy: The Journey", hi: "जीवन की प्रतिलिपि: यात्रा" },
+  maleSystem: { en: "Male Workshop", hi: "पुरुष प्रणाली" },
+  fusion: { en: "Life Fusion", hi: "जीवन का संलयन" },
+  gestation: { en: "Gestation & Arrival", hi: "गर्भावधि और आगमन" },
+  familyPlanning: { en: "Family Planning", hi: "परिवार नियोजन" },
   
   // Biology specific
   nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },
