@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { 
   BookOpen, FlaskConical, ArrowRight, ArrowLeft, Accessibility, 
   CheckCircle, RotateCcw, Info, Zap, ShieldCheck, AlertCircle, 
-  Trophy, Box, Activity, Microscope 
+  Trophy, Box, Activity, Microscope, Droplets
 } from 'lucide-react';
 import { Language } from '../../types';
 
@@ -12,63 +12,72 @@ interface Props {
   language: Language;
 }
 
-// --- TOP-LEVEL STORY CONTENT WITH SSC TRICKS ---
+// --- TOP-LEVEL STORY CONTENT WITH SSC TRICKS & MISSING JOINT DATA ---
 const SKELETON_STORY = [
   {
     id: 1,
     title: { en: "The Grand Blueprint: The Framework", hi: "महान ब्लूप्रिंट: शरीर का ढाँचा" },
     text: {
-        en: "In Aarti Mam's biology class, Riya looked at a robot that couldn't stand. Mam explained: 'Just as a skyscraper needs a steel frame, our body needs the Skeletal System. It is the Central Framework. Without it, we would be a shapeless mass of flesh! It provides support, protects vital organs, and acts as a factory for blood cells.'",
-        hi: "आरती मैम की कक्षा में, रिया ने एक रोबोट देखा जो खड़ा नहीं हो पा रहा था। मैम ने समझाया: 'जैसे एक ऊंची इमारत को स्टील के ढांचे की जरूरत होती है, वैसे ही हमारे शरीर को कंकाल प्रणाली की जरूरत होती है। यह हमारा केंद्रीय ढाँचा (Central Framework) है। इसके बिना, हम मांस का एक बेढब ढेर होते! यह सहारा देता है, अंगों की रक्षा करता है, और रक्त कोशिकाओं के लिए एक कारखाने के रूप में कार्य करता है।'"
+        en: "In Aarti Mam's biology class, Riya looked at a robot that couldn't stand. Mam explained: 'Just as a skyscraper needs a steel frame, our body needs the Skeletal System. It is the Central Framework. It provides support, protects vital organs, and acts as a factory for blood cells.'",
+        hi: "आरती मैम की कक्षा में, रिया ने एक रोबोट देखा जो खड़ा नहीं हो पा रहा था। मैम ने समझाया: 'जैसे एक ऊंची इमारत को स्टील के ढांचे की जरूरत होती है, वैसे ही हमारे शरीर को कंकाल प्रणाली की जरूरत होती है। यह हमारा केंद्रीय ढाँचा (Central Framework) है। यह सहारा देता है, अंगों की रक्षा करता है, और रक्त कोशिकाओं के लिए एक कारखाने के रूप में कार्य करता है।'"
     },
     facts: [
         { label: { en: "Study of Bones", hi: "हड्डियों का अध्ययन" }, val: "Osteology" },
-        { label: { en: "SSC IMP Data", hi: "SSC महत्वपूर्ण तथ्य" }, val: { en: "206 Bones (Adult), 300+ (Baby)", hi: "206 हड्डियाँ (वयस्क), 300+ (बच्चा)" } },
-        { label: { en: "Composition", hi: "बनावट" }, val: { en: "Calcium Carbonate & Phosphate", hi: "कैल्शियम कार्बोनेट और फास्फोरस" } }
+        { label: { en: "Bone Count", hi: "हड्डियों की संख्या" }, val: "206 (Adult), 300+ (Baby)" }
     ],
     visual: 'robot'
   },
   {
     id: 2,
-    title: { en: "Soft Padding: The Cartilage", hi: "नरम गद्दी: उपास्थि (Cartilage)" },
+    title: { en: "The Connectors: BLB & MTB", hi: "संयोजक: BLB और MTB ट्रिक" },
     text: {
-        en: "'Touch your nose tip or your ears,' Mam said. 'They are not hard like bones, right? This is Cartilage. It is a flexible connective tissue. It covers the ends of bones at joints, acting as a high-performance shock absorber. Without it, your bones would rub against each other, causing extreme pain!'",
-        hi: "मैम ने कहा, 'अपनी नाक के सिरे या अपने कानों को छुओ। वे हड्डियों की तरह सख्त नहीं हैं, है ना? यह उपास्थि (Cartilage) है। यह एक लचीला संयोजी ऊतक है। यह जोड़ों पर हड्डियों के सिरों को ढकता है, एक उच्च-प्रदर्शन शॉक अब्ज़ॉर्बर (Shock Absorber) के रूप में कार्य करता है। इसके बिना, आपकी हड्डियाँ एक-दूसरे से रगड़ खाएंगी!'"
+        en: "'Bones don't just float!' Mam said. 'Ligaments (BLB) tie Bone-to-Bone. Tendons (MTB) tie Muscle-to-Bone. And Cartilage is the soft padding that prevents rubbing. These are the building blocks of every joint.'",
+        hi: "'हड्डियाँ बस तैरती नहीं हैं!' मैम ने कहा। 'स्नायुबंधन (BLB) हड्डी-से-हड्डी को बांधते हैं। टेंडन (MTB) मांसपेशी-को-हड्डी से जोड़ते हैं। और उपास्थि (Cartilage) वह नरम गद्दी है जो रगड़ को रोकती है। ये हर जोड़ के निर्माण खंड हैं।'"
     },
     facts: [
-        { label: { en: "Cells", hi: "कोशिकाएं" }, val: "Chondrocytes" },
-        { label: { en: "Property", hi: "गुण" }, val: { en: "Flexible & Non-vascular", hi: "लचीला और गैर-संवहनी" } },
-        { label: { en: "Location", hi: "स्थान" }, val: { en: "Nose, Ears, Joint ends", hi: "नाक, कान, जोड़ों के सिरे" } }
+        { label: { en: "BLB Trick", hi: "BLB ट्रिक" }, val: "Bone - Ligament - Bone" },
+        { label: { en: "MTB Trick", hi: "MTB ट्रिक" }, val: "Muscle - Tendon - Bone" }
     ],
-    visual: 'cartilage'
+    visual: 'connectors'
   },
   {
     id: 3,
-    title: { en: "The Bone Bridge: Ligaments (SSC Trick: BLB)", hi: "हड्डी का पुल: स्नायुबंधन (SSC ट्रिक: BLB)" },
+    title: { en: "The Pivot Points: Joints", hi: "धुरी बिंदु: जोड़ (Joints)" },
     text: {
-        en: "'What holds two bones together so they don't fly apart when you jump?' Riya asked. Mam smiled, 'That's the job of Ligaments! They are strong elastic bands that connect Bone to Bone. Use the SSC Super Trick: BLB (Bone - Ligament - Bone). This is how joints stay stable during heavy sports.'",
-        hi: "रिया ने पूछा, 'दो हड्डियों को एक साथ कौन पकड़ता है ताकि वे कूदते समय अलग न हो जाएं?' मैम मुस्कुराईं, 'यह स्नायुबंधन (Ligaments) का काम है! ये मजबूत लचीले बैंड हैं जो 'हड्डी को हड्डी' से जोड़ते हैं। SSC सुपर ट्रिक का उपयोग करें: BLB (Bone - Ligament - Bone)। इसी तरह खेल के दौरान जोड़ स्थिर रहते हैं।'"
+        en: "'What is a joint?' Riya asked. 'A joint (Arthrology) is the point where two or more bones meet,' Aarti Mam replied. Joints allow us to move. Without them, we would be stiff like a statue! There are fixed joints (skull) and mobile joints (limbs).'",
+        hi: "'जोड़ क्या है?' रिया ने पूछा। 'संधि या जोड़ (Arthrology) वह बिंदु है जहाँ दो या दो से अधिक हड्डियाँ मिलती हैं,' आरती मैम ने उत्तर दिया। जोड़ हमें हिलने-डुलने की अनुमति देते हैं। उनके बिना, हम एक मूर्ति की तरह अकड़ जाते! कुछ जोड़ स्थिर होते हैं (खोपड़ी) और कुछ गतिशील (अंग)।'"
     },
     facts: [
-        { label: { en: "SSC Trick", hi: "SSC ट्रिक" }, val: "B - L - B (Bone to Bone)" },
-        { label: { en: "Nature", hi: "प्रकृति" }, val: { en: "Highly Elastic", hi: "अत्यधिक लचीला" } },
-        { label: { en: "Injury", hi: "चोट" }, val: { en: "Sprain (excessive stretch)", hi: "मोच (अत्यधिक खिंचाव)" } }
+        { label: { en: "Study of Joints", hi: "जोड़ों का अध्ययन" }, val: "Arthrology" },
+        { label: { en: "Fixed Joint", hi: "अचल संधि" }, val: { en: "Sutures of Skull", hi: "खोपड़ी की सीवन" } }
     ],
-    visual: 'ligament'
+    visual: 'joints'
   },
   {
     id: 4,
-    title: { en: "The Muscle Pull: Tendons (SSC Trick: MTB)", hi: "मांसपेशियों का खिंचाव: टेंडन (SSC ट्रिक: MTB)" },
+    title: { en: "Synovial Joints: The Smooth Secret", hi: "सिनोवियल जोड़: चिकनाई का रहस्य" },
     text: {
-        en: "'Hones can't move themselves,' Mam continued. 'Muscles must pull them! But how? Through Tendons! These are tough, cord-like tissues that connect Muscle to Bone. Remember the trick: MTB (Muscle - Tendon - Bone). Tendons are like the strong strings of a puppet, pulling the skeleton into action.'",
-        hi: "मैम ने आगे कहा, 'हड्डियाँ खुद नहीं हिल सकतीं। मांसपेशियों को उन्हें खींचना होगा! पर कैसे? टेंडन (Tendons) के माध्यम से! ये सख्त, रस्सी जैसे ऊतक होते हैं जो 'मांसपेशी को हड्डी' से जोड़ते हैं। ट्रिक याद रखें: MTB (Muscle - Tendon - Bone)। टेंडन एक कठपुतली की मजबूत डोरियों की तरह होते हैं।'"
+        en: "'Most mobile joints are Synovial Joints,' Mam explained. 'They have a Synovial Membrane that secretes Synovial Fluid. This fluid acts like machine oil (Lubricant), making movements smooth and friction-free.'",
+        hi: "'ज्यादातर गतिशील जोड़ सिनोवियल जोड़ होते हैं,' मैम ने समझाया। 'उनमें एक सिनोवियल झिल्ली होती है जो सिनोवियल द्रव (Synovial Fluid) निकालती है। यह द्रव मशीन के तेल (लुब्रिकेंट) की तरह काम करता है, जिससे गतिविधियां चिकनी और घर्षण रहित होती हैं।'"
     },
     facts: [
-        { label: { en: "SSC Trick", hi: "SSC ट्रिक" }, val: "M - T - B (Muscle to Bone)" },
-        { label: { en: "Strength", hi: "शक्ति" }, val: { en: "High tensile, low elasticity", hi: "उच्च खिंचाव शक्ति, कम लचीलापन" } },
-        { label: { en: "Composition", hi: "बनावट" }, val: "Collagen Fibers" }
+        { label: { en: "Synovial Fluid", hi: "सिनोवियल द्रव" }, val: { en: "Biological Lubricant", hi: "जैविक स्नेहक" } },
+        { label: { en: "Degeneration", hi: "क्षय" }, val: { en: "Leads to Arthritis", hi: "गठिया (Arthritis) का कारण" } }
     ],
-    visual: 'tendon'
+    visual: 'synovial'
+  },
+  {
+    id: 5,
+    title: { en: "Types of Movement", hi: "गति के प्रकार" },
+    text: {
+        en: "'Every joint has a role,' Mam continued. 'Ball and Socket (Shoulder) gives 360° motion. Hinge joint (Elbow/Knee) is like a door. Pivot joint (Neck) lets you say No by rotating. Every movement is a masterpiece of biology!'",
+        hi: "'हर जोड़ की एक भूमिका होती है,' मैम ने आगे कहा। 'बॉल और सॉकेट (कंधा) 360° गति देता है। हिंज जोड़ (कोहनी/घुटना) दरवाजे की तरह होता है। पिवट जोड़ (गर्दन) आपको गर्दन घुमाकर नहीं कहने देता है। हर गति जीव विज्ञान का एक उत्कृष्ट नमूना है!'"
+    },
+    facts: [
+        { label: { en: "Ball & Socket", hi: "कंदुक-खल्लिका" }, val: { en: "Shoulder & Hip", hi: "कंधा और कूल्हा" } },
+        { label: { en: "Hinge Joint", hi: "कब्जा संधि" }, val: { en: "Knee & Elbow", hi: "घुटना और कोहनी" } }
+    ],
+    visual: 'types'
   }
 ];
 
@@ -87,7 +96,7 @@ const SkeletonModule: React.FC<Props> = ({ language }) => {
           <div>
             <h1 className="text-2xl font-black tracking-tighter text-slate-900 uppercase leading-none">Skeleton Lab 3D</h1>
             <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-1">
-                {language === Language.ENGLISH ? "Framework & Biomechanics" : "ढाँचा और बायोमैकेनिक्स"}
+                {language === Language.ENGLISH ? "Bones, Joints & Lubrication" : "हड्डियाँ, जोड़ और चिकनाई"}
             </p>
           </div>
         </div>
@@ -97,13 +106,13 @@ const SkeletonModule: React.FC<Props> = ({ language }) => {
              onClick={() => setActiveTab('story')} 
              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all uppercase tracking-widest ${activeTab === 'story' ? 'bg-white text-blue-700 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}
            >
-              <BookOpen size={16} /> {language === Language.ENGLISH ? "Deep Dive" : "विस्तृत चर्चा"}
+              <BookOpen size={16} /> {language === Language.ENGLISH ? "Theory" : "सिद्धांत"}
            </button>
            <button 
              onClick={() => setActiveTab('lab')} 
              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all uppercase tracking-widest ${activeTab === 'lab' ? 'bg-white text-indigo-700 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}
            >
-              <FlaskConical size={16} /> {language === Language.ENGLISH ? "3D Simulation" : "3D सिमुलेशन"}
+              <FlaskConical size={16} /> {language === Language.ENGLISH ? "3D Sim" : "3D सिम"}
            </button>
         </div>
       </div>
@@ -131,61 +140,76 @@ const StoryView = ({ language, chapter, setChapter }: any) => {
                             <div className="text-center group">
                                 <div className="w-24 h-24 sm:w-32 sm:h-32 bg-red-50 rounded-[40px] shadow-xl flex items-center justify-center text-5xl border-b-8 border-red-500 relative group-hover:rotate-12 transition-transform">
                                     🤖
-                                    <div className="absolute top-2 right-2 text-xs">⚠️</div>
                                 </div>
                                 <div className="mt-4 font-black text-[10px] text-red-600 uppercase tracking-widest">Broken Bot</div>
                             </div>
                             <div className="text-center group">
                                 <div className="w-24 h-24 sm:w-32 sm:h-32 bg-blue-50 rounded-[40px] shadow-xl flex items-center justify-center text-5xl border-b-8 border-blue-500 relative">
                                     🦴
-                                    <div className="absolute top-2 right-2 text-xs">✅</div>
                                 </div>
-                                <div className="mt-4 font-black text-[10px] text-blue-600 uppercase tracking-widest">Human Spine</div>
+                                <div className="mt-4 font-black text-[10px] text-blue-600 uppercase tracking-widest">Human Framework</div>
                             </div>
                         </div>
                     </div>
                 );
-            case 'cartilage':
-                return (
-                    <div className="flex flex-col items-center gap-6 animate-fade-in">
-                        <div className="flex gap-6">
-                            <div className="w-24 h-24 bg-blue-50 rounded-3xl flex flex-col items-center justify-center shadow-lg border border-blue-200 hover:scale-110 transition-transform">
-                                <div className="text-4xl">👂</div>
-                                <span className="text-[10px] font-black text-blue-800 mt-2 uppercase tracking-tighter">External Ear</span>
-                            </div>
-                            <div className="w-24 h-24 bg-blue-50 rounded-3xl flex flex-col items-center justify-center shadow-lg border border-blue-200 hover:scale-110 transition-transform">
-                                <div className="text-4xl">👃</div>
-                                <span className="text-[10px] font-black text-blue-800 mt-2 uppercase tracking-tighter">Nose Tip</span>
-                            </div>
-                        </div>
-                        <div className="w-64 h-16 bg-white rounded-2xl border-4 border-blue-200 flex items-center justify-center px-4 shadow-xl">
-                            <div className="w-4 h-4 bg-blue-400 rounded-full animate-ping"></div>
-                            <span className="ml-4 font-black text-blue-900 text-xs uppercase tracking-tight font-black">Shock Absorber (Chondrocytes)</span>
-                        </div>
-                    </div>
-                );
-            case 'ligament':
+            case 'connectors':
                 return (
                     <div className="flex flex-col items-center gap-6 animate-fade-in">
                         <div className="flex items-center gap-4">
-                            <div className="w-20 h-32 bg-slate-100 rounded-2xl flex items-center justify-center font-black text-xs text-slate-500 border border-slate-200 shadow-sm">BONE 1</div>
-                            <div className="w-16 h-8 bg-orange-400 rounded-full border-2 border-orange-600 animate-pulse flex items-center justify-center font-black text-[8px] text-white">LIGAMENT</div>
-                            <div className="w-20 h-32 bg-slate-100 rounded-2xl flex items-center justify-center font-black text-xs text-slate-500 border border-slate-200 shadow-sm">BONE 2</div>
+                            <div className="w-20 h-10 bg-slate-100 rounded-xl border-2 border-slate-300 flex items-center justify-center font-black text-[10px]">BONE</div>
+                            <div className="w-8 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                            <div className="w-20 h-10 bg-slate-100 rounded-xl border-2 border-slate-300 flex items-center justify-center font-black text-[10px]">BONE</div>
                         </div>
-                        <div className="bg-orange-600 text-white px-8 py-2 rounded-full font-black text-xs uppercase shadow-xl tracking-widest">SSC TRICK: B L B</div>
+                        <div className="bg-orange-600 text-white px-4 py-1 rounded-full font-black text-[10px] uppercase">BLB: Ligament</div>
+                        <div className="flex items-center gap-4 mt-4">
+                            <div className="w-20 h-10 bg-red-100 rounded-xl border-2 border-red-300 flex items-center justify-center font-black text-[10px]">MUSCLE</div>
+                            <div className="w-8 h-2 bg-slate-400 rounded-full"></div>
+                            <div className="w-20 h-10 bg-slate-100 rounded-xl border-2 border-slate-300 flex items-center justify-center font-black text-[10px]">BONE</div>
+                        </div>
+                        <div className="bg-slate-600 text-white px-4 py-1 rounded-full font-black text-[10px] uppercase">MTB: Tendon</div>
                     </div>
                 );
-            case 'tendon':
+            case 'joints':
+                return (
+                    <div className="flex flex-col items-center gap-8 animate-fade-in">
+                        <div className="w-32 h-32 bg-indigo-50 rounded-full border-4 border-indigo-200 flex items-center justify-center relative overflow-hidden">
+                             <div className="absolute inset-0 border-4 border-indigo-500 rounded-full border-t-transparent animate-spin-slow"></div>
+                             <Accessibility size={64} className="text-indigo-600" />
+                        </div>
+                        <div className="bg-indigo-600 text-white px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest shadow-lg">Arthrology = Study of Joints</div>
+                    </div>
+                );
+            case 'synovial':
                 return (
                     <div className="flex flex-col items-center gap-6 animate-fade-in">
-                        <div className="flex flex-col items-center">
-                            <div className="w-24 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-600 font-black text-xs border border-red-200 shadow-sm uppercase tracking-tighter">Muscle</div>
-                            <div className="w-2 h-20 bg-slate-300 relative">
-                                <div className="absolute top-0 bottom-0 w-full bg-red-500 animate-height-fill"></div>
+                        <div className="relative w-40 h-40 bg-white rounded-3xl border-4 border-blue-100 shadow-xl flex items-center justify-center">
+                            <Droplets size={64} className="text-blue-400 animate-bounce" />
+                            <div className="absolute inset-0 bg-blue-50/50 rounded-2xl flex items-center justify-center">
+                                <div className="w-32 h-32 border-4 border-blue-300 rounded-full border-dashed animate-pulse"></div>
                             </div>
-                            <div className="w-24 h-12 bg-slate-200 rounded-xl flex items-center justify-center font-black text-xs text-slate-600 border border-slate-300 uppercase tracking-tighter">Bone</div>
                         </div>
-                        <div className="bg-red-600 text-white px-8 py-2 rounded-full font-black text-xs uppercase shadow-xl tracking-widest">SSC TRICK: M T B</div>
+                        <div className="bg-blue-600 text-white px-6 py-2 rounded-full font-black text-xs uppercase shadow-xl">Synovial Fluid (Lubricant)</div>
+                    </div>
+                );
+            case 'types':
+                return (
+                    <div className="grid grid-cols-2 gap-4 animate-fade-in">
+                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center">
+                             <div className="text-3xl mb-2">🔄</div>
+                             <div className="font-black text-[10px] uppercase">Ball & Socket</div>
+                         </div>
+                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center">
+                             <div className="text-3xl mb-2">🚪</div>
+                             <div className="font-black text-[10px] uppercase">Hinge Joint</div>
+                         </div>
+                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center">
+                             <div className="text-3xl mb-2">📍</div>
+                             <div className="font-black text-[10px] uppercase">Pivot Joint</div>
+                         </div>
+                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center">
+                             <div className="text-3xl mb-2">滑</div>
+                             <div className="font-black text-[10px] uppercase">Gliding Joint</div>
+                         </div>
                     </div>
                 );
             default: return null;
@@ -241,7 +265,7 @@ const StoryView = ({ language, chapter, setChapter }: any) => {
 const Skeleton3DLab = ({ language }: Props) => {
     const mountRef = useRef<HTMLDivElement>(null);
     const [mode, setMode] = useState<'framework' | 'tissue' | 'quiz'>('framework');
-    const [labState, setLabState] = useState({ cartilage: false, ligament: false, tendon: false });
+    const [labState, setLabState] = useState({ cartilage: false, ligament: false, tendon: false, fluid: false });
     const [feedback, setFeedback] = useState<{msg: string, type: string} | null>(null);
     const [isMoving, setIsMoving] = useState(false);
     const [score, setScore] = useState(0);
@@ -250,7 +274,6 @@ const Skeleton3DLab = ({ language }: Props) => {
     const sceneRef = useRef<THREE.Scene | null>(null);
     const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-    const currentObjectsRef = useRef<THREE.Object3D[]>([]);
     const frameworkPartsRef = useRef<{ mesh: THREE.Mesh, targetPos: THREE.Vector3, targetRot: THREE.Euler, startPos: THREE.Vector3 }[]>([]);
     const groupRef = useRef<THREE.Group | null>(null);
     
@@ -258,6 +281,7 @@ const Skeleton3DLab = ({ language }: Props) => {
     const cartilageMeshRef = useRef<THREE.Mesh | null>(null);
     const ligamentMeshRef = useRef<THREE.Mesh | null>(null);
     const tendonMeshRef = useRef<THREE.Mesh | null>(null);
+    const fluidMeshRef = useRef<THREE.Mesh | null>(null);
     const lowerBoneRef = useRef<THREE.Mesh | null>(null);
 
     // Track mouse rotation
@@ -370,6 +394,7 @@ const Skeleton3DLab = ({ language }: Props) => {
         if (cartilageMeshRef.current) cartilageMeshRef.current.visible = labState.cartilage;
         if (ligamentMeshRef.current) ligamentMeshRef.current.visible = labState.ligament;
         if (tendonMeshRef.current) tendonMeshRef.current.visible = labState.tendon;
+        if (fluidMeshRef.current) fluidMeshRef.current.visible = labState.fluid;
     }, [labState]);
 
     const clearObjects = () => {
@@ -378,7 +403,6 @@ const Skeleton3DLab = ({ language }: Props) => {
         while(group.children.length > 0){ 
             group.remove(group.children[0]); 
         }
-        currentObjectsRef.current = [];
     };
 
     const loadScene = (newMode: string) => {
@@ -388,7 +412,6 @@ const Skeleton3DLab = ({ language }: Props) => {
 
         if (newMode === 'framework') {
             frameworkPartsRef.current = [];
-            // Create "scattered" bones (Framework Building Blocks)
             for (let i = 0; i < 10; i++) {
                 const geo = new THREE.CylinderGeometry(0.3, 0.3, 2, 16);
                 const mat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9 });
@@ -413,7 +436,7 @@ const Skeleton3DLab = ({ language }: Props) => {
 
             // Lower Bone (Pivotable)
             const lowerGeo = new THREE.CylinderGeometry(0.6, 0.6, 6, 20);
-            lowerGeo.translate(0, -3, 0); // Offset geometry for pivot at joint
+            lowerGeo.translate(0, -3, 0); 
             const lowerBone = new THREE.Mesh(lowerGeo, boneMat);
             lowerBone.position.y = 0.5;
             lowerBoneRef.current = lowerBone;
@@ -428,7 +451,16 @@ const Skeleton3DLab = ({ language }: Props) => {
             cartilageMeshRef.current = cartilage;
             group.add(cartilage);
 
-            // 2. Ligament (Bone to Bone) - Orange Wrap
+            // 2. Synovial Fluid (Bio-Lubricant)
+            const fluidGeo = new THREE.CylinderGeometry(0.75, 0.75, 0.6, 20);
+            const fluidMat = new THREE.MeshPhongMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.3 });
+            const fluid = new THREE.Mesh(fluidGeo, fluidMat);
+            fluid.position.y = 0.5;
+            fluid.visible = labState.fluid;
+            fluidMeshRef.current = fluid;
+            group.add(fluid);
+
+            // 3. Ligament (Bone to Bone)
             const ligGeo = new THREE.TorusGeometry(0.8, 0.1, 16, 100);
             const ligMat = new THREE.MeshStandardMaterial({ color: 0xfb923c });
             const ligament = new THREE.Mesh(ligGeo, ligMat);
@@ -438,7 +470,7 @@ const Skeleton3DLab = ({ language }: Props) => {
             ligamentMeshRef.current = ligament;
             group.add(ligament);
 
-            // 3. Tendon (Muscle to Bone) - Red Pulley
+            // 4. Tendon (Muscle to Bone)
             const tendonGeo = new THREE.CylinderGeometry(0.15, 0.15, 6, 8);
             const tendonMat = new THREE.MeshStandardMaterial({ color: 0xef4444 });
             const tendon = new THREE.Mesh(tendonGeo, tendonMat);
@@ -476,8 +508,8 @@ const Skeleton3DLab = ({ language }: Props) => {
 
     const testMovement = () => {
         if (isMoving) return;
-        if (!labState.cartilage) {
-            showFeedback("WARNING: Bone Rubbing Detected! No Cartilage.", "error");
+        if (!labState.cartilage || !labState.fluid) {
+            showFeedback("WARNING: Joint Friction! Missing Cartilage or Synovial Fluid.", "error");
             return;
         }
         setIsMoving(true);
@@ -492,15 +524,15 @@ const Skeleton3DLab = ({ language }: Props) => {
     const handleQuizAnswer = (correct: boolean) => {
         if (correct) {
             setScore(s => s + 10);
-            showFeedback("Correct! You remembered the SSC Trick!", "success");
+            showFeedback("Correct! You remembered the Joint Secrets!", "success");
         } else {
-            showFeedback("Oops! Remember BLB vs MTB.", "error");
+            showFeedback("Oops! Remember Synovial Fluid vs BLB/MTB.", "error");
         }
     };
 
     return (
         <div className="h-full flex flex-col relative bg-white min-h-[400px]">
-            {/* 3D Container - ensure height is taken */}
+            {/* 3D Container */}
             <div ref={mountRef} className="absolute inset-0 z-0 cursor-move" />
 
             {/* Overlays */}
@@ -508,12 +540,12 @@ const Skeleton3DLab = ({ language }: Props) => {
                 <div className="bg-white/90 backdrop-blur-md p-5 rounded-[24px] border border-slate-200 shadow-xl pointer-events-auto">
                     <h3 className="text-blue-600 font-black uppercase text-xs mb-2 flex items-center gap-2">
                         {mode === 'framework' ? <Box size={16}/> : mode === 'tissue' ? <Activity size={16}/> : <Trophy size={16}/>}
-                        {mode === 'framework' ? "Stability Test" : mode === 'tissue' ? "Joint Biomechanics" : "Trick Quiz"}
+                        {mode === 'framework' ? "Stability Lab" : mode === 'tissue' ? "Joint Biomechanics" : "Arthrology Quiz"}
                     </h3>
                     <p className="text-slate-600 text-[10px] font-bold leading-relaxed">
-                        {mode === 'framework' ? "Isolated bones cannot support weight. Assemble the central spine to gain architectural stability." : 
-                         mode === 'tissue' ? "Activate connective tissues to protect (Cartilage), tie (Ligaments), and pull (Tendons) the skeletal frame." : 
-                         "Test your knowledge of the Bone-Connective-Muscle system and SSC tricks."}
+                        {mode === 'framework' ? "Isolated bones cannot stand. Assemble the central spine to gain architectural stability." : 
+                         mode === 'tissue' ? "Activate synovial fluid and cartilage to reduce friction during movement." : 
+                         "Test your knowledge of the Bone-Connective-Muscle system and synovial joints."}
                     </p>
                 </div>
 
@@ -529,8 +561,8 @@ const Skeleton3DLab = ({ language }: Props) => {
             <div className="absolute bottom-8 left-0 right-0 z-10 flex flex-col items-center gap-4 px-4">
                 <div className="flex bg-slate-100 p-1.5 rounded-[24px] border border-slate-200 shadow-2xl overflow-x-auto no-scrollbar max-w-full">
                     <button onClick={() => setMode('framework')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'framework' ? 'bg-white text-blue-600 shadow-md' : 'text-slate-500'}`}>1. Framework</button>
-                    <button onClick={() => setMode('tissue')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'tissue' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-500'}`}>2. Biomechanics</button>
-                    <button onClick={() => setMode('quiz')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'quiz' ? 'bg-white text-purple-600 shadow-md' : 'text-slate-500'}`}>3. Exam Trick Quiz</button>
+                    <button onClick={() => setMode('tissue')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'tissue' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-500'}`}>2. Joint Components</button>
+                    <button onClick={() => setMode('quiz')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'quiz' ? 'bg-white text-purple-600 shadow-md' : 'text-slate-500'}`}>3. Exam Quiz</button>
                 </div>
 
                 <div className="flex gap-4 pointer-events-auto w-full justify-center">
@@ -549,34 +581,33 @@ const Skeleton3DLab = ({ language }: Props) => {
                                 className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.cartilage ? 'bg-blue-600 border-blue-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}
                             >Cartilage</button>
                             <button 
+                                onClick={() => setLabState(p => ({...p, fluid: !p.fluid}))}
+                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.fluid ? 'bg-cyan-500 border-cyan-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}
+                            >Synovial Fluid</button>
+                            <button 
                                 onClick={() => setLabState(p => ({...p, ligament: !p.ligament}))}
                                 className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.ligament ? 'bg-orange-600 border-orange-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}
                             >Ligament (BLB)</button>
-                            <button 
-                                onClick={() => setLabState(p => ({...p, tendon: !p.tendon}))}
-                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.tendon ? 'bg-red-600 border-red-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}
-                            >Tendon (MTB)</button>
                             <button onClick={testMovement} className={`px-8 py-3 bg-slate-900 text-white rounded-2xl font-black text-[10px] shadow-xl hover:bg-black transition-all ${isMoving ? 'opacity-50' : 'animate-pulse'}`}>
-                                {isMoving ? "TESTING..." : "TEST MOVEMENT"}
+                                {isMoving ? "ROTATING..." : "TEST MOVEMENT"}
                             </button>
                         </div>
                     )}
                     {mode === 'quiz' && (
                         <div className="bg-white/90 backdrop-blur-md p-6 rounded-[32px] border border-slate-200 shadow-2xl flex flex-col items-center gap-4 w-full max-w-sm">
-                            <div className="text-xs font-black text-slate-800 text-center">Q: Which tissue connects "Muscle to Bone"?</div>
+                            <div className="text-xs font-black text-slate-800 text-center">Q: Which fluid acts as a lubricant in mobile joints?</div>
                             <div className="grid grid-cols-2 gap-2 w-full">
-                                <button onClick={() => handleQuizAnswer(false)} className="px-4 py-3 bg-slate-100 rounded-xl font-bold text-[10px] hover:bg-slate-200 transition-colors uppercase">BLB Trick</button>
-                                <button onClick={() => handleQuizAnswer(true)} className="px-4 py-3 bg-blue-600 text-white rounded-xl font-bold text-[10px] hover:bg-blue-700 transition-colors uppercase shadow-md">MTB Trick</button>
+                                <button onClick={() => handleQuizAnswer(false)} className="px-4 py-3 bg-slate-100 rounded-xl font-bold text-[10px] hover:bg-slate-200 transition-colors uppercase">Plasma Fluid</button>
+                                <button onClick={() => handleQuizAnswer(true)} className="px-4 py-3 bg-blue-600 text-white rounded-xl font-bold text-[10px] hover:bg-blue-700 transition-colors uppercase shadow-md">Synovial Fluid</button>
                             </div>
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* Hint for dragging */}
             <div className="absolute top-6 right-6 pointer-events-none hidden sm:block">
                 <div className="bg-white/60 backdrop-blur-sm p-3 rounded-2xl border border-slate-200 text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
-                    <RotateCcw size={12}/> Click & Drag to Rotate 3D Model
+                    <RotateCcw size={12}/> Drag to Rotate &bull; Scroll to Zoom
                 </div>
             </div>
         </div>
