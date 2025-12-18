@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { ArrowLeft, Activity } from 'lucide-react';
+import { ArrowLeft, Activity, Search, ArrowRight, Book } from 'lucide-react';
 import { Language, Topic } from '../types';
 import { TRANSLATIONS } from '../constants';
 import PhysicalEducation from './lado/PhysicalEducation';
@@ -12,8 +13,8 @@ interface ModuleProps {
 const TOPICS: Topic[] = [
   { 
     id: 'pe_yoga', 
-    title: { en: 'Physical Education & Yoga', hi: 'शारीरिक शिक्षा और योग' }, 
-    description: { en: 'Fitness, Health, Yoga (Z040401)', hi: 'फिटनेस, स्वास्थ्य, योग (Z040401)' }, 
+    title: { en: 'Fitness & Yoga', hi: 'फिटनेस और योग' }, 
+    description: { en: 'Comprehensive health and yoga guide (Z040401).', hi: 'व्यापक स्वास्थ्य और योग गाइड (Z040401)।' }, 
     icon: Activity 
   },
 ];
@@ -21,50 +22,86 @@ const TOPICS: Topic[] = [
 const LadoModule: React.FC<ModuleProps> = ({ language, isNavVisible }) => {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
 
-  if (activeTopic === 'pe_yoga') return <WithBack onBack={() => setActiveTopic(null)} language={language}><PhysicalEducation language={language} isNavVisible={isNavVisible} /></WithBack>;
+  if (activeTopic) {
+    return (
+      <div className="flex flex-col h-full gap-6 animate-fade-in">
+        <button 
+          onClick={() => setActiveTopic(null)} 
+          className="self-start flex items-center gap-3 bg-white px-5 py-2.5 rounded-2xl shadow-sm border border-slate-200 text-slate-500 hover:text-green-600 transition-all hover:shadow-md active:scale-95 group"
+        >
+          <div className="bg-slate-50 p-1.5 rounded-lg group-hover:bg-green-50 transition-colors">
+            <ArrowLeft size={18} />
+          </div>
+          <span className="font-black text-xs uppercase tracking-widest">{TRANSLATIONS.backToTopics[language]}</span>
+        </button>
+        <div className="flex-1 h-full">
+          <PhysicalEducation language={language} isNavVisible={isNavVisible} />
+        </div>
+      </div>
+    );
+  }
 
   return <TopicGrid language={language} topics={TOPICS} onSelect={setActiveTopic} />;
 };
 
-interface WithBackProps {
-  children: React.ReactNode;
-  onBack: () => void;
-  language: Language;
-}
+const TopicGrid: React.FC<{ language: Language, topics: Topic[], onSelect: (id: string) => void }> = ({ language, topics, onSelect }) => {
+  const [search, setSearch] = useState('');
+  
+  return (
+    <div className="h-full space-y-10 animate-fade-in">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">{TRANSLATIONS.lado[language]}</h2>
+          <p className="text-slate-500 font-bold mt-3 text-sm uppercase tracking-widest flex items-center gap-2">
+            <div className="w-8 h-1 bg-green-600 rounded-full"></div>
+            {TRANSLATIONS.selectTopic[language]}
+          </p>
+        </div>
+        
+        <div className="relative group w-full md:w-96">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-green-500 transition-colors" size={20} />
+          <input 
+            type="text" 
+            placeholder={language === Language.ENGLISH ? "Search syllabus..." : "पाठ्यक्रम खोजें..."}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-12 pr-4 py-4 bg-white rounded-3xl border border-slate-200 shadow-sm focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all font-bold text-sm"
+          />
+        </div>
+      </div>
 
-const WithBack: React.FC<WithBackProps> = ({ children, onBack, language }) => (
-  <div className="flex flex-col h-auto md:h-full gap-4">
-    <button onClick={onBack} className="self-start flex items-center gap-2 text-slate-500 hover:text-green-600 text-sm font-medium transition-colors">
-      <ArrowLeft size={16} /> {TRANSLATIONS.backToTopics[language]}
-    </button>
-    <div className="flex-1 h-auto md:h-full">{children}</div>
-  </div>
-);
-
-interface TopicGridProps {
-  language: Language;
-  topics: Topic[];
-  onSelect: (id: string) => void;
-}
-
-const TopicGrid: React.FC<TopicGridProps> = ({ language, topics, onSelect }) => (
-  <div className="h-full">
-    <h2 className="text-2xl font-bold text-slate-800 mb-6">{TRANSLATIONS.selectTopic[language]}</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {topics.map((t: Topic) => {
-        const Icon = t.icon;
-        return (
-          <button key={t.id} onClick={() => onSelect(t.id)} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-green-300 transition-all text-left group">
-            <div className="w-12 h-12 bg-green-50 text-green-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
-              <Icon size={24} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-2">{language === Language.ENGLISH ? t.title.en : t.title.hi}</h3>
-            <p className="text-sm text-slate-500">{language === Language.ENGLISH ? t.description.en : t.description.hi}</p>
-          </button>
-        )
-      })}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
+        {topics.map((t) => {
+          const Icon = t.icon;
+          return (
+            <button 
+              key={t.id} 
+              onClick={() => onSelect(t.id)} 
+              className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-green-200/40 hover:-translate-y-1.5 transition-all text-left group relative overflow-hidden flex flex-col h-full"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-[120px] -mr-8 -mt-8 group-hover:bg-green-100 transition-colors opacity-40"></div>
+              
+              <div className="w-16 h-16 bg-green-50 text-green-600 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-green-600 group-hover:text-white group-hover:rotate-6 group-hover:scale-110 transition-all shadow-inner">
+                <Icon size={32} />
+              </div>
+              
+              <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight uppercase tracking-tight group-hover:text-green-600 transition-colors">
+                {language === Language.ENGLISH ? t.title.en : t.title.hi}
+              </h3>
+              <p className="text-sm text-slate-500 font-medium leading-relaxed mb-8 flex-1">
+                {language === Language.ENGLISH ? t.description.en : t.description.hi}
+              </p>
+              
+              <div className="flex items-center gap-2 text-green-500 font-black text-[11px] uppercase tracking-widest">
+                <span>View Syllabus & Quiz</span>
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </button>
+          )
+        })}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default LadoModule;
