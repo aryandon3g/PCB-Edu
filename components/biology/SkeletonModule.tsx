@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { BookOpen, FlaskConical, ArrowRight, ArrowLeft, Accessibility, Microscope, CheckCircle, RotateCcw, Info, User, HelpCircle, Zap, ShieldCheck, AlertCircle, Trophy } from 'lucide-react';
+import { BookOpen, FlaskConical, ArrowRight, ArrowLeft, Accessibility, Microscope, CheckCircle, RotateCcw, Info, User, HelpCircle, Zap, ShieldCheck, AlertCircle, Trophy, Box, Activity } from 'lucide-react';
 import { Language } from '../../types';
 import { TRANSLATIONS } from '../../constants';
 
@@ -9,7 +9,7 @@ interface Props {
   language: Language;
 }
 
-// --- STORY CONTENT BASED ON USER PROMPT ---
+// --- STORY CONTENT: THE STORY OF FRAMEWORK ---
 const SKELETON_STORY = [
   {
     id: 1,
@@ -20,20 +20,21 @@ const SKELETON_STORY = [
     },
     facts: [
         { label: { en: "Definition", hi: "परिभाषा" }, val: { en: "Central Framework of the body", hi: "शरीर का केंद्रीय ढाँचा" } },
-        { label: { en: "Function", hi: "कार्य" }, val: { en: "Provides Stability & Support", hi: "स्थिरता और सहारा प्रदान करता है" } }
+        { label: { en: "SSC Trick", hi: "SSC ट्रिक" }, val: "Skeleton = Support + Structure" }
     ],
     visual: 'robot'
   },
   {
     id: 2,
-    title: { en: "The Pillars of the Body", hi: "शरीै के मुख्य स्तंभ" },
+    title: { en: "The Pillars: Bones", hi: "शरीर के मुख्य स्तंभ: हड्डियाँ" },
     text: {
-        en: "Mam explained on the board, 'The skeleton isn't just bones. It's an engineering marvel made of Bones and Connective Tissues. Bones are the main pillars, but we need specialized tissues to connect and protect them.'",
-        hi: "मैम ने बोर्ड पर समझाया, 'कंकाल सिर्फ हड्डियों से नहीं बना है। यह हड्डियों और संयोजी ऊतकों (Connective Tissues) से बना एक इंजीनियरिंग चमत्कार है। हड्डियाँ मुख्य स्तंभ हैं, लेकिन उन्हें जोड़ने और बचाने के लिए विशेष ऊतकों की आवश्यकता होती है।'"
+        en: "Mam explained, 'Bones are the structural pillars. They aren't just for support; they protect organs like the heart and lungs, and produce blood cells in the marrow.'",
+        hi: "मैम ने समझाया, 'हड्डियाँ संरचनात्मक स्तंभ हैं। वे केवल सहारा नहीं देतीं; वे हृदय और फेफड़ों जैसे अंगों की रक्षा करती हैं, और मज्जा (Marrow) में रक्त कोशिकाओं का निर्माण करती हैं।'"
     },
     facts: [
-        { label: { en: "Bones", hi: "हड्डियाँ" }, val: { en: "Main structural pillars", hi: "मुख्य संरचनात्मक स्तंभ" } },
-        { label: { en: "System", hi: "प्रणाली" }, val: { en: "Musculoskeletal System", hi: "मस्कुलोस्केलेटल सिस्टम" } }
+        { label: { en: "Study of Bones", hi: "हड्डियों का अध्ययन" }, val: "Osteology" },
+        { label: { en: "Adult Bone Count", hi: "वयस्क हड्डियों की संख्या" }, val: "206" },
+        { label: { en: "Child Bone Count", hi: "बच्चों में हड्डियाँ" }, val: "300+" }
     ],
     visual: 'bones'
   },
@@ -45,8 +46,8 @@ const SKELETON_STORY = [
         hi: "मैम ने कहा, 'अपनी नाक या कान को छूकर देखो। ये हड्डियों से थोड़े नरम हैं! यह उपास्थि (Cartilage) है। यह अक्सर हड्डियों के सिरों पर होती है और उन्हें रगड़ खाने से बचाती है (शॉक अब्ज़ॉर्बर)।'"
     },
     facts: [
-        { label: { en: "Cartilage", hi: "उपास्थि" }, val: { en: "Soft padding / Shock absorber", hi: "नरम गद्दी / शॉक अब्ज़ॉर्बर" } },
-        { label: { en: "Location", hi: "स्थान" }, val: { en: "Nose, Ears, Joint Ends", hi: "नाक, कान, जोड़ों के सिरे" } }
+        { label: { en: "Function", hi: "कार्य" }, val: { en: "Shock Absorber / Smooth Joints", hi: "शॉक अब्ज़ॉर्बर / जोड़ों की चिकनाई" } },
+        { label: { en: "Composition", hi: "बनावट" }, val: { en: "Chondrocytes Cells", hi: "कोंड्रोसाइट्स कोशिकाएं" } }
     ],
     visual: 'cartilage'
   },
@@ -54,12 +55,12 @@ const SKELETON_STORY = [
     id: 4,
     title: { en: "The Movement Tie: Tendons", hi: "गति का बंधन: टेंडन (Tendons)" },
     text: {
-        en: "Mam clenched her fist. 'How do muscles pull bones? Through Tendons! They connect muscles to bones, allowing us to move things. It's like a strong string pulling a lever.'",
-        hi: "मैम ने अपनी मुट्ठी बाँध ली। 'मांसपेशियां हड्डियों को कैसे खींचती हैं? टेंडन (Tendons) के माध्यम से! टेंडन मांसपेशियों को हड्डियों से जोड़ते हैं, जिससे हम चीज़ों को खींच पाते हैं।'"
+        en: "Mam clenched her fist. 'How do muscles pull bones? Through Tendons! They connect muscles to bones. Use the SSC trick MTB (Muscle-Tendon-Bone).'",
+        hi: "मैम ने अपनी मुट्ठी बाँध ली। 'मांसपेशियां हड्डियों को कैसे खींचती हैं? टेंडन (Tendons) के माध्यम से! टेंडन मांसपेशियों को हड्डियों से जोड़ते हैं। SSC ट्रिक 'MTB' याद रखें (Muscle-Tendon-Bone)।'"
     },
     facts: [
-        { label: { en: "Tendon", hi: "टेंडन" }, val: { en: "Connects Muscle to Bone", hi: "मांसपेशी को हड्डी से जोड़ता है" } },
-        { label: { en: "Purpose", hi: "उद्देश्य" }, val: { en: "Enables movement by pulling", hi: "खिंचाव द्वारा गति सक्षम करना" } }
+        { label: { en: "SSC Trick", hi: "SSC ट्रिक" }, val: "M-T-B (Muscle To Bone)" },
+        { label: { en: "Strength", hi: "शक्ति" }, val: { en: "High tensile, low elasticity", hi: "उच्च खिंचाव शक्ति, कम लचीलापन" } }
     ],
     visual: 'tendons'
   },
@@ -67,12 +68,12 @@ const SKELETON_STORY = [
     id: 5,
     title: { en: "Bone-to-Bone: Ligaments", hi: "हड्डी-से-हड्डी: स्नायुबंधन (Ligaments)" },
     text: {
-        en: "'When you run or jump, what holds two bones together?' Mam asked. 'Ligaments! They act like strong rubber bands holding joints in place so bones don't fly apart during activity.'",
-        hi: "मैम ने पूछा, 'जब तुम दौड़ती हो या कूदती हो, तो दो हड्डियों को एक साथ कौन कसकर पकड़ता है? स्नायुबंधन (Ligaments)! ये रबर बैंड की तरह एक हड्डी को दूसरी हड्डी से बाँधते हैं।'"
+        en: "'What holds two bones together?' Mam asked. 'Ligaments! They act like strong rubber bands holding joints. Remember the trick BLB (Bone-Ligament-Bone).'",
+        hi: "मैम ने पूछा, 'दो हड्डियों को एक साथ कौन कसकर पकड़ता है? स्नायुबंधन (Ligaments)! ये रबर बैंड की तरह एक हड्डी को दूसरी हड्डी से बाँधते हैं। ट्रिक 'BLB' याद रखें (Bone-Ligament-Bone)।'"
     },
     facts: [
-        { label: { en: "Ligament", hi: "लिगामेंट" }, val: { en: "Connects Bone to Bone", hi: "हड्डी को हड्डी से जोड़ता है" } },
-        { label: { en: "Role", hi: "भूमिका" }, val: { en: "Joint stability and alignment", hi: "जोड़ों की स्थिरता और संरेखण" } }
+        { label: { en: "SSC Trick", hi: "SSC ट्रिक" }, val: "B-L-B (Bone To Bone)" },
+        { label: { en: "Role", hi: "भूमिका" }, val: { en: "Joint stability", hi: "जोड़ों की स्थिरता" } }
     ],
     visual: 'ligaments'
   }
@@ -85,29 +86,29 @@ const SkeletonModule: React.FC<Props> = ({ language }) => {
   return (
     <div className="flex flex-col h-full bg-white gap-4 overflow-hidden border border-slate-200 rounded-[32px] shadow-sm">
       {/* Header */}
-      <div className="bg-slate-50 p-4 rounded-t-[32px] border-b border-slate-200 flex justify-between items-center flex-shrink-0">
+      <div className="bg-slate-50 p-4 rounded-t-[32px] border-b border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 flex-shrink-0">
         <div className="flex items-center gap-4">
-          <div className="bg-blue-600 p-3 rounded-2xl shadow-lg">
+          <div className="bg-indigo-600 p-3 rounded-2xl shadow-lg shadow-indigo-100">
              <Accessibility className="text-white" size={28} />
           </div>
           <div>
-            <h1 className="text-2xl font-black tracking-tight leading-none text-slate-900 uppercase">Skeleton Lab</h1>
+            <h1 className="text-2xl font-black tracking-tighter text-slate-900 uppercase leading-none">Skeleton Lab</h1>
             <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-1">
-                {language === Language.ENGLISH ? "Framework & Connective Tissues" : "ढाँचा और संयोजी ऊतक"}
+                {language === Language.ENGLISH ? "Osteology & Biomechanics" : "अस्थि विज्ञान और बायोमैकेनिक्स"}
             </p>
           </div>
         </div>
         
-        <div className="flex bg-slate-200 p-1 rounded-2xl">
+        <div className="flex bg-slate-200 p-1 rounded-2xl w-full sm:w-auto">
            <button 
              onClick={() => setActiveTab('story')} 
-             className={`px-5 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 transition-all uppercase tracking-widest ${activeTab === 'story' ? 'bg-white text-blue-700 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}
+             className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all uppercase tracking-widest ${activeTab === 'story' ? 'bg-white text-indigo-700 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}
            >
               <BookOpen size={16} /> {language === Language.ENGLISH ? "Story" : "कहानी"}
            </button>
            <button 
              onClick={() => setActiveTab('lab')} 
-             className={`px-5 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 transition-all uppercase tracking-widest ${activeTab === 'lab' ? 'bg-white text-indigo-700 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}
+             className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all uppercase tracking-widest ${activeTab === 'lab' ? 'bg-white text-indigo-700 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}
            >
               <FlaskConical size={16} /> {language === Language.ENGLISH ? "3D Lab" : "3D लैब"}
            </button>
@@ -133,19 +134,20 @@ const StoryView = ({ language, chapter, setChapter }: any) => {
             case 'robot':
                 return (
                     <div className="flex flex-col items-center gap-8 animate-fade-in h-full justify-center">
-                        <div className="flex gap-12">
+                        <div className="flex gap-8 sm:gap-16">
                             <div className="text-center group">
-                                <div className="w-28 h-28 bg-red-50 rounded-[40px] shadow-xl flex items-center justify-center text-5xl border-b-8 border-red-500 relative group-hover:rotate-12 transition-transform">
+                                <div className="w-24 h-24 sm:w-32 sm:h-32 bg-red-50 rounded-[40px] shadow-xl flex items-center justify-center text-5xl border-b-8 border-red-500 relative group-hover:rotate-12 transition-transform">
                                     🤖
                                     <div className="absolute top-2 right-2 text-xs">⚠️</div>
                                 </div>
-                                <div className="mt-4 font-black text-[10px] text-red-600 uppercase tracking-widest">Broken Model</div>
+                                <div className="mt-4 font-black text-[10px] text-red-600 uppercase tracking-widest">Broken Structure</div>
                             </div>
                             <div className="text-center group">
-                                <div className="w-28 h-28 bg-blue-50 rounded-[40px] shadow-xl flex items-center justify-center text-5xl border-b-8 border-blue-500 relative">
+                                <div className="w-24 h-24 sm:w-32 sm:h-32 bg-indigo-50 rounded-[40px] shadow-xl flex items-center justify-center text-5xl border-b-8 border-indigo-500 relative">
                                     🦴
+                                    <div className="absolute top-2 right-2 text-xs">✅</div>
                                 </div>
-                                <div className="mt-4 font-black text-[10px] text-blue-600 uppercase tracking-widest">The Framework</div>
+                                <div className="mt-4 font-black text-[10px] text-indigo-600 uppercase tracking-widest">The Framework</div>
                             </div>
                         </div>
                     </div>
@@ -153,33 +155,32 @@ const StoryView = ({ language, chapter, setChapter }: any) => {
             case 'bones':
                 return (
                     <div className="flex flex-col items-center gap-6 h-full justify-center animate-fade-in">
-                        <div className="relative w-48 h-64 bg-slate-50 rounded-full border-4 border-slate-200 flex items-center justify-center">
+                        <div className="relative w-48 h-64 bg-slate-50 rounded-full border-4 border-slate-200 flex flex-col items-center justify-center overflow-hidden group">
                             <Accessibility size={80} className="text-slate-800 opacity-20" />
-                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                                <div className="w-24 h-4 bg-slate-300 rounded-full animate-pulse"></div>
-                                <div className="w-32 h-4 bg-slate-300 rounded-full animate-pulse delay-75"></div>
-                                <div className="w-28 h-4 bg-slate-300 rounded-full animate-pulse delay-150"></div>
+                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                                <div className="w-32 h-6 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center font-black text-[8px] text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all">CALCIUM (Ca)</div>
+                                <div className="w-40 h-6 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center font-black text-[8px] text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all delay-75">PHOSPHORUS (P)</div>
                             </div>
                         </div>
-                        <div className="text-center font-black text-slate-400 text-[10px] uppercase tracking-widest">Main Pillars: Bones</div>
+                        <div className="text-center font-black text-slate-400 text-[10px] uppercase tracking-widest">Bones = Mineral Pillars</div>
                     </div>
                 );
             case 'cartilage':
                 return (
                     <div className="flex flex-col items-center gap-6 h-full justify-center animate-fade-in">
                         <div className="flex gap-6">
-                            <div className="w-20 h-20 bg-blue-50 rounded-2xl flex flex-col items-center justify-center shadow-lg border border-blue-200">
-                                <div className="text-3xl">👂</div>
-                                <span className="text-[8px] font-black text-blue-800 mt-1 uppercase">Ear</span>
+                            <div className="w-24 h-24 bg-blue-50 rounded-3xl flex flex-col items-center justify-center shadow-lg border border-blue-200 group hover:scale-105 transition-all">
+                                <div className="text-4xl">👂</div>
+                                <span className="text-[10px] font-black text-blue-800 mt-2 uppercase tracking-tighter">External Ear</span>
                             </div>
-                            <div className="w-20 h-20 bg-blue-50 rounded-2xl flex flex-col items-center justify-center shadow-lg border border-blue-200">
-                                <div className="text-3xl">👃</div>
-                                <span className="text-[8px] font-black text-blue-800 mt-1 uppercase">Nose</span>
+                            <div className="w-24 h-24 bg-blue-50 rounded-3xl flex flex-col items-center justify-center shadow-lg border border-blue-200 group hover:scale-105 transition-all">
+                                <div className="text-4xl">👃</div>
+                                <span className="text-[10px] font-black text-blue-800 mt-2 uppercase tracking-tighter">Nose Tip</span>
                             </div>
                         </div>
-                        <div className="w-48 h-12 bg-white rounded-full border-4 border-blue-200 flex items-center justify-center px-4 shadow-md">
+                        <div className="w-56 h-14 bg-white rounded-2xl border-4 border-blue-200 flex items-center justify-center px-4 shadow-xl">
                             <div className="w-4 h-4 bg-blue-400 rounded-full animate-ping"></div>
-                            <span className="ml-3 font-black text-blue-900 text-[10px] uppercase">Soft Shock Absorber</span>
+                            <span className="ml-4 font-black text-blue-900 text-xs uppercase">Soft Shock Absorber</span>
                         </div>
                     </div>
                 );
@@ -187,26 +188,24 @@ const StoryView = ({ language, chapter, setChapter }: any) => {
                 return (
                     <div className="flex flex-col items-center gap-6 h-full justify-center animate-fade-in">
                         <div className="flex flex-col items-center">
-                            <div className="w-16 h-16 bg-red-100 rounded-xl flex items-center justify-center text-red-600 shadow-sm border border-red-200">
-                                <Zap size={32} />
+                            <div className="w-20 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-black text-xs border border-red-200 shadow-sm uppercase tracking-tighter">Muscle</div>
+                            <div className="w-1.5 h-16 bg-slate-300 relative">
+                                <div className="absolute top-0 bottom-0 w-full bg-red-500 animate-height-fill"></div>
                             </div>
-                            <div className="w-1 h-12 bg-slate-300 relative">
-                                <div className="absolute top-0 bottom-0 w-full bg-red-400 animate-height-fill"></div>
-                            </div>
-                            <div className="w-16 h-8 bg-slate-200 rounded-lg flex items-center justify-center font-black text-[10px] text-slate-600 border border-slate-300">BONE</div>
+                            <div className="w-20 h-10 bg-slate-200 rounded-lg flex items-center justify-center font-black text-xs text-slate-600 border border-slate-300 uppercase tracking-tighter">Bone</div>
                         </div>
-                        <div className="font-black text-red-600 text-[10px] uppercase tracking-widest">Tendon: Muscle to Bone</div>
+                        <div className="bg-red-600 text-white px-6 py-2 rounded-full font-black text-xs uppercase shadow-xl tracking-widest animate-pulse">MTB Trick</div>
                     </div>
                 );
             case 'ligaments':
                 return (
                     <div className="flex flex-col items-center gap-6 h-full justify-center animate-fade-in">
-                        <div className="flex items-center gap-1">
-                            <div className="w-16 h-24 bg-slate-100 rounded-lg flex items-center justify-center font-black text-[10px] text-slate-500 border border-slate-200 shadow-sm">BONE 1</div>
-                            <div className="w-12 h-4 bg-orange-400 rounded-full border-2 border-orange-600 animate-pulse"></div>
-                            <div className="w-16 h-24 bg-slate-100 rounded-lg flex items-center justify-center font-black text-[10px] text-slate-500 border border-slate-200 shadow-sm">BONE 2</div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-20 h-32 bg-slate-100 rounded-2xl flex items-center justify-center font-black text-xs text-slate-500 border border-slate-200 shadow-sm rotate-[-10deg]">BONE 1</div>
+                            <div className="w-16 h-6 bg-orange-400 rounded-full border-2 border-orange-600 animate-pulse flex items-center justify-center font-black text-[8px] text-white">LIGAMENT</div>
+                            <div className="w-20 h-32 bg-slate-100 rounded-2xl flex items-center justify-center font-black text-xs text-slate-500 border border-slate-200 shadow-sm rotate-[10deg]">BONE 2</div>
                         </div>
-                        <div className="font-black text-orange-600 text-[10px] uppercase tracking-widest">Ligament: Bone to Bone</div>
+                        <div className="bg-orange-600 text-white px-6 py-2 rounded-full font-black text-xs uppercase shadow-xl tracking-widest animate-pulse">BLB Trick</div>
                     </div>
                 );
             default: return null;
@@ -219,19 +218,19 @@ const StoryView = ({ language, chapter, setChapter }: any) => {
                 {renderVisual(data.visual)}
                 <div className="absolute bottom-8 flex gap-2.5">
                     {SKELETON_STORY.map((_, i) => (
-                        <button key={i} onClick={() => setChapter(i)} className={`h-1.5 rounded-full transition-all duration-500 ${i === chapter ? 'w-10 bg-blue-600 shadow-lg' : 'w-2 bg-slate-200 hover:bg-slate-300'}`} />
+                        <button key={i} onClick={() => setChapter(i)} className={`h-1.5 rounded-full transition-all duration-500 ${i === chapter ? 'w-10 bg-indigo-600 shadow-lg' : 'w-2 bg-slate-200 hover:bg-slate-300'}`} />
                     ))}
                 </div>
             </div>
             
             <div className="w-full md:w-80 lg:w-[450px] flex flex-col gap-4">
-                <div className="bg-white p-8 rounded-[48px] shadow-2xl border-l-[16px] border-blue-600 flex-1 flex flex-col relative overflow-hidden border border-slate-100">
+                <div className="bg-white p-8 rounded-[48px] shadow-2xl border-l-[16px] border-indigo-600 flex-1 flex flex-col relative overflow-hidden border border-slate-100">
                     <h2 className="text-2xl font-black text-slate-800 mb-4 flex items-center gap-4">
-                        <span className="w-10 h-10 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-sm font-black">{chapter+1}</span>
+                        <span className="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-sm font-black">{chapter+1}</span>
                         {language === Language.ENGLISH ? data.title.en : data.title.hi}
                     </h2>
                     
-                    <div className="bg-blue-50/50 p-6 rounded-[32px] mb-6 border border-blue-100 flex-1 overflow-y-auto">
+                    <div className="bg-indigo-50/50 p-6 rounded-[32px] mb-6 border border-indigo-100 flex-1 overflow-y-auto">
                         <p className="text-slate-700 leading-relaxed text-base font-medium italic">
                             "{language === Language.ENGLISH ? data.text.en : data.text.hi}"
                         </p>
@@ -239,16 +238,16 @@ const StoryView = ({ language, chapter, setChapter }: any) => {
 
                     <div className="space-y-2 mb-8">
                         {data.facts.map((f:any, idx:number) => (
-                           <div key={idx} className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-100 shadow-sm">
+                           <div key={idx} className="flex justify-between items-center bg-white p-3 rounded-2xl border border-slate-100 shadow-sm hover:scale-[1.02] transition-transform">
                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{language === Language.ENGLISH ? f.label.en : f.label.hi}</span>
-                               <span className="text-xs font-black text-blue-600">{typeof f.val === 'string' ? f.val : (language === Language.ENGLISH ? f.val.en : f.val.hi)}</span>
+                               <span className="text-xs font-black text-indigo-600 text-right">{typeof f.val === 'string' ? f.val : (language === Language.ENGLISH ? f.val.en : f.val.hi)}</span>
                            </div>
                         ))}
                     </div>
 
                     <div className="flex justify-between gap-4 mt-auto">
                         <button onClick={() => setChapter(Math.max(0, chapter - 1))} disabled={chapter === 0} className="flex-1 py-5 bg-slate-100 text-slate-500 rounded-3xl font-black disabled:opacity-30 flex items-center justify-center hover:bg-slate-200 transition-all"><ArrowLeft size={24}/></button>
-                        <button onClick={() => setChapter(Math.min(SKELETON_STORY.length - 1, chapter + 1))} disabled={chapter === SKELETON_STORY.length - 1} className="flex-[2.5] py-5 bg-blue-600 text-white rounded-3xl font-black shadow-xl hover:bg-blue-700 transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-xs">
+                        <button onClick={() => setChapter(Math.min(SKELETON_STORY.length - 1, chapter + 1))} disabled={chapter === SKELETON_STORY.length - 1} className="flex-[2.5] py-5 bg-indigo-600 text-white rounded-3xl font-black shadow-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-xs">
                             {language === Language.ENGLISH ? "Next" : "आगे"} <ArrowRight size={20}/>
                         </button>
                     </div>
@@ -272,7 +271,7 @@ const Skeleton3DLab = ({ language }: Props) => {
     const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const currentObjectsRef = useRef<THREE.Object3D[]>([]);
-    const frameworkPartsRef = useRef<{ mesh: THREE.Mesh, targetPos: THREE.Vector3, targetRot: THREE.Euler }[]>([]);
+    const frameworkPartsRef = useRef<{ mesh: THREE.Mesh, targetPos: THREE.Vector3, targetRot: THREE.Euler, startPos: THREE.Vector3 }[]>([]);
     
     // Components of the joint for Sim 2
     const jointRef = useRef<THREE.Group | null>(null);
@@ -287,7 +286,7 @@ const Skeleton3DLab = ({ language }: Props) => {
         // --- Init Scene ---
         const scene = new THREE.Scene();
         sceneRef.current = scene;
-        scene.background = new THREE.Color(0xffffff); // White Background as requested
+        scene.background = new THREE.Color(0xffffff);
 
         const camera = new THREE.PerspectiveCamera(45, mountRef.current.clientWidth / mountRef.current.clientHeight, 0.1, 1000);
         cameraRef.current = camera;
@@ -301,7 +300,7 @@ const Skeleton3DLab = ({ language }: Props) => {
         mountRef.current.appendChild(renderer.domElement);
 
         // Lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
         const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
         dirLight.position.set(5, 10, 7);
@@ -380,10 +379,11 @@ const Skeleton3DLab = ({ language }: Props) => {
             frameworkPartsRef.current = [];
             // Create "scattered" bones
             for (let i = 0; i < 8; i++) {
-                const geo = new THREE.CylinderGeometry(0.2, 0.2, 3, 16);
+                const geo = new THREE.CylinderGeometry(0.2, 0.2, 2.5, 16);
                 const mat = new THREE.MeshStandardMaterial({ color: 0xe5e7eb });
                 const bone = new THREE.Mesh(geo, mat);
-                bone.position.set((Math.random() - 0.5) * 10, 1, (Math.random() - 0.5) * 10);
+                const startPos = new THREE.Vector3((Math.random() - 0.5) * 12, 1, (Math.random() - 0.5) * 8);
+                bone.position.copy(startPos);
                 bone.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
                 scene.add(bone);
                 currentObjectsRef.current.push(bone);
@@ -391,21 +391,21 @@ const Skeleton3DLab = ({ language }: Props) => {
                 // Target: A stable "Spine" column
                 const targetPos = new THREE.Vector3(0, i * 0.8 + 1, 0);
                 const targetRot = new THREE.Euler(0, 0, 0);
-                frameworkPartsRef.current.push({ mesh: bone, targetPos, targetRot });
+                frameworkPartsRef.current.push({ mesh: bone, targetPos, targetRot, startPos });
             }
         } else if (newMode === 'tissue' || newMode === 'quiz') {
             const group = new THREE.Group();
-            
+            const boneMat = new THREE.MeshStandardMaterial({ color: 0xf3f4f6 });
+
             // Upper Bone
             const upperGeo = new THREE.CylinderGeometry(0.5, 0.5, 5, 16);
-            const boneMat = new THREE.MeshStandardMaterial({ color: 0xf3f4f6 });
             const upperBone = new THREE.Mesh(upperGeo, boneMat);
             upperBone.position.y = 3;
             group.add(upperBone);
 
             // Lower Bone (Pivotable)
             const lowerGeo = new THREE.CylinderGeometry(0.5, 0.5, 5, 16);
-            lowerGeo.translate(0, -2.5, 0); // Move pivot to top of lower bone
+            lowerGeo.translate(0, -2.5, 0); 
             const lowerBone = new THREE.Mesh(lowerGeo, boneMat);
             lowerBone.position.y = 0.5;
             lowerBoneRef.current = lowerBone;
@@ -421,9 +421,8 @@ const Skeleton3DLab = ({ language }: Props) => {
             group.add(cartilage);
 
             // 2. Ligament (Bone to Bone)
-            const ligGeo = new THREE.BoxGeometry(0.2, 2, 0.1);
             const ligMat = new THREE.MeshStandardMaterial({ color: 0xfb923c });
-            // Fix: Changed 'mat' to 'ligMat' to fix 'Cannot find name mat' error.
+            const ligGeo = new THREE.BoxGeometry(0.2, 2, 0.1);
             const ligament = new THREE.Mesh(ligGeo, ligMat);
             ligament.position.set(0.6, 0.5, 0);
             ligament.visible = labState.ligament;
@@ -446,11 +445,25 @@ const Skeleton3DLab = ({ language }: Props) => {
     };
 
     const assembleFramework = () => {
+        let finished = 0;
+        const animateAssemble = () => {
+            frameworkPartsRef.current.forEach(part => {
+                part.mesh.position.lerp(part.targetPos, 0.1);
+                part.mesh.quaternion.slerp(new THREE.Quaternion().setFromEuler(part.targetRot), 0.1);
+            });
+            finished++;
+            if (finished < 60) requestAnimationFrame(animateAssemble);
+            else showFeedback("Framework Assembled! Stability Achieved.", "success");
+        };
+        animateAssemble();
+    };
+
+    const resetFramework = () => {
         frameworkPartsRef.current.forEach(part => {
-            part.mesh.position.lerp(part.targetPos, 1);
-            part.mesh.rotation.copy(part.targetRot);
+            part.mesh.position.copy(part.startPos);
+            part.mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
         });
-        showFeedback("Framework Assembled! Stability Achieved.", "success");
+        setFeedback(null);
     };
 
     const testMovement = () => {
@@ -465,7 +478,7 @@ const Skeleton3DLab = ({ language }: Props) => {
 
     const showFeedback = (msg: string, type: string) => {
         setFeedback({ msg, type });
-        setTimeout(() => setFeedback(null), 3000);
+        if (type === 'success') setTimeout(() => setFeedback(null), 3000);
     };
 
     const handleQuizAnswer = (correct: boolean) => {
@@ -483,21 +496,21 @@ const Skeleton3DLab = ({ language }: Props) => {
             <div ref={mountRef} className="absolute inset-0 z-0 cursor-move" />
 
             {/* Overlays */}
-            <div className="absolute top-6 left-6 z-10 flex flex-col gap-4 pointer-events-none">
-                <div className="bg-white/90 backdrop-blur-md p-5 rounded-[24px] border border-slate-200 shadow-xl max-w-xs pointer-events-auto">
-                    <h3 className="text-blue-600 font-black uppercase text-sm mb-2 flex items-center gap-2">
-                        {mode === 'framework' ? <Info size={16}/> : mode === 'tissue' ? <FlaskConical size={16}/> : <Trophy size={16}/>}
-                        {mode === 'framework' ? "Stability Lab" : mode === 'tissue' ? "Connective Lab" : "Osteo Quiz"}
+            <div className="absolute top-6 left-6 z-10 flex flex-col gap-4 pointer-events-none w-full max-w-[280px] sm:max-w-xs">
+                <div className="bg-white/90 backdrop-blur-md p-5 rounded-[24px] border border-slate-200 shadow-xl pointer-events-auto">
+                    <h3 className="text-indigo-600 font-black uppercase text-xs mb-2 flex items-center gap-2">
+                        {mode === 'framework' ? <Box size={16}/> : mode === 'tissue' ? <Activity size={16}/> : <Trophy size={16}/>}
+                        {mode === 'framework' ? "Stability Lab" : mode === 'tissue' ? "Biomechanical Lab" : "Bone Master Quiz"}
                     </h3>
                     <p className="text-slate-600 text-[10px] font-bold leading-relaxed">
-                        {mode === 'framework' ? "Scattered pieces cannot support weight. Build the central framework for stability." : 
-                         mode === 'tissue' ? "Toggle different tissues to see how they protect and move joints." : 
-                         "Test your knowledge of bones and connective tissues."}
+                        {mode === 'framework' ? "Bones in isolation cannot stand. Assemble the central framework (spine) to gain stability." : 
+                         mode === 'tissue' ? "Toggle connective tissues to see how they protect (Cartilage), tie (Ligaments), and pull (Tendons) the joint." : 
+                         "Test your knowledge of the skeletal system components and SSC tricks."}
                     </p>
                 </div>
 
                 {feedback && (
-                    <div className={`p-4 rounded-2xl border-2 animate-bounce shadow-xl backdrop-blur-md pointer-events-auto flex items-center gap-2 font-black text-xs uppercase ${feedback.type === 'error' ? 'bg-red-50 border-red-500 text-red-700' : 'bg-green-50 border-green-500 text-green-700'}`}>
+                    <div className={`p-4 rounded-2xl border-2 animate-bounce shadow-xl backdrop-blur-md pointer-events-auto flex items-center gap-2 font-black text-[10px] uppercase ${feedback.type === 'error' ? 'bg-red-50 border-red-500 text-red-700' : 'bg-green-50 border-green-500 text-green-700'}`}>
                         {feedback.type === 'error' ? <AlertCircle size={18}/> : <CheckCircle size={18}/>}
                         {feedback.msg}
                     </div>
@@ -505,45 +518,47 @@ const Skeleton3DLab = ({ language }: Props) => {
             </div>
 
             {/* Bottom Controls */}
-            <div className="absolute bottom-8 left-0 right-0 z-10 flex flex-col items-center gap-4">
-                <div className="flex bg-slate-100 p-1.5 rounded-[24px] border border-slate-200 shadow-2xl">
-                    <button onClick={() => setMode('framework')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all ${mode === 'framework' ? 'bg-white text-blue-600 shadow-md' : 'text-slate-500'}`}>1. Framework</button>
-                    <button onClick={() => setMode('tissue')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all ${mode === 'tissue' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-500'}`}>2. Tissues</button>
-                    <button onClick={() => setMode('quiz')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all ${mode === 'quiz' ? 'bg-white text-purple-600 shadow-md' : 'text-slate-500'}`}>3. Quiz</button>
+            <div className="absolute bottom-8 left-0 right-0 z-10 flex flex-col items-center gap-4 px-4">
+                <div className="flex bg-slate-100 p-1.5 rounded-[24px] border border-slate-200 shadow-2xl overflow-x-auto no-scrollbar max-w-full">
+                    <button onClick={() => setMode('framework')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'framework' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-500'}`}>1. Framework</button>
+                    <button onClick={() => setMode('tissue')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'tissue' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-500'}`}>2. Connective Lab</button>
+                    <button onClick={() => setMode('quiz')} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all whitespace-nowrap ${mode === 'quiz' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-500'}`}>3. Quiz</button>
                 </div>
 
-                <div className="flex gap-4 pointer-events-auto">
+                <div className="flex gap-4 pointer-events-auto w-full justify-center">
                     {mode === 'framework' && (
-                        <button onClick={assembleFramework} className="px-10 py-4 bg-blue-600 text-white rounded-full font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
-                           <Accessibility size={20}/> ASSEMBLE SPINE
-                        </button>
+                        <div className="flex gap-2">
+                            <button onClick={assembleFramework} className="px-8 py-4 bg-indigo-600 text-white rounded-full font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 text-xs tracking-widest">
+                               <Accessibility size={20}/> ASSEMBLE SPINE
+                            </button>
+                            <button onClick={resetFramework} className="p-4 bg-white text-slate-400 border border-slate-200 rounded-full shadow-lg hover:text-indigo-600 transition-all"><RotateCcw size={20}/></button>
+                        </div>
                     )}
                     {mode === 'tissue' && (
-                        <div className="flex flex-wrap justify-center gap-3">
+                        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                             <button 
                                 onClick={() => setLabState(p => ({...p, cartilage: !p.cartilage}))}
-                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.cartilage ? 'bg-blue-600 border-blue-400 text-white' : 'bg-white border-slate-200 text-slate-400'}`}
+                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.cartilage ? 'bg-blue-600 border-blue-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}
                             >Cartilage</button>
                             <button 
                                 onClick={() => setLabState(p => ({...p, ligament: !p.ligament}))}
-                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.ligament ? 'bg-orange-600 border-orange-400 text-white' : 'bg-white border-slate-200 text-slate-400'}`}
+                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.ligament ? 'bg-orange-600 border-orange-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}
                             >Ligament</button>
                             <button 
                                 onClick={() => setLabState(p => ({...p, tendon: !p.tendon}))}
-                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.tendon ? 'bg-red-600 border-red-400 text-white' : 'bg-white border-slate-200 text-slate-400'}`}
+                                className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase border-2 transition-all ${labState.tendon ? 'bg-red-600 border-red-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}
                             >Tendon</button>
                             <button onClick={testMovement} className={`px-8 py-3 bg-slate-900 text-white rounded-2xl font-black text-[10px] shadow-xl hover:bg-black transition-all ${isMoving ? 'opacity-50' : 'animate-pulse'}`}>
-                                {isMoving ? "MOVING..." : "TEST MOVEMENT"}
+                                {isMoving ? "TESTING..." : "ACTIVATE MUSCLE"}
                             </button>
                         </div>
                     )}
                     {mode === 'quiz' && (
-                        <div className="bg-white/90 backdrop-blur-md p-6 rounded-[32px] border border-slate-200 shadow-2xl flex flex-col items-center gap-4">
-                            <div className="text-sm font-black text-slate-800">Q: Which tissue connects "Muscle to Bone"?</div>
-                            <div className="flex gap-2">
-                                <button onClick={() => handleQuizAnswer(false)} className="px-4 py-2 bg-slate-100 rounded-xl font-bold text-xs hover:bg-slate-200 transition-colors uppercase">Ligament</button>
-                                <button onClick={() => handleQuizAnswer(true)} className="px-4 py-2 bg-slate-100 rounded-xl font-bold text-xs hover:bg-slate-200 transition-colors uppercase">Tendon</button>
-                                <button onClick={() => handleQuizAnswer(false)} className="px-4 py-2 bg-slate-100 rounded-xl font-bold text-xs hover:bg-slate-200 transition-colors uppercase">Cartilage</button>
+                        <div className="bg-white/90 backdrop-blur-md p-6 rounded-[32px] border border-slate-200 shadow-2xl flex flex-col items-center gap-4 w-full max-w-sm">
+                            <div className="text-xs font-black text-slate-800 text-center">Q: Which SSC trick correctly defines "Bone to Bone" connection?</div>
+                            <div className="grid grid-cols-2 gap-2 w-full">
+                                <button onClick={() => handleQuizAnswer(false)} className="px-4 py-3 bg-slate-100 rounded-xl font-bold text-[10px] hover:bg-slate-200 transition-colors uppercase">MTB (Muscle-Tendon-Bone)</button>
+                                <button onClick={() => handleQuizAnswer(true)} className="px-4 py-3 bg-indigo-600 text-white rounded-xl font-bold text-[10px] hover:bg-indigo-700 transition-colors uppercase shadow-md">BLB (Bone-Ligament-Bone)</button>
                             </div>
                         </div>
                     )}
@@ -551,9 +566,9 @@ const Skeleton3DLab = ({ language }: Props) => {
             </div>
 
             {/* Hint for dragging */}
-            <div className="absolute top-6 right-6 pointer-events-none">
-                <div className="bg-slate-100 p-3 rounded-2xl border border-slate-200 text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
-                    <RotateCcw size={12}/> Drag to Orbit 3D Space
+            <div className="absolute top-6 right-6 pointer-events-none hidden sm:block">
+                <div className="bg-white/60 backdrop-blur-sm p-3 rounded-2xl border border-slate-200 text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
+                    <RotateCcw size={12}/> Left Mouse to Orbit &bull; Right to Pan
                 </div>
             </div>
         </div>

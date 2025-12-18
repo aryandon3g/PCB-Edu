@@ -11,14 +11,31 @@ import BiologyModule from './components/BiologyModule';
 import LadoModule from './components/LadoModule';
 
 // Simple Error Boundary for UI Safety
-class UIErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean}> {
-  constructor(props: {children: ReactNode}) {
+// Added explicit interfaces for Props and State to fix TS errors
+interface UIErrorBoundaryProps {
+  children?: ReactNode;
+}
+
+interface UIErrorBoundaryState {
+  hasError: boolean;
+}
+
+class UIErrorBoundary extends Component<UIErrorBoundaryProps, UIErrorBoundaryState> {
+  constructor(props: UIErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
-  static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) { console.error("UI Bug Detected:", error, errorInfo); }
+  
+  static getDerivedStateFromError() { 
+    return { hasError: true }; 
+  }
+  
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) { 
+    console.error("UI Bug Detected:", error, errorInfo); 
+  }
+  
   render() {
+    // Fixed: Accessed state correctly with proper typing from Component generics
     if (this.state.hasError) {
       return (
         <div className="h-full w-full flex flex-col items-center justify-center p-6 text-center bg-slate-50">
@@ -31,6 +48,7 @@ class UIErrorBoundary extends Component<{children: ReactNode}, {hasError: boolea
         </div>
       );
     }
+    // Fixed: Accessed props correctly with proper typing
     return this.props.children;
   }
 }
