@@ -1,4 +1,3 @@
-
 import { Language, Subject, TranslationDictionary } from './types';
 
 export const TRANSLATIONS: TranslationDictionary = {
@@ -78,6 +77,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   blood: { en: "Blood & Circulation", hi: "रक्त और परिसंचरण" },
   respiratory: { en: "Respiratory System", hi: "श्वसन तंत्र" },
   vitamins: { en: "Vitamins: Life Controllers", hi: "विटामिन: जीवन के नियंत्रक" },
+  humanDiseases: { en: "Human Diseases", hi: "मानव रोग" },
   
   // Biology specific
   nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },
