@@ -1,3 +1,4 @@
+
 import { Language, Subject, TranslationDictionary } from './types';
 
 export const TRANSLATIONS: TranslationDictionary = {
@@ -79,6 +80,15 @@ export const TRANSLATIONS: TranslationDictionary = {
   vitamins: { en: "Vitamins: Life Controllers", hi: "विटामिन: जीवन के नियंत्रक" },
   humanDiseases: { en: "Human Diseases", hi: "मानव रोग" },
   reproduction: { en: "Reproduction System", hi: "प्रजनन तंत्र" },
+  glands: { en: "Glands & Hormones", hi: "ग्रंथियां और हार्मोन" },
+  
+  // Glands Specific
+  exocrine: { en: "Exocrine (Pipeline)", hi: "बहिःस्रावी (पाइपलाइन)" },
+  endocrine: { en: "Endocrine (Wireless)", hi: "अंतःस्रावी (वायरलेस)" },
+  mixedGland: { en: "Mixed Gland", hi: "मिश्रित ग्रंथि" },
+  glucoseBalance: { en: "Glucose Balance", hi: "ग्लूकोज संतुलन" },
+  bioClock: { en: "Biological Clock", hi: "जैविक घड़ी" },
+  emergencyRush: { en: "Emergency (3F)", hi: "आपातकाल (3F)" },
   
   // Reproduction Specific
   reproStory: { en: "Life's Copy: The Journey", hi: "जीवन की प्रतिलिपि: यात्रा" },
