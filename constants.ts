@@ -77,6 +77,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   peYoga: { en: "PE & Yoga", hi: "शारीरिक शिक्षा और योग" },
   blood: { en: "Blood & Circulation", hi: "रक्त और परिसंचरण" },
   respiratory: { en: "Respiratory System", hi: "श्वसन तंत्र" },
+  vitamins: { en: "Vitamins: Life Controllers", hi: "विटामिन: जीवन के नियंत्रक" },
   
   // Biology specific
   nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },

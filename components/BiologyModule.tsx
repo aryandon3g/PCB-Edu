@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind, Utensils, Apple } from 'lucide-react';
+import { ArrowLeft, Dna, Leaf, Sun, Cat, HeartPulse, BrainCircuit, Droplet, Wind, Utensils, Apple, Pill } from 'lucide-react';
 import { Language, Topic } from '../types';
 import { TRANSLATIONS } from '../constants';
 import DnaHelix from './biology/DnaHelix';
@@ -13,12 +13,14 @@ import Blood from './biology/Blood';
 import RespiratorySystem from './biology/RespiratorySystem';
 import DigestiveSystem from './biology/DigestiveSystem';
 import HumanNutrition from './biology/HumanNutrition';
+import Vitamins from './biology/Vitamins';
 
 interface ModuleProps {
   language: Language;
 }
 
 const TOPICS: Topic[] = [
+  { id: 'vitamins', title: { en: 'Vitamins Lab', hi: 'विटामिन लैब' }, description: { en: 'Micro-nutrients & Functions', hi: 'सूक्ष्म पोषक तत्व और कार्य' }, icon: Pill },
   { id: 'nutrition', title: { en: 'Human Nutrition', hi: 'मानव पोषण' }, description: { en: 'Carbohydrates & Energy Journey', hi: 'कार्बोहाइड्रेट और ऊर्जा की यात्रा' }, icon: Apple },
   { id: 'digestive', title: { en: 'Digestive System', hi: 'पाचन तंत्र' }, description: { en: 'Food Journey & Enzymes', hi: 'भोजन की यात्रा और एंजाइम' }, icon: Utensils },
   { id: 'respiratory', title: { en: 'Respiratory System', hi: 'श्वसन तंत्र' }, description: { en: 'Lungs, Breathing & Energy', hi: 'फेफड़े, श्वास और ऊर्जा' }, icon: Wind },
@@ -44,6 +46,7 @@ const BiologyModule: React.FC<ModuleProps> = ({ language }) => {
   if (activeTopic === 'respiratory') return <WithBack onBack={() => setActiveTopic(null)} language={language}><RespiratorySystem language={language} /></WithBack>;
   if (activeTopic === 'digestive') return <WithBack onBack={() => setActiveTopic(null)} language={language}><DigestiveSystem language={language} /></WithBack>;
   if (activeTopic === 'nutrition') return <WithBack onBack={() => setActiveTopic(null)} language={language}><HumanNutrition language={language} /></WithBack>;
+  if (activeTopic === 'vitamins') return <WithBack onBack={() => setActiveTopic(null)} language={language}><Vitamins language={language} /></WithBack>;
 
   return <TopicGrid language={language} topics={TOPICS} onSelect={setActiveTopic} />;
 };
