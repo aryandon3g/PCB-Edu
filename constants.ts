@@ -1,141 +1,169 @@
 
-import { Language, Subject, TranslationDictionary } from './types';
+import { Deck, Difficulty } from './types';
+import { Brain, Briefcase, Plane, Sparkles, GraduationCap } from 'lucide-react';
 
-export const TRANSLATIONS: TranslationDictionary = {
-  appTitle: {
-    en: "VigyanScope",
-    hi: "विज्ञानस्कोप"
+export const DECKS: Deck[] = [
+  {
+    id: 'sophisticated',
+    title: 'Daily Sophistication',
+    description: 'Elevate your daily conversation.',
+    icon: Sparkles,
+    color: 'violet',
+    words: [
+      {
+        id: '1',
+        term: 'Serendipity',
+        pronunciation: '/ˌser.ənˈdɪp.ə.ti/',
+        definition: { en: 'Finding something good without looking for it.', hi: 'अचानक मिला हुआ सौभाग्य' },
+        example: 'Meeting my childhood friend in Paris was pure serendipity.',
+        synonyms: ['Chance', 'Luck'],
+        antonyms: ['Misfortune'],
+        difficulty: Difficulty.MEDIUM
+      },
+      {
+        id: '2',
+        term: 'Ephemeral',
+        pronunciation: '/ɪˈfem.ər.əl/',
+        definition: { en: 'Lasting for a very short time.', hi: 'क्षणिक / अल्पकालिक' },
+        example: 'Fashions are ephemeral, changing with every season.',
+        synonyms: ['Fleeting', 'Transient'],
+        antonyms: ['Eternal', 'Permanent'],
+        difficulty: Difficulty.HARD
+      },
+      {
+        id: '3',
+        term: 'Ubiquitous',
+        pronunciation: '/juːˈbɪk.wɪ.təs/',
+        definition: { en: 'Present, appearing, or found everywhere.', hi: 'सर्वव्यापी' },
+        example: 'Smartphones have become ubiquitous in modern life.',
+        synonyms: ['Omnipresent', 'Pervasive'],
+        antonyms: ['Rare', 'Scarce'],
+        difficulty: Difficulty.HARD
+      }
+    ]
   },
-  physics: {
-    en: "Physics",
-    hi: "भौतिक विज्ञान"
+  {
+    id: 'academic',
+    title: 'Academic & GRE',
+    description: 'Words for scholars and test takers.',
+    icon: GraduationCap,
+    color: 'indigo',
+    words: [
+      {
+        id: '4',
+        term: 'Pragmatic',
+        pronunciation: '/præɡˈmæt.ɪk/',
+        definition: { en: 'Dealing with things sensibly and realistically.', hi: 'व्यावहारिक' },
+        example: 'We need a pragmatic solution, not just theories.',
+        synonyms: ['Practical', 'Realistic'],
+        antonyms: ['Idealistic'],
+        difficulty: Difficulty.MEDIUM
+      },
+      {
+        id: '5',
+        term: 'Cacophony',
+        pronunciation: '/kəˈkɒf.ə.ni/',
+        definition: { en: 'A harsh, discordant mixture of sounds.', hi: 'कोलाहल / शोरगुल' },
+        example: 'The classroom erupted into a cacophony of shouts.',
+        synonyms: ['Din', 'Racket'],
+        antonyms: ['Harmony', 'Silence'],
+        difficulty: Difficulty.HARD
+      }
+    ]
   },
-  chemistry: {
-    en: "Chemistry",
-    hi: "रसायन विज्ञान"
+  {
+    id: 'business',
+    title: 'Business Elite',
+    description: 'Impress in the boardroom.',
+    icon: Briefcase,
+    color: 'emerald',
+    words: [
+      {
+        id: '6',
+        term: 'Synergy',
+        pronunciation: '/ˈsɪn.ə.dʒi/',
+        definition: { en: 'Interaction producing a combined effect greater than the sum.', hi: 'तालमेल / सहक्रिया' },
+        example: 'The synergy between the two teams boosted profits.',
+        synonyms: ['Cooperation', 'Alliance'],
+        antonyms: ['Conflict'],
+        difficulty: Difficulty.MEDIUM
+      },
+      {
+        id: '7',
+        term: 'Paradigm',
+        pronunciation: '/ˈpær.ə.daɪm/',
+        definition: { en: 'A typical example or pattern of something.', hi: 'मिसाल / प्रतिमान' },
+        example: 'This discovery represents a paradigm shift in science.',
+        synonyms: ['Model', 'Pattern'],
+        antonyms: ['Anomaly'],
+        difficulty: Difficulty.HARD
+      }
+    ]
   },
-  biology: {
-    en: "Biology",
-    hi: "जीव विज्ञान"
-  },
-  botany: {
-    en: "Botany",
-    hi: "वनस्पति विज्ञान"
-  },
-  lado: {
-    en: "Lado",
-    hi: "लाडो"
-  },
-  dashboard: {
-    en: "Experiments Dashboard",
-    hi: "प्रयोगशाला डैशबोर्ड"
-  },
-  selectTopic: {
-    en: "Select an Experiment",
-    hi: "एक प्रयोग चुनें"
-  },
-  backToTopics: {
-    en: "Back to Topics",
-    hi: "विषयों पर वापस"
-  },
-  // Controls
-  zoomLevel: { en: "Zoom Level", hi: "ज़ूम स्तर" },
-  temperature: { en: "Temperature", hi: "तापमान" },
-  gravity: { en: "Gravity", hi: "गुरुत्वाकर्षण" },
-  friction: { en: "Friction", hi: "घर्षण" },
-  length: { en: "Length", hi: "लंबाई" },
-  concentration: { en: "Concentration", hi: "सांद्रता" },
-  velocity: { en: "Velocity", hi: "वेग" },
-  angle: { en: "Angle", hi: "कोण" },
-  phLevel: { en: "pH Level", hi: "pH स्तर" },
-  basePairs: { en: "Base Pairs", hi: "बेस पेअर" },
-  
-  // Actions
-  reset: { en: "Reset", hi: "रीसेट करें" },
-  start: { en: "Start", hi: "शुरू करें" },
-  stop: { en: "Stop", hi: "रुकें" },
-  fire: { en: "Fire", hi: "फायर करें" },
-  clickToExplore: { en: "Tap parts to explore", hi: "जानने के लिए अंगों पर क्लिक करें" },
-  exploreInside: { en: "Zoom Inside", hi: "अंदर देखें" },
-  goBack: { en: "Zoom Out", hi: "बाहर जाएं" },
-  speed: { en: "Speed", hi: "गति" },
-  slow: { en: "Slow", hi: "धीमी" },
-  normal: { en: "Normal", hi: "सामान्य" },
-  fast: { en: "Fast", hi: "तेज़" },
-  quizMode: { en: "Quiz Mode", hi: "क्विज़ मोड" },
-  submit: { en: "Submit", hi: "जमा करें" },
-  next: { en: "Next", hi: "अगला" },
-  score: { en: "Score", hi: "अंक" },
+  {
+    id: 'travel',
+    title: 'Wanderlust',
+    description: 'Words for the soul traveler.',
+    icon: Plane,
+    color: 'rose',
+    words: [
+      {
+        id: '8',
+        term: 'Wanderlust',
+        pronunciation: '/ˈwɒn.də.lʌst/',
+        definition: { en: 'A strong desire to travel.', hi: 'घूमने की तीव्र इच्छा' },
+        example: 'His wanderlust took him to every continent.',
+        synonyms: ['Restlessness'],
+        antonyms: ['Homesickness'],
+        difficulty: Difficulty.EASY
+      },
+      {
+        id: '9',
+        term: 'Sojourn',
+        pronunciation: '/ˈsɒdʒ.ən/',
+        definition: { en: 'A temporary stay.', hi: 'डेरा / अल्पकालीन निवास' },
+        example: 'Her sojourn in Rome inspired her painting.',
+        synonyms: ['Stay', 'Visit'],
+        antonyms: ['Residence'],
+        difficulty: Difficulty.MEDIUM
+      }
+    ]
+  }
+];
 
-  // Topic Specific
-  kingdoms: { en: "Kingdom Classification", hi: "जगत वर्गीकरण" },
-  plantKingdom: { en: "Plant Kingdom", hi: "पादप जगत" },
-  animalKingdom: { en: "Animal Kingdom", hi: "जंतु जगत" },
-  pendulum: { en: "Pendulum Motion", hi: "लोलक की गति" },
-  reactionRate: { en: "Reaction Rate", hi: "प्रतिक्रिया दर" },
-  projectile: { en: "Projectile Motion", hi: "प्रक्षेप्य गति" },
-  phScale: { en: "pH Scale", hi: "pH पैमाना" },
-  dnaStructure: { en: "DNA Structure", hi: "डीएनए संरचना" },
-  plantCell: { en: "Plant Cell Model", hi: "पादप कोशिका मॉडल" },
-  animalCell: { en: "Animal Cell Model", hi: "जंतु कोशिका मॉडल" },
-  photosynthesis: { en: "Photosynthesis Lab", hi: "प्रकाश संश्लेषण लैब" },
-  heart: { en: "Human Heart", hi: "मानव हृदय" },
-  brain: { en: "Human Brain", hi: "मानव मस्तिष्क" },
-  peYoga: { en: "PE & Yoga", hi: "शारीरिक शिक्षा और योग" },
-  blood: { en: "Blood & Circulation", hi: "रक्त और परिसंचरण" },
-  respiratory: { en: "Respiratory System", hi: "श्वसन तंत्र" },
-  vitamins: { en: "Vitamins: Life Controllers", hi: "विटामिन: जीवन के नियंत्रक" },
-  humanDiseases: { en: "Human Diseases", hi: "मानव रोग" },
-  reproduction: { en: "Reproduction System", hi: "प्रजनन तंत्र" },
-  glands: { en: "Glands & Hormones", hi: "ग्रंथियां और हार्मोन" },
-  skeleton: { en: "Skeletal System", hi: "कंकाल प्रणाली" },
-  
-  // Skeleton Specific
-  bones: { en: "Bones", hi: "हड्डियाँ" },
-  cartilage: { en: "Cartilage", hi: "उपास्थि" },
-  tendons: { en: "Tendons", hi: "टेंडन" },
-  ligaments: { en: "Ligaments", hi: "स्नायुबंधन" },
-  framework: { en: "Central Framework", hi: "केंद्रीय ढाँचा" },
-
-  // Glands Specific
-  exocrine: { en: "Exocrine (Pipeline)", hi: "बहिःस्रावी (पाइपलाइन)" },
-  endocrine: { en: "Endocrine (Wireless)", hi: "अंतःस्रावी (वायरलेस)" },
-  mixedGland: { en: "Mixed Gland", hi: "मिश्रित ग्रंथि" },
-  glucoseBalance: { en: "Glucose Balance", hi: "ग्लूकोज संतुलन" },
-  bioClock: { en: "Biological Clock", hi: "जैविक घड़ी" },
-  emergencyRush: { en: "Emergency (3F)", hi: "आपातकाल (3F)" },
-  
-  // Reproduction Specific
-  reproStory: { en: "Life's Copy: The Journey", hi: "जीवन की प्रतिलिपि: यात्रा" },
-  maleSystem: { en: "Male Workshop", hi: "पुरुष प्रणाली" },
-  fusion: { en: "Life Fusion", hi: "जीवन का संलयन" },
-  gestation: { en: "Gestation & Arrival", hi: "गर्भावधि और आगमन" },
-  familyPlanning: { en: "Family Planning", hi: "परिवार नियोजन" },
-  
-  // Biology specific
-  nucleus: { en: "Nucleus", hi: "केंद्रक (Nucleus)" },
-  mitochondria: { en: "Mitochondria", hi: "सूत्रकणिका (Mitochondria)" },
-  chloroplast: { en: "Chloroplast", hi: "हरितलवक (Chloroplast)" },
-  vacuole: { en: "Vacuole", hi: "रिक्तिका (Vacuole)" },
-  cellWall: { en: "Cell Wall", hi: "कोशिका भित्ति" },
-  lysosome: { en: "Lysosome", hi: "लियनकाय (Lysosome)" },
-  centriole: { en: "Centriole", hi: "तारककेंद्र (Centriole)" },
-  cellMembrane: { en: "Cell Membrane", hi: "कोशिका झिल्ली" },
-  chromatin: { en: "Chromatin (DNA)", hi: "क्रोमैटिन (DNA)" },
-  nucleolus: { en: "Nucleolus", hi: "केंद्रिका (Nucleolus)" },
-  nuclearPore: { en: "Nuclear Pore", hi: "केंद्रक छिद्र" },
-  
-  lightIntensity: { en: "Light Intensity", hi: "प्रकाश की तीव्रता" },
-  co2Level: { en: "CO2 Level", hi: "CO2 स्तर" },
-  waterLevel: { en: "Water Level", hi: "जल स्तर" },
-  productionRate: { en: "Sugar Production", hi: "शर्करा उत्पादन" },
-  infiniteZoom: { en: "Infinite Zoom", hi: "अनंत ज़ूम" },
-};
-
-export const SUBJECT_ICONS = {
-  [Subject.PHYSICS]: "🚀",
-  [Subject.CHEMISTRY]: "🧪",
-  [Subject.BIOLOGY]: "🧬",
-  [Subject.BOTANY]: "🌿",
-  [Subject.LADO]: "🧘"
+export const TRANSLATIONS: Record<string, { en: string; hi: string }> = {
+  backToTopics: { en: 'Back to Topics', hi: 'विषयों पर वापस जाएं' },
+  selectTopic: { en: 'Select a Topic', hi: 'एक विषय चुनें' },
+  physics: { en: 'Physics Lab', hi: 'भौतिक विज्ञान प्रयोगशाला' },
+  chemistry: { en: 'Chemistry Lab', hi: 'रसायन विज्ञान प्रयोगशाला' },
+  biology: { en: 'Biology Lab', hi: 'जीव विज्ञान प्रयोगशाला' },
+  botany: { en: 'Botany Lab', hi: 'वनस्पति विज्ञान प्रयोगशाला' },
+  lado: { en: 'LADO (Physical Edu)', hi: 'लाडो (शारीरिक शिक्षा)' },
+  pendulum: { en: 'Simple Pendulum', hi: 'सरल लोलक' },
+  gravity: { en: 'Gravity', hi: 'गुरुत्वाकर्षण' },
+  length: { en: 'Length', hi: 'लंबाई' },
+  start: { en: 'Start', hi: 'शुरू करें' },
+  stop: { en: 'Stop', hi: 'रोकें' },
+  velocity: { en: 'Velocity', hi: 'वेग' },
+  angle: { en: 'Angle', hi: 'कोण' },
+  fire: { en: 'Fire', hi: 'फायर' },
+  projectile: { en: 'Projectile Motion', hi: 'प्रक्षेप्य गति' },
+  temperature: { en: 'Temperature', hi: 'तापमान' },
+  concentration: { en: 'Concentration', hi: 'सांद्रता' },
+  reactionRate: { en: 'Reaction Rate', hi: 'प्रतिक्रिया दर' },
+  reset: { en: 'Reset', hi: 'रीसेट' },
+  phLevel: { en: 'pH Level', hi: 'pH स्तर' },
+  infiniteZoom: { en: 'Infinite Zoom', hi: 'अनंत ज़ूम' },
+  basePairs: { en: 'Show Base Pairs', hi: 'बेस पेअर दिखाएं' },
+  plantCell: { en: 'Plant Cell', hi: 'पादप कोशिका' },
+  clickToExplore: { en: 'Click parts to explore', hi: 'अन्वेषण करने के लिए भागों पर क्लिक करें' },
+  exploreInside: { en: 'Zoom Inside', hi: 'अंदर देखें' },
+  goBack: { en: 'Go Back', hi: 'वापस जाएं' },
+  productionRate: { en: 'Production Rate', hi: 'उत्पादन दर' },
+  lightIntensity: { en: 'Light Intensity', hi: 'प्रकाश की तीव्रता' },
+  waterLevel: { en: 'Water Level', hi: 'जल स्तर' },
+  co2Level: { en: 'CO2 Level', hi: 'CO2 स्तर' },
+  glucoseBalance: { en: 'Glucose Balance', hi: 'ग्लूकोज संतुलन' },
+  bioClock: { en: 'Bio Clock', hi: 'जैविक घड़ी' },
+  emergencyRush: { en: 'Emergency Rush', hi: 'आपातकालीन रश' }
 };

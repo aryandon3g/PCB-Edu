@@ -1,33 +1,35 @@
-import { GoogleGenAI } from "@google/genai";
-import { GeminiExplanationRequest, Language } from "../types";
 
-export const fetchExplanation = async (request: GeminiExplanationRequest): Promise<string> => {
-  // Use process.env.API_KEY directly as per guidelines
+import { GoogleGenAI } from "@google/genai";
+import { GeminiEnrichmentRequest } from "../types";
+
+export const fetchWordEnrichment = async (request: GeminiEnrichmentRequest): Promise<string> => {
   if (!process.env.API_KEY) {
-    console.error("API Key not found in process.env.API_KEY");
-    return "API Key is missing. Please check your configuration.";
+    return "API Key is missing.";
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-  const languageName = request.language === Language.HINDI ? "Hindi" : "English";
-
-  const prompt = `
-    Explain the scientific concept of "${request.context}" in the subject of ${request.subject}.
-    Language: ${languageName}.
-    Context Variables: ${JSON.stringify(request.variables)}.
-    Provide a simple, engaging explanation suitable for a student.
-  `;
+  let prompt = "";
+  switch(request.type) {
+    case 'mnemonic':
+        prompt = `Generate a funny, memorable mnemonic or memory trick to remember the word "${request.word}". Keep it short, witty, and easy to recall.`;
+        break;
+    case 'etymology':
+        prompt = `Explain the etymology (origin) of the word "${request.word}" in simple terms. Mention the root words.`;
+        break;
+    case 'pop_culture':
+        prompt = `Use the word "${request.word}" in a sentence that references a famous movie, TV show, or celebrity to make it relatable.`;
+        break;
+  }
 
   try {
-    // Using gemini-3-pro-preview for STEM tasks (Complex Text Tasks) as per guidelines
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
     });
-    return response.text || "No explanation generated.";
+    return response.text || "Could not generate content.";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "Failed to generate explanation. Please try again later.";
+    return "AI Brain Freeze! Try again.";
   }
 };

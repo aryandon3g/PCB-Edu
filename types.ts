@@ -4,36 +4,49 @@ export enum Language {
   HINDI = 'hi'
 }
 
-export enum Subject {
-  PHYSICS = 'physics',
-  CHEMISTRY = 'chemistry',
-  BIOLOGY = 'biology',
-  BOTANY = 'botany',
-  LADO = 'lado'
+export enum Difficulty {
+  EASY = 'easy',
+  MEDIUM = 'medium',
+  HARD = 'hard'
 }
 
-export interface SimulationState {
-  isPlaying: boolean;
-  variables: Record<string, number>;
-}
-
-export interface TranslationDictionary {
-  [key: string]: {
+export interface Word {
+  id: string;
+  term: string;
+  pronunciation: string;
+  definition: {
     en: string;
     hi: string;
   };
+  example: string;
+  synonyms: string[];
+  antonyms: string[];
+  difficulty: Difficulty;
+}
+
+export interface Deck {
+  id: string;
+  title: string;
+  description: string;
+  icon: any; // Lucide component
+  color: string;
+  words: Word[];
+}
+
+export interface GeminiEnrichmentRequest {
+  word: string;
+  type: 'mnemonic' | 'etymology' | 'pop_culture';
 }
 
 export interface Topic {
   id: string;
-  title: { en: string; hi: string };
-  description: { en: string; hi: string };
-  icon: any; // Lucide icon component
-}
-
-export interface GeminiExplanationRequest {
-  language: Language;
-  subject: string;
-  context: string;
-  variables: Record<string, any>;
+  title: {
+    en: string;
+    hi: string;
+  };
+  description: {
+    en: string;
+    hi: string;
+  };
+  icon: any;
 }
